@@ -316,8 +316,6 @@ $edited = can_action('39', 'edited');
                 });
             }
         }, 1000));
-
-
         loadItems();
         calculate_total();
 

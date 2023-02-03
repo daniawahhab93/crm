@@ -944,6 +944,7 @@ class Common extends MY_Controller
         if (!empty($warehouse_id)) {
             $rows = $this->admin_model->getItemsInfoByName($warehouse_id,null,$item_code,$item_group,$item_desc);
         }
+
         if (!empty($rows)) {
             foreach ($rows as $key => $row) {
                 $row->last_sale_price_item = '';

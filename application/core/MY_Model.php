@@ -1718,6 +1718,7 @@
 
     public function getItemsInfoByName($warehouse_id, $limit = 20,$item_code=null,$item_group=null,$item_desc=null )
     {
+        
         $this->db->select('tbl_saved_items.*, tbl_warehouses_products.quantity as total_qty');
         $this->db->join('tbl_warehouses_products', 'tbl_warehouses_products.product_id = tbl_saved_items.saved_items_id');
 
