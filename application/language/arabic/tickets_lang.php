@@ -1,0 +1,63 @@
+<?php
+$lang['tickets'] = '';
+$lang['edit_ticket'] = '';
+$lang['delete_ticket'] = '';
+$lang['create_ticket'] = '';
+$lang['activity_create_tickets'] = '';
+$lang['all_tickets'] = '';
+$lang['new_ticket'] = '';
+$lang['ticket_details'] = '';
+$lang['department'] = 'قسم';
+$lang['new_department'] = 'إضافة قسم جديد';
+$lang['select_department'] = 'اختر قسم';
+$lang['ticket_code'] = '';
+$lang['ticket_message'] = '';
+$lang['resourcement'] = '';
+$lang['ticket_created'] = '';
+$lang['ticket_replied'] = '';
+$lang['ticket_status'] = '';
+$lang['reply_ticket'] = '';
+$lang['ticket_deleted_successfully'] = '';
+$lang['activity_ticket_status_changed'] = '';
+$lang['ticket_status_changed'] = '';
+$lang['seconds'] = '';
+$lang['task_deleted'] = '';
+$lang['ticket_edited_successfully'] = '';
+$lang['email_template'] = '';
+$lang['ticket_staff_email'] = '';
+$lang['ticket_client_email'] = '';
+$lang['ticket_reply_email'] = '';
+$lang['ticket_closed_email'] = '';
+$lang['departments'] = 'الأقسام';
+$lang['department_name'] = 'القسم';
+$lang['department_added'] = 'تمت الاضافة بجاح';
+$lang['income_category_added'] = '';
+$lang['payment_method_added'] = '';
+$lang['payment_method_deleted'] = '';
+$lang['tickets_reply_saved'] = '';
+$lang['ticket_reply_deleted'] = '';
+$lang['ticket_deleted'] = '';
+$lang['activity_tickets_deleted'] = '';
+$lang['bill_no'] = '';
+$lang['languages'] = '';
+$lang['add_file'] = '';
+$lang['user_edit_login'] = '';
+$lang['minor'] = '';
+$lang['major'] = '';
+$lang['show_stopper'] = '';
+$lang['must_be_fixed'] = '';
+$lang['reproducibility'] = '';
+$lang['your_balance_due'] = '';
+$lang['overdue'] = 'متأخرة';
+$lang['recently_paid_invoices'] = '';
+$lang['recent_tickets'] = '';
+$lang['this_month'] = '';
+$lang['last_30_days'] = '';
+$lang['failed_to_connect_import_tickets'] = '';
+$lang['exceed_limit_10_minutes'] = '';
+$lang['block_potential_email'] = '';
+$lang['department_not_found'] = '';
+
+
+/* End of file tickets_lang.php */
+/* Location: ./application/language/arabic/tickets_lang.php */

@@ -1,0 +1,61 @@
+<?php
+$lang['client_list'] = 'قائمة العملاء';
+$lang['all_client'] = 'جميع العملاء';
+$lang['name'] = 'الاسم';
+$lang['client'] = 'العميل';
+$lang['Client'] = 'العميل';
+$lang['clients'] = 'العملاء';
+$lang['client_status'] = 'حدد نوع';
+$lang['select'] = 'اختر';
+$lang['manage_client'] = 'إدارة العملاء';
+$lang['clients_registration'] = 'تسجيل العملاء';
+$lang['clients_registered'] = 'العملاء المسجلين';
+$lang['client_registered_successfully'] = 'تمت بنجاح';
+$lang['activity_added_new_company'] = 'إضافة عميل جديد';
+$lang['activity_update_company'] = 'تحديث عميل جديد';
+$lang['activity_update_contact'] = 'تحديث جهة اتصال';
+$lang['activity_added_new_contact'] = 'اضافة جهة اتصال';
+$lang['activity_deleted_contact'] = 'حذف الاتصال';
+$lang['delete_contact'] = 'تم الحذف بنجاح';
+$lang['activity_deleted_client'] = 'عملاء محذوفين';
+$lang['delete_client'] = 'تم الحذف بنجاح';
+$lang['select_type'] = 'حدد نوع';
+$lang['client_contact'] = 'جهة اتصال';
+$lang['client_contact_details'] = 'تفاصيل جهة الاتصال';
+$lang['hosting'] = 'استضافة';
+$lang['converted_from'] = 'نموذج تحويل';
+$lang['without_converted'] = 'بدون تحويل';
+$lang['converted_client'] = 'عميل محول';
+$lang['business'] = 'حساب العمل';
+$lang['state'] = 'المدينة';
+$lang['first_name'] = 'الاسم الاول';
+$lang['last_name'] = 'الاسم الاخير';
+$lang['toll_free'] = 'بدون عمولات';
+$lang['postal'] = 'كود المدينة';
+$lang['latitude'] = 'خط الطول';
+$lang['longitude'] = 'خط العرض';
+$lang['google_map'] = 'خريطة جوجل';
+$lang['fetch_from_google'] = 'مطابقة مع جوجل';
+$lang['customer_fetch_lat_lng_usage'] = 'قم بادخال بيانات المدينة والدولة قبل المطابقة للحصول على نتائج دقيقة';
+$lang['g_search_address_not_found'] = 'لم نستطع العثور على العنوان، برجاء المحاولة مرة ثانية';
+$lang['group'] = 'المجموعة';
+$lang['filter_by'] = 'فرز حسب';
+$lang['update_client_status'] = 'تحديث حالة العميل';
+$lang['save_and_create_contact'] = 'حفظ، وانشاء جهة اتصال جديدة';
+$lang['map'] = 'الخريطة';
+$lang['map_notice'] = 'اضف خطوط الطول والعرض في صفحه العميل، ليتم تفعيل الخريطة';
+$lang['setup_google_api_key_map'] = 'قم بربط اعدادات الخرائط لعرض خريطة العميل';
+$lang['google_api_key'] = 'API KEY جوجل';
+$lang['added_by'] = 'تم اضافة بواسطة';
+$lang['activity_deleted_notes'] = 'ملاحظات محذوفة';
+$lang['zip_invoice'] = 'ضغط الفواتير';
+$lang['zip_proposal'] = 'ضغط العروض';
+$lang['zip_estimate'] = 'ضغط التقديرات';
+$lang['zip_payment'] = 'ضغط الدفعات';
+$lang['from_date'] = 'من تاريخ';
+$lang['to_date'] = 'الى تاريخ';
+$lang['undefined_client'] = 'عميل غير معرف';
+
+
+/* End of file client_lang.php */
+/* Location: ./application/language/arabic/client_lang.php */
