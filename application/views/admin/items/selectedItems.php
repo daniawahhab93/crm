@@ -40,14 +40,85 @@
         </tr>
         </thead>
         <tbody id="<?= $itemType ?>SelectedTable">
-        <tr>
-            <td colspan="13" style="text-align: center; border: 1px solid #eee;">
-                <strong><?php echo lang('no_data')?> </strong>
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <td colspan="13" style="text-align: center; border: 1px solid #eee;">-->
+<!--                <strong>--><?php //echo lang('no_data')?><!-- </strong>-->
+<!--            </td>-->
+<!--        </tr>-->
         </tbody>
     </table>
 </div>
+
+            <div class="row">
+                <div class="col-xs-8 pull-right">
+                    <table class="table text-right">
+                        <tbody>
+                        <tr id="subtotal">
+                            <td><span class="bold"><?php echo lang('sub_total'); ?> :</span>
+                            </td>
+                            <td class="subtotal">
+                            </td>
+                        </tr>
+                        <tr id="discount_percent">
+                            <?php
+                            $adjustmentText = 'shipping_cost';
+                            if ($itemType != 'transfer') {
+                                $adjustmentText = 'adjustment';
+                                ?>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                                <span class="bold"><?php echo lang('discount'); ?>
+                                                    (%)</span>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <?php
+                                            $discount_percent = 0;
+                                            if (isset($purchase_info)) {
+                                                if ($purchase_info->discount_percent != 0) {
+                                                    $discount_percent = $purchase_info->discount_percent;
+                                                }
+                                            } ?>
+                                            <input type="text" data-parsley-type="number"
+                                                   value="<?php echo $discount_percent; ?>"
+                                                   class="form-control pull-left" min="0" max="100"
+                                                   name="discount_percent">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="discount_percent"></td>
+                                <?php
+                            } ?>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <span class="bold"><?php echo lang($adjustmentText); ?></span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" data-parsley-type="number"
+                                               value="<?php if (isset($purchase_info)) {
+                                                   echo $purchase_info->adjustment;
+                                               } else {
+                                                   echo 0;
+                                               } ?>" class="form-control pull-left" name="adjustment">
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="adjustment"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold"><?php echo lang('total'); ?> :</span>
+                            </td>
+                            <td class="total">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
 <div class="btn-bottom-toolbar text-right">
     <input type="button" id="Preset" value="<?= lang('reset') ?>" name="update" class="btn btn-danger">
