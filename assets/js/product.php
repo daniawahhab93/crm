@@ -148,7 +148,7 @@ $edited = can_action('39', 'edited');
         //    }
         //});
 
-        if($("#" + forItemCode).val() ===null &&  $("#" + forItemGroup).val()===null &&  $("#" + forItemDesc).val()===null){
+        if ($("#" + forItemCode).val() === null && $("#" + forItemGroup).val() === null && $("#" + forItemDesc).val() === null) {
             if (get(intStore)) {
                 remove(intStore);
             }
@@ -157,7 +157,7 @@ $edited = can_action('39', 'edited');
 
         function delay(callback, ms) {
             var timer = 0;
-            return function() {
+            return function () {
                 var context = this, args = arguments;
                 clearTimeout(timer);
                 timer = setTimeout(function () {
@@ -196,7 +196,7 @@ $edited = can_action('39', 'edited');
                         client_id: client_id
                     },
                     success: function (data) {
-                        if (!$.trim(data)){
+                        if (!$.trim(data)) {
                             if (get(intStore)) {
                                 remove(intStore);
                             }
@@ -244,7 +244,7 @@ $edited = can_action('39', 'edited');
                         client_id: client_id
                     },
                     success: function (data) {
-                        if (!$.trim(data)){
+                        if (!$.trim(data)) {
                             if (get(intStore)) {
                                 remove(intStore);
                             }
@@ -291,7 +291,7 @@ $edited = can_action('39', 'edited');
                         client_id: client_id
                     },
                     success: function (data) {
-                        if (!$.trim(data)){
+                        if (!$.trim(data)) {
                             if (get(intStore)) {
                                 remove(intStore);
                             }
@@ -537,7 +537,6 @@ $edited = can_action('39', 'edited');
 
 
     function loadItems() {
-        // alert('loadItems');
         var merge_invoice = null;
 
         if (get(intStore)) {
@@ -575,94 +574,222 @@ $edited = can_action('39', 'edited');
                         $('body').append('<div class="dt-loader"></div>');
                         var regex = /<br[^>]*>/gi;
                         // get_taxes_dropdown_template(tax_name, data.taxname).done(function (tax_dropdown) {
-                            // order input
-                            table_row += '<input type="hidden" class="order" name="items[' + item_key +
-                                '][order]"><input type="hidden" name="items[' + item_key +
-                                '][saved_items_id]" value="' + data.new_itmes_id +
-                                '"><input type="hidden" name="new_itmes_id[]" value="' + data.new_itmes_id +
-                                '">';
-                            if (data.items_id) {
-                                table_row += '<input type="hidden" name="items[' + item_key +
-                                    '][items_id]" value="' + data.items_id + '">';
-                            }
-                            table_row += '</td>';
-                            table_row += '<td>' + data.item_name + '</td>';
-                            table_row += '<td style="width: 30%; white-space: nowrap;">' + ((data.item_desc) ? data.item_desc.replace(regex, "\n") : '') + '</td>';
+                        // order input
+                        table_row += '<input type="hidden" class="order" name="items[' + item_key +
+                            '][order]"><input type="hidden" name="items[' + item_key +
+                            '][saved_items_id]" value="' + data.new_itmes_id +
+                            '"><input type="hidden" name="new_itmes_id[]" value="' + data.new_itmes_id +
+                            '">';
+                        if (data.items_id) {
+                            table_row += '<input type="hidden" name="items[' + item_key +
+                                '][items_id]" value="' + data.items_id + '">';
+                        }
+                        table_row += '</td>';
+                        table_row += '<td>' + data.item_name + '</td>';
+                        table_row += '<td style="width: 30%; white-space: nowrap;">' + ((data.item_desc) ? data.item_desc.replace(regex, "\n") : '') + '</td>';
 
-                            table_row += '<td hidden class="bold item_name"><textarea  style="width: fit-content;" name="items[' + item_key +
-                                '][item_name]" class="form-control RitemName">' + data.item_name +
-                                '</textarea></td>';
-                            table_row += '<td hidden><textarea  style="width: fit-content;"  name="items[' + item_key +
-                                '][item_desc]" class="form-control item_item_desc RitemDesc" >' + ((data
-                                    .item_desc) ? data.item_desc.replace(regex, "\n") : '') +
-                                '</textarea></td>';
-                            <?php $invoice_view = config_item('invoice_view');
-                            if (!empty($invoice_view) && $invoice_view == '2') { ?>
-                            table_row += '<td><input   type="text" name="items[' + item_key +
-                                '][hsn_code]" class="form-control" value="' + data.hsn_code + '"></td>';
-                            <?php } ?>
-                            table_row += '<td>' + data.old_code + '</td>';
-                            table_row += '<td>' + data.alternative_items + '</td>';
-                            table_row += '<td>' + data.total_qty + '</td>';
-                            table_row +=
-                                '<td class="qtytd"><input  style="width: 50px;" type="number" data-parsley-type="number" min="0" onblur="calculate_total();" onchange="calculate_total();" data-quantity id="qty_' +
-                                item_key + '" name="items[' + item_key + '][quantity]" value="' + data.qty +
-                                '" class="form-control Rqty">';
+                        table_row += '<td hidden class="bold item_name"><textarea  style="width: fit-content;" name="items[' + item_key +
+                            '][item_name]" class="form-control RitemName">' + data.item_name +
+                            '</textarea></td>';
+                        table_row += '<td hidden><textarea  style="width: fit-content;"  name="items[' + item_key +
+                            '][item_desc]" class="form-control item_item_desc RitemDesc" >' + ((data
+                                .item_desc) ? data.item_desc.replace(regex, "\n") : '') +
+                            '</textarea></td>';
+                        <?php $invoice_view = config_item('invoice_view');
+                        if (!empty($invoice_view) && $invoice_view == '2') { ?>
+                        table_row += '<td><input   type="text" name="items[' + item_key +
+                            '][hsn_code]" class="form-control" value="' + data.hsn_code + '"></td>';
+                        <?php } ?>
+                        table_row += '<td>' + data.old_code + '</td>';
+                        table_row += '<td>' + data.alternative_items + '</td>';
+                        table_row += '<td>' + data.total_qty + '</td>';
+                        table_row +=
+                            '<td class="qtytd"><input  style="width: 50px;" type="number" data-parsley-type="number" min="0" onblur="calculate_total();" onchange="calculate_total();" data-quantity id="qty_' +
+                            item_key + '" name="items[' + item_key + '][quantity]" value="' + data.qty +
+                            '" class="form-control Rqty">';
 
-                            unit_placeholder = '';
-                            if (!data.unit || typeof (data.unit) == 'undefined') {
-                                data.unit = '';
-                            }
+                        unit_placeholder = '';
+                        if (!data.unit || typeof (data.unit) == 'undefined') {
+                            data.unit = '';
+                        }
 
-                            table_row += '<input   type="text" placeholder="' + unit_placeholder +
-                                '" name="items[' + item_key +
-                                '][unit]" class="form-control input-transparent" value="' + data.unit + '">';
+                        table_row += '<input   type="text" placeholder="' + unit_placeholder +
+                            '" name="items[' + item_key +
+                            '][unit]" class="form-control input-transparent" value="' + data.unit + '">';
 
-                            table_row += '</td>';
-                            table_row +=
-                                '<td class="rate"><input  style="width: 90px;" type="text" min=0 data-parsley-type="number"  onblur="calculate_total();" onchange="calculate_total();" name="items[' +
-                                item_key + '][unit_cost]" value="' + data.rate +
-                                '" class="form-control Rrate"></td>';
-                            table_row += '<td class="taxrate">' + data.tax_dropdown + '</td>';
-                            table_row += '<td class="amount">' + amount + '</td>';
-                            if (forID === 'invoice') {
-                                table_row += '<td class="last_sale_price_item">' + data.last_sale_price_item + '</td>';
-                                table_row += '<td class="lowest_sale_price_item">' + data.lowest_sale_price_item + '</td>';
-                            }
-                            if (forID === 'purchase') {
-                                table_row += '<td class="last_purchase_price_same_supplier">' + data.last_purchase_price_same_supplier + '</td>';
-                                table_row += '<td class="lowest_purchase_price">' + data.lowest_purchase_price + '</td>';
-                                table_row += '<td class="last_cost_price">' + data.last_cost_price + '</td>';
-                                table_row += '<td class="lowest_cost_price">' + data.lowest_cost_price + '</td>';
-                            }
-                            table_row += '<td>' + data.item_location_in_stock + '</td>';
-                            var item_url = "<?= base_url('admin/items/new_items/')?>" + item_id;
-                            <?php if (!empty($edited)) { ?>
-                            table_row += '<td>' +
-                                '<a class="pull-right btn btn-primary btn-xs mr" href="' + item_url + '"><i class="fa fa-pencil-square-o"></i></a><a href="#" class="btn-xs btn btn-danger pull-left" onclick="delete_item(this,' + key + '); return false;">'
-                                + '<i class="fa fa-trash"></i></a>'
-                                + '</td>';
-                            <?php }else{ ?>
-                            table_row += '<td>' +
-                                '<a href="#" class="btn-xs btn btn-danger pull-left" onclick="delete_item(this,' + key + '); return false;">'
-                                + '<i class="fa fa-trash"></i></a>'
-                                + '</td>';
-                            <?php } ?>
-                            table_row += '</tr>';
+                        table_row += '</td>';
+                        table_row +=
+                            '<td hidden class="rate"><input   style="width: 90px;" type="text" min=0 data-parsley-type="number"  onblur="calculate_total();" onchange="calculate_total();" name="items[' +
+                            item_key + '][unit_cost]" value="' + data.rate +
+                            '" class="form-control Rrate"></td>';
+                        table_row += '<td class="rate">' + data.rate + '</td>';
+                        table_row += '<td class="taxrate">' + data.tax_dropdown + '</td>';
+                        table_row += '<td class="amount">' + amount + '</td>';
+                        if (forID === 'invoice') {
+                            table_row += '<td class="last_sale_price_item">' + data.last_sale_price_item + '</td>';
+                            table_row += '<td class="lowest_sale_price_item">' + data.lowest_sale_price_item + '</td>';
+                        }
+                        if (forID === 'purchase') {
+                            table_row += '<td class="last_purchase_price_same_supplier">' + data.last_purchase_price_same_supplier + '</td>';
+                            table_row += '<td class="lowest_purchase_price">' + data.lowest_purchase_price + '</td>';
+                            table_row += '<td class="last_cost_price">' + data.last_cost_price + '</td>';
+                            table_row += '<td class="lowest_cost_price">' + data.lowest_cost_price + '</td>';
+                        }
+                        table_row += '<td>' + data.item_location_in_stock + '</td>';
+                        var item_url = "<?= base_url('admin/items/new_items/')?>" + item_id;
+                        <?php if (!empty($edited)) { ?>
+                        table_row += '<td>' +
+                            '<a class="pull-right btn btn-primary btn-xs mr" href="' + item_url + '"><i class="fa fa-pencil-square-o"></i></a>' +
+                            '<a href="#" style="margin: 4px;" class="btn-xs btn btn-success pull-left" onclick="add_to_selected_item(this,' + key + '); return false;">'
+                            + '<i class="fa fa-plus"></i></a>' + '</td>';
+                        <?php }else{ ?>
+                        table_row += '<td>' +
+                            '<a href="#" class="btn-xs btn btn-info pull-left" onclick="add_to_selected_item(this,' + key + '); return false;">'
+                            + '<i class="fa fa-plus"></i></a>' + '</td>';
+                        <?php }?>
+                        table_row += '</tr>';
 
-                            $('table.items tbody').append(table_row);
+                        $('table.items tbody').append(table_row);
 
-                            setTimeout(function () {
-                                calculate_total();
-                            }, 10);
+                        setTimeout(function () {
+                            calculate_total();
+                        }, 10);
 
-                            init_selectpicker();
-                            clear_main_values();
-                            reorder_items();
+                        init_selectpicker();
+                        clear_main_values();
+                        reorder_items();
 
-                            $('body').find('.dt-loader').remove();
-                            $('#item_select').selectpicker('val', '');
-                            return true;
+                        $('body').find('.dt-loader').remove();
+                        $('#item_select').selectpicker('val', '');
+                        return true;
+                        // });
+                    }
+                }
+            )
+            ;
+        }
+        return true;
+    }
+
+    function loadSelectedItems() {
+        var merge_invoice = null;
+
+        if (get(intStore)) {
+            setWarehouse();
+            pStore = JSON.parse(get(intStore));
+            $.each(pStore, function (key, data) {
+                    if (data) {
+                        var item_id = data.saved_items_id;
+                        var product_id = data.items_id;
+                        item_cost = data.rate,
+                            item_qty = data.qty,
+                            item_code = data.code,
+                            item_old_code = data.old_code,
+                            total_qty = data.total_qty,
+                            item_name = data.item_name;
+                        var table_row = '';
+                        var unit_placeholder = '';
+
+                        var item_key = $('body').find('tbody .selected_item').length + 1;
+                        table_row += '<tr class="sortable item" data-key="' + key + '" data-item-id="' + product_id + '" data-merge-invoice="' +
+                            merge_invoice + '">';
+
+                        // Check if quantity is number
+                        if (isNaN(data.qty)) {
+                            data.qty = 0;
+                        }
+                        // Check if rate is number
+                        if (data.rate == '' || isNaN(data.rate)) {
+                            data.rate = 0;
+                        }
+                        var amount = data.rate * data.qty;
+                        var tax_name = 'items[' + item_key + '][taxname][]';
+                        $('body').append('<div class="dt-loader"></div>');
+                        var regex = /<br[^>]*>/gi;
+                        // get_taxes_dropdown_template(tax_name, data.taxname).done(function (tax_dropdown) {
+                        // order input
+                        table_row += '<input type="hidden" class="order" name="items[' + item_key +
+                            '][order]"><input type="hidden" name="items[' + item_key +
+                            '][saved_items_id]" value="' + data.new_itmes_id +
+                            '"><input type="hidden" name="new_itmes_id[]" value="' + data.new_itmes_id +
+                            '">';
+                        if (data.items_id) {
+                            table_row += '<input type="hidden" name="items[' + item_key +
+                                '][items_id]" value="' + data.items_id + '">';
+                        }
+                        table_row += '</td>';
+                        table_row += '<td>' + data.item_name + '</td>';
+                        table_row += '<td style="width: 30%; white-space: nowrap;">' + ((data.item_desc) ? data.item_desc.replace(regex, "\n") : '') + '</td>';
+
+                        table_row += '<td hidden class="bold item_name"><textarea  style="width: fit-content;" name="items[' + item_key +
+                            '][item_name]" class="form-control RitemName">' + data.item_name +
+                            '</textarea></td>';
+                        table_row += '<td hidden><textarea  style="width: fit-content;"  name="items[' + item_key +
+                            '][item_desc]" class="form-control item_item_desc RitemDesc" >' + ((data
+                                .item_desc) ? data.item_desc.replace(regex, "\n") : '') +
+                            '</textarea></td>';
+                        <?php $invoice_view = config_item('invoice_view');
+                        if (!empty($invoice_view) && $invoice_view == '2') { ?>
+                        table_row += '<td><input   type="text" name="items[' + item_key +
+                            '][hsn_code]" class="form-control" value="' + data.hsn_code + '"></td>';
+                        <?php } ?>
+                        table_row += '<td>' + data.old_code + '</td>';
+                        table_row += '<td>' + data.alternative_items + '</td>';
+                        table_row += '<td>' + data.total_qty + '</td>';
+                        table_row +=
+                            '<td hidden class="qtytd"><input  style="width: 50px;" type="number" data-parsley-type="number" min="0" onblur="calculate_total();" onchange="calculate_total();" data-quantity id="qty_' +
+                            item_key + '" name="items[' + item_key + '][quantity]" value="' + data.qty +
+                            '" class="form-control Rqty">';
+                        table_row += '<td>' + data.qty + '</td>';
+
+                        unit_placeholder = '';
+                        if (!data.unit || typeof (data.unit) == 'undefined') {
+                            data.unit = '';
+                        }
+
+                        table_row += '<input   type="text" placeholder="' + unit_placeholder +
+                            '" name="items[' + item_key +
+                            '][unit]" class="form-control input-transparent" value="' + data.unit + '">';
+
+                        table_row += '</td>';
+                        table_row +=
+                            '<td hidden ><input   style="width: 90px;" type="text" min=0 data-parsley-type="number"  onblur="calculate_total();" onchange="calculate_total();" name="items[' +
+                            item_key + '][unit_cost]" value="' + data.rate +
+                            '" class="form-control Rrate"></td>';
+                        table_row += '<td class="rate">' + data.rate + '</td>';
+                        table_row += '<td class="taxrate">' + data.tax_dropdown + '</td>';
+                        table_row += '<td class="amount">' + amount + '</td>';
+                        if (forID === 'invoice') {
+                            table_row += '<td class="last_sale_price_item">' + data.last_sale_price_item + '</td>';
+                            table_row += '<td class="lowest_sale_price_item">' + data.lowest_sale_price_item + '</td>';
+                        }
+                        if (forID === 'purchase') {
+                            table_row += '<td class="last_purchase_price_same_supplier">' + data.last_purchase_price_same_supplier + '</td>';
+                            table_row += '<td class="lowest_purchase_price">' + data.lowest_purchase_price + '</td>';
+                            table_row += '<td class="last_cost_price">' + data.last_cost_price + '</td>';
+                            table_row += '<td class="lowest_cost_price">' + data.lowest_cost_price + '</td>';
+                        }
+                        table_row += '<td>' + data.item_location_in_stock + '</td>';
+                        var item_url = "<?= base_url('admin/items/new_items/')?>" + item_id;
+                        table_row += '<td>' +
+                            '<a href="#" class="btn-xs btn btn-danger pull-left" onclick="delete_item(this,' + key + '); return false;">'
+                            + '<i class="fa fa-trash"></i></a>'
+                            + '</td>';
+                        table_row += '</tr>';
+
+                        $('table.selected_item tbody').append(table_row);
+
+                        setTimeout(function () {
+                            calculate_total();
+                        }, 10);
+
+                        init_selectpicker();
+                        clear_main_values();
+                        reorder_items();
+
+                        $('body').find('.dt-loader').remove();
+                        $('#item_select').selectpicker('val', '');
+                        return true;
                         // });
                     }
                 }

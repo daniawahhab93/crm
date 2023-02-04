@@ -1397,7 +1397,6 @@ class Invoice extends Admin_Controller
                 $total_price = 0;
                 foreach ($items_data as $items) {
                     if ($items['quantity'] > 0) {
-                        var_dump($items);
                         unset($items['invoice_items_id']);
                         unset($items['total_qty']);
                         $items['invoices_id'] = $invoice_id;
