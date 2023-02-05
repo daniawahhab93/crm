@@ -1348,7 +1348,7 @@ class Invoice extends Admin_Controller
 
             $qty_calculation = config_item('qty_calculation_from_items');
             // save items
-            $invoices_to_merge = $this->input->post('invoices_to_merge', TRUE);
+            $invoices_to_merge = $this->input->post('invoices_to_merge', TRUE); 
             $cancel_merged_invoices = $this->input->post('cancel_merged_invoices', TRUE);
 
             if (!empty($invoices_to_merge)) {
@@ -1397,6 +1397,7 @@ class Invoice extends Admin_Controller
                 $total_price = 0;
                 foreach ($items_data as $items) {
                     if ($items['quantity'] > 0) {
+                        var_dump($items);
                         unset($items['invoice_items_id']);
                         unset($items['total_qty']);
                         $items['invoices_id'] = $invoice_id;
