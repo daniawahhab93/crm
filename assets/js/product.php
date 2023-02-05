@@ -587,7 +587,7 @@ $edited = can_action('39', 'edited');
                             }
                             table_row += '</td>';
                             table_row += '<td>' + data.item_name + '</td>';
-                            table_row += '<td style="width: 30%; white-space: nowrap;">' + ((data.item_desc) ? data.item_desc.replace(regex, "\n") : '') + '</td>';
+                            table_row += '<td>' + ((data.item_desc) ? data.item_desc.replace(regex, "\n") : '') + '</td>';
 
                             table_row += '<td hidden class="bold item_name"><textarea  style="width: fit-content;" name="items[' + item_key +
                                 '][item_name]" class="form-control RitemName">' + data.item_name +
@@ -620,7 +620,7 @@ $edited = can_action('39', 'edited');
 
                             table_row += '</td>';
                             table_row +=
-                                '<td class="rate"><input  style="width: 90px;" type="text" min=0 data-parsley-type="number"  onblur="calculate_total();" onchange="calculate_total();" name="items[' +
+                                '<td class="rate"><input  style="width: 60px;" type="text" min=0 data-parsley-type="number"  onblur="calculate_total();" onchange="calculate_total();" name="items[' +
                                 item_key + '][unit_cost]" value="' + data.rate +
                                 '" class="form-control Rrate"></td>';
                             table_row += '<td class="taxrate">' + data.tax_dropdown + '</td>';
@@ -1161,7 +1161,7 @@ function malek_add_item(row, itemid ) {
 
             table_row += '</td>';
             table_row +=
-                '<td class="rate"><input style="width: 90px;" type="text" data-parsley-type="number" min=0 onblur="calculate_total();" onchange="calculate_total();" name="items[' +
+                '<td class="rate"><input style="width: 60px;" type="text" data-parsley-type="number" min=0 onblur="calculate_total();" onchange="calculate_total();" name="items[' +
                 item_key + '][unit_cost]" value="' + data.rate + '" class="form-control"></td>';
             table_row += '<td class="taxrate">' + tax_dropdown + '</td>';
             table_row += '<td class="amount">' + amount + '</td>';

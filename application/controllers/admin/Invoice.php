@@ -1392,12 +1392,13 @@ class Invoice extends Admin_Controller
 
             $itemsid = $this->input->post('items_id', TRUE);
             $items_data = $this->input->post('items', true);
+            
+
             if (!empty($items_data)) {
                 $index = 0;
                 $total_price = 0;
                 foreach ($items_data as $items) {
                     if ($items['quantity'] > 0) {
-                        var_dump($items);
                         unset($items['invoice_items_id']);
                         unset($items['total_qty']);
                         $items['invoices_id'] = $invoice_id;
