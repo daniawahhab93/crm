@@ -203,11 +203,11 @@ $edited = can_action('39', 'edited');
                             $("#" + productTable).empty();
 
                         }
-                        if ($("#" + forItemCode).val()) {
+                        // if ($("#" + forItemCode).val()) {
                             $.each(data, function (i, obj) {
                                 var row = add_order_item(obj.row, true);
                             });
-                        }
+                        // }
 
                     }
                 });
@@ -251,11 +251,11 @@ $edited = can_action('39', 'edited');
                             $("#" + productTable).empty();
 
                         }
-                        if ($("#" + forItemGroup).val()) {
+                        // if ($("#" + forItemGroup).val()) {
                             $.each(data, function (i, obj) {
                                 var row = add_order_item(obj.row, true);
                             });
-                        }
+                        // }
                     }
                 });
             }
@@ -306,11 +306,11 @@ $edited = can_action('39', 'edited');
                         //     store(intStore, JSON.stringify(pStore));
                         // loadItems();
                         //     });
-                        if ($("#" + forItemDesc).val()) {
+                        // if ($("#" + forItemDesc).val()) {
                             $.each(data, function (i, obj) {
                                 var row = add_order_item(obj.row, true);
                             });
-                        }
+                        // }
 
                     }
                 });
