@@ -1050,7 +1050,7 @@ function malek_delete_item(row) {
 //malek edit add search to selected
 function malek_add_item(row,itemid ) {
 	
-	test2 = "";
+	//test2 = "";
 	
         parent = $(row).parents('tr');
 		var item_id = parent.attr('data-item-id');
@@ -1060,7 +1060,8 @@ function malek_add_item(row,itemid ) {
        console.log(malek_data_key);
 	   
 	   
-	   test2 =$(".sortable").eq(key-1);
+	   //test2 =$(".sortable").eq(key-1);
+	   test2 = parent;
 	    //console.log(test2);
 	   console.log($(test2).find('.taxrate'));
 	   $(test2).find('.old_code').remove();
