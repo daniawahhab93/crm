@@ -3,8 +3,8 @@
 $edited = can_action('39', 'edited');
 ?>
 <script type="text/javascript">
-var malek_data_key = 1;
-var malek_key = 0;
+var selectedItems_data_key = 1;
+
 var test2 = "";
 </script>
 
@@ -564,8 +564,8 @@ var test2 = "";
                             item_name = data.item_name;
                         var table_row = '';
                         var unit_placeholder = '';
-						//console.log(malek_data_key);
-                        var item_key = $('body').find('tbody .item').length +malek_data_key;
+						//console.log(selectedItems_data_key);
+                        var item_key = $('body').find('tbody .item').length +selectedItems_data_key;
 						//console.log(item_key);
                         table_row += '<tr class="sortable item" data-key="' + key + '" data-item-id="' + product_id + '" data-merge-invoice="' +
                             merge_invoice + '">';
@@ -648,7 +648,7 @@ var test2 = "";
                             var item_url = "<?= base_url('admin/items/new_items/')?>" + item_id;
                             <?php if (!empty($edited)) { ?>
                             table_row += '<td class="action">' +
-                                '<a data-key="' + key + '" href="javascript:void(0)" class="btn-xs btn btn-success pull-left dizz" onclick="malek_add_item(this,' + key + ');">'
+                                '<a data-key="' + key + '" href="javascript:void(0)" class="btn-xs btn btn-success pull-left dizz" onclick="selectedItems_add_item(this,' + key + ');">'
                                 + '<i data-key="' + key + '" class="fa fa-plus" ></i></a>'
                                 
                                 + '</td>';
@@ -1019,9 +1019,10 @@ var test2 = "";
     }
 	
 	//malek_delete
-function malek_delete_item(row) {
+function selectedItems_delete_item(row) {
         var parent = $(row).parents('tr');
 		parent.remove();
+		calculate_total();
        
     }
     // Deletes invoice items
@@ -1048,7 +1049,7 @@ function malek_delete_item(row) {
     }
 	
 //malek edit add search to selected
-function malek_add_item(row,itemid ) {
+function selectedItems_add_item(row,itemid ) {
 	
 	//test2 = "";
 	
@@ -1057,7 +1058,7 @@ function malek_add_item(row,itemid ) {
 		var test =  parent 	;
 			key = $(row).attr('data-key');
 
-       console.log(malek_data_key);
+       console.log(selectedItems_data_key);
 	   
 	   
 	   //test2 =$(".sortable").eq(key-1);
@@ -1072,17 +1073,17 @@ function malek_add_item(row,itemid ) {
 	   $(test2).find('.lowest_sale_price_item').remove();
 	   $(test2).find('.item_location_in_stock').remove();
 	   $(test2).find('.dizz').replaceWith(  
-                                '<a data-key="' + malek_data_key + '" href="#" class="btn-xs btn btn-danger pull-left dizz" onclick="malek_delete_item(this);">'
-                                + '<i data-key="' + malek_data_key + '" class="fa fa-trash" ></i></a>'
+                                '<a data-key="' + selectedItems_data_key + '" href="#" class="btn-xs btn btn-danger pull-left dizz" onclick="selectedItems_delete_item(this);">'
+                                + '<i data-key="' + selectedItems_data_key + '" class="fa fa-trash" ></i></a>'
                                 
                                 );
 		//console.log($(test2).find('.Rqty').val());
 	   test2 = test2.html();
-	   test2 = '<tr class="item" data-key="'+ malek_data_key +' " data-item-id="undefined" data-merge-invoice="null">'
+	   test2 = '<tr class="item" data-key="'+ selectedItems_data_key +' " data-item-id="undefined" data-merge-invoice="null">'
 	   +test2 
 	   +'</tr>';
 	  
-	   malek_data_key++;
+	   selectedItems_data_key++;
 	   console.log(test2);
 		$('#tableInvoice').append(test2);
 	//parent.remove();
@@ -1132,7 +1133,7 @@ function malek_add_item(row,itemid ) {
         }
         var table_row = '';
         var unit_placeholder = '';
-        var item_key = $('body').find('tbody .item').length +malek_data_key;
+        var item_key = $('body').find('tbody .item').length +selectedItems_data_key;
 		console.log(item_key);
         table_row += '<tr class=" " data-merge-invoice="' + merge_invoice + '">';
         // table_row += '<td class="dragger">';
@@ -1187,7 +1188,7 @@ function malek_add_item(row,itemid ) {
                 item_key + '][unit_cost]" value="' + data.rate + '" class="form-control"></td>';
             table_row += '<td class="taxrate">' + tax_dropdown + '</td>';
             table_row += '<td class="amount">' + amount + '</td>';
-            table_row += '<td><a href="#" class="btn-xs btn btn-danger pull-left" onclick="malek_add_item(this,' +
+            table_row += '<td><a href="#" class="btn-xs btn btn-danger pull-left" onclick="selectedItems_add_item(this,' +
                 itemid + '); return false;"><i class="fa fa-trash"></i></a></td>';
             table_row += '</tr>';
 
