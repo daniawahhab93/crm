@@ -661,8 +661,9 @@
                             $pdata['add_items'] = $this->invoice_model->ordered_items_by_id($invoice_info->invoices_id, 'invoices', true);
                             $pdata['warehouseId'] = $invoice_info->warehouse_id;
                         }
+						$this->load->view('admin/items/selectItem', $pdata);
                        $this->load->view('admin/items/selectItem2', $pdata);
-						$this->load->view('admin/items/selectItem', $pdata);	
+							
 												?>
 
 </form>
