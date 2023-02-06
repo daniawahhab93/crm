@@ -3,6 +3,14 @@
 $edited = can_action('39', 'edited');
 ?>
 <script type="text/javascript">
+var malek_data_key = 1;
+var malek_key = 0;
+var test2 = "";
+</script>
+
+<script type="text/javascript">
+
+
     var qty_alert = '<?= config_item('item_total_qty_alert') ?>';
     let forID = $('.prodcutTable').attr('data-terget');
     let pStore = forID + 'Items'
@@ -556,8 +564,9 @@ $edited = can_action('39', 'edited');
                             item_name = data.item_name;
                         var table_row = '';
                         var unit_placeholder = '';
-
-                        var item_key = $('body').find('tbody .item').length + 1;
+						//console.log(malek_data_key);
+                        var item_key = $('body').find('tbody .item').length +malek_data_key;
+						//console.log(item_key);
                         table_row += '<tr class="sortable item" data-key="' + key + '" data-item-id="' + product_id + '" data-merge-invoice="' +
                             merge_invoice + '">';
                         // table_row += '<td class="dragger">';
@@ -578,8 +587,8 @@ $edited = can_action('39', 'edited');
                             // order input
                             table_row += '<input type="hidden" class="order" name="items[' + item_key +
                                 '][order]"><input type="hidden" name="items[' + item_key +
-                                '][saved_items_id]" value="' + data.new_itmes_id +
-                                '"><input type="hidden" name="new_itmes_id[]" value="' + data.new_itmes_id +
+                                '][saved_items_id]" value="' + item_key +
+                                '"><input type="hidden" name="new_itmes_id[]" value="' + item_key +
                                 '">';
                             if (data.items_id) {
                                 table_row += '<input type="hidden" name="items[' + item_key +
@@ -614,9 +623,9 @@ $edited = can_action('39', 'edited');
                                 data.unit = '';
                             }
 
-                            table_row += '<input   type="text" placeholder="' + unit_placeholder +
+                           /* table_row += '<input   type="text" placeholder="' + unit_placeholder +
                                 '" name="items[' + item_key +
-                                '][unit]" class="form-control input-transparent" value="' + data.unit + '">';
+                                '][unit]" class="form-control input-transparent" value="' + data.unit + '">';*/
 
                             table_row += '</td>';
                             table_row +=
@@ -1008,7 +1017,13 @@ $edited = can_action('39', 'edited');
         $('.subtotal').html(subtotal = subtotal.toFixed(2) + hidden_input('subtotal', subtotal.toFixed(2)));
         $('.total').html(total.toFixed(2) + hidden_input('total', total.toFixed(2)));
     }
-
+	
+	//malek_delete
+function malek_delete_item(row) {
+        var parent = $(row).parents('tr');
+		parent.remove();
+       
+    }
     // Deletes invoice items
     function delete_item(row, itemid) {
         var parent = $(row).parents('tr');
@@ -1033,17 +1048,20 @@ $edited = can_action('39', 'edited');
     }
 	
 //malek edit add search to selected
-function malek_add_item(row, itemid ) {
+function malek_add_item(row,itemid ) {
+	
+	test2 = "";
 	
         parent = $(row).parents('tr');
 		var item_id = parent.attr('data-item-id');
 		var test =  parent 	;
 			key = $(row).attr('data-key');
 
-       console.log(key);
+       console.log(malek_data_key);
 	   
-	   '<tr class="sortable item" data-key="1" data-item-id="undefined" data-merge-invoice="null">'
+	   
 	   test2 =$(".sortable").eq(key-1);
+	    //console.log(test2);
 	   console.log($(test2).find('.taxrate'));
 	   $(test2).find('.old_code').remove();
 	   $(test2).find('.alternative_items').remove();
@@ -1053,18 +1071,21 @@ function malek_add_item(row, itemid ) {
 	   $(test2).find('.lowest_sale_price_item').remove();
 	   $(test2).find('.item_location_in_stock').remove();
 	   $(test2).find('.dizz').replaceWith(  
-                                '<a data-key="' + key + '" href="#" class="btn-xs btn btn-danger pull-left dizz" onclick="delete_item(this,' + key + ');">'
-                                + '<i data-key="' + key + '" class="fa fa-trash" ></i></a>'
+                                '<a data-key="' + malek_data_key + '" href="#" class="btn-xs btn btn-danger pull-left dizz" onclick="malek_delete_item(this);">'
+                                + '<i data-key="' + malek_data_key + '" class="fa fa-trash" ></i></a>'
                                 
                                 );
+		//console.log($(test2).find('.Rqty').val());
 	   test2 = test2.html();
-	   test2 = '<tr class="sortable item" data-key="'+ key +'" data-item-id="undefined" data-merge-invoice="null">'
+	   test2 = '<tr class="item" data-key="'+ malek_data_key +' " data-item-id="undefined" data-merge-invoice="null">'
 	   +test2 
 	   +'</tr>';
 	  
-	   
-	   //console.log(test3);
-	$('#tableInvoice').append(test2);
+	   malek_data_key++;
+	   console.log(test2);
+		$('#tableInvoice').append(test2);
+	//parent.remove();
+	
 		delete_item(row, itemid);
 		//console.log(amal);
        
@@ -1110,7 +1131,8 @@ function malek_add_item(row, itemid ) {
         }
         var table_row = '';
         var unit_placeholder = '';
-        var item_key = $('body').find('tbody .item').length + 1;
+        var item_key = $('body').find('tbody .item').length +malek_data_key;
+		console.log(item_key);
         table_row += '<tr class=" " data-merge-invoice="' + merge_invoice + '">';
         // table_row += '<td class="dragger">';
 
@@ -1130,8 +1152,7 @@ function malek_add_item(row, itemid ) {
         get_taxes_dropdown_template(tax_name, data.taxname).done(function (tax_dropdown) {
             // order input
             table_row += '<input type="hidden" class="order" name="items[' + item_key +
-                '][order]"><input type="hidden" name="items[' + item_key + '][saved_items_id]" value="' + data
-                    .new_itmes_id + '"><input type="hidden" name="new_itmes_id[]" value="' + data.new_itmes_id + '">';
+                '][order]"><input type="hidden" name="items[' + item_key + '][saved_items_id]" value="' + item_key+ '"><input type="hidden" name="new_itmes_id[]" value="' + item_key + '">';
             if (data.item_id) {
                 table_row += '<input type="hidden" value="' + data.item_id + '" name="items[' + item_key +
                     '][item_id]">';
