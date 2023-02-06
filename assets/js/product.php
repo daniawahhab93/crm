@@ -648,7 +648,7 @@ var test2 = "";
                             var item_url = "<?= base_url('admin/items/new_items/')?>" + item_id;
                             <?php if (!empty($edited)) { ?>
                             table_row += '<td class="action">' +
-                                '<a data-key="' + key + '" href="#" class="btn-xs btn btn-success pull-left dizz" onclick="malek_add_item(this,' + key + ');">'
+                                '<a data-key="' + key + '" href="javascript:void(0)" class="btn-xs btn btn-success pull-left dizz" onclick="malek_add_item(this,' + key + ');">'
                                 + '<i data-key="' + key + '" class="fa fa-plus" ></i></a>'
                                 
                                 + '</td>';
