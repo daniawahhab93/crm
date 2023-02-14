@@ -437,8 +437,10 @@
                                 $pdata['warehouseId'] = $invoice_info->warehouse_id;
                             }
 
-                            $this->load->view('admin/items/selectItem', $pdata); ?>
+                        $this->load->view('admin/items/selectItem', $pdata);
+                        $this->load->view('admin/items/selectItem2', $pdata);
 
+                        ?>
                         <?php } else { ?>
                         </div>
                     <?php } ?>

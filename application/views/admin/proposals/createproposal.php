@@ -542,8 +542,10 @@
                                         $pdata['add_items'] = $this->proposal_model->ordered_items_by_id($proposals_info->proposals_id, 'proposal', true);
                                         $pdata['warehouseId'] = $proposals_info->warehouse_id;
                                     }
-                                    $this->load->view('admin/items/selectItem', $pdata); ?>
+                                    $this->load->view('admin/items/selectItem', $pdata);
+                                    $this->load->view('admin/items/selectItem2', $pdata);
 
+                                    ?>
 </form>
 <?php } else { ?>
     </div>

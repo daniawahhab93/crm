@@ -430,6 +430,8 @@
                                 $pdata['warehouseId'] = $credit_note_info->warehouse_id;
                             }
                             $this->load->view('admin/items/selectItem', $pdata);
+                            $this->load->view('admin/items/selectItem2', $pdata);
+
                             ?>
 
 

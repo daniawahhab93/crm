@@ -345,8 +345,10 @@ if (!empty($created) || !empty($edited)) {
                     $pdata['add_items'] = $this->return_stock_model->ordered_items_by_id($return_stock_info->return_stock_id, true);
                     $pdata['warehouseId'] = $return_stock_info->warehouse_id;
                 }
-                $this->load->view('admin/items/selectItem', $pdata); ?>
-            <?php echo form_close(); ?>
+		$this->load->view('admin/items/selectItem', $pdata);
+                       $this->load->view('admin/items/selectItem2', $pdata);
+
+												?>            <?php echo form_close(); ?>
         </div>
         <?php } else { ?>
     </div>

@@ -396,33 +396,36 @@ class Proposals extends Admin_Controller
             if (!empty($items_data)) {
                 $index = 0;
                 foreach ($items_data as $items) {
-                    $items['proposals_id'] = $proposals_id;
-                    unset($items['invoice_items_id']);
-                    unset($items['total_qty']);
-                    $tax = 0;
-                    if (!empty($items['taxname'])) {
-                        foreach ($items['taxname'] as $tax_name) {
-                            $tax_rate = explode("|", $tax_name);
-                            $tax += $tax_rate[1];
+                    if ($items['quantity'] > 0) {
+
+                        $items['proposals_id'] = $proposals_id;
+                        unset($items['invoice_items_id']);
+                        unset($items['total_qty']);
+                        $tax = 0;
+                        if (!empty($items['taxname'])) {
+                            foreach ($items['taxname'] as $tax_name) {
+                                $tax_rate = explode("|", $tax_name);
+                                $tax += $tax_rate[1];
+                            }
+                            $items['item_tax_name'] = $items['taxname'];
+                            unset($items['taxname']);
+                            $items['item_tax_name'] = json_encode($items['item_tax_name']);
                         }
-                        $items['item_tax_name'] = $items['taxname'];
-                        unset($items['taxname']);
-                        $items['item_tax_name'] = json_encode($items['item_tax_name']);
+                        $price = $items['quantity'] * $items['unit_cost'];
+                        $items['item_tax_total'] = ($price / 100 * $tax);
+                        $items['total_cost'] = $price;
+                        // get all client
+                        $this->proposal_model->_table_name = 'tbl_proposals_items';
+                        $this->proposal_model->_primary_key = 'proposals_items_id';
+                        if (!empty($items['items_id'])) {
+                            $items_id = $items['items_id'];
+                            unset($items['items_id']);
+                            $this->proposal_model->save($items, $items_id);
+                        } else {
+                            $items_id = $this->proposal_model->save($items);
+                        }
+                        $index++;
                     }
-                    $price = $items['quantity'] * $items['unit_cost'];
-                    $items['item_tax_total'] = ($price / 100 * $tax);
-                    $items['total_cost'] = $price;
-                    // get all client
-                    $this->proposal_model->_table_name = 'tbl_proposals_items';
-                    $this->proposal_model->_primary_key = 'proposals_items_id';
-                    if (!empty($items['items_id'])) {
-                        $items_id = $items['items_id'];
-                        unset($items['items_id']);
-                        $this->proposal_model->save($items, $items_id);
-                    } else {
-                        $items_id = $this->proposal_model->save($items);
-                    }
-                    $index++;
                 }
             }
             $activity = array(
@@ -1328,33 +1331,36 @@ class Proposals extends Admin_Controller
         if (!empty($items_data)) {
             $index = 0;
             foreach ($items_data as $items) {
-                $items['invoices_id'] = $invoice_id;
-                $tax = 0;
-                if (!empty($items['taxname'])) {
-                    foreach ($items['taxname'] as $tax_name) {
-                        $tax_rate = explode("|", $tax_name);
-                        $tax += $tax_rate[1];
+                if ($items['quantity'] > 0) {
+
+                    $items['invoices_id'] = $invoice_id;
+                    $tax = 0;
+                    if (!empty($items['taxname'])) {
+                        foreach ($items['taxname'] as $tax_name) {
+                            $tax_rate = explode("|", $tax_name);
+                            $tax += $tax_rate[1];
+                        }
+                        $items['item_tax_name'] = $items['taxname'];
+                        unset($items['taxname']);
+                        $items['item_tax_name'] = json_encode($items['item_tax_name']);
                     }
-                    $items['item_tax_name'] = $items['taxname'];
-                    unset($items['taxname']);
-                    $items['item_tax_name'] = json_encode($items['item_tax_name']);
-                }
-                if (empty($items['saved_items_id'])) {
-                    $items['saved_items_id'] = 0;
-                }
-                if (!empty($qty_calculation) && $qty_calculation == 'Yes') {
-                    if (!empty($items['saved_items_id']) && $items['saved_items_id'] != 'undefined') {
-                        $this->proposal_model->reduce_items($items['saved_items_id'], $items['quantity'], $data['warehouse_id']);
+                    if (empty($items['saved_items_id'])) {
+                        $items['saved_items_id'] = 0;
                     }
+                    if (!empty($qty_calculation) && $qty_calculation == 'Yes') {
+                        if (!empty($items['saved_items_id']) && $items['saved_items_id'] != 'undefined') {
+                            $this->proposal_model->reduce_items($items['saved_items_id'], $items['quantity'], $data['warehouse_id']);
+                        }
+                    }
+                    $price = $items['quantity'] * $items['unit_cost'];
+                    $items['item_tax_total'] = ($price / 100 * $tax);
+                    $items['total_cost'] = $price;
+                    // get all client
+                    $this->proposal_model->_table_name = 'tbl_items';
+                    $this->proposal_model->_primary_key = 'items_id';
+                    $this->proposal_model->save($items);
+                    $index++;
                 }
-                $price = $items['quantity'] * $items['unit_cost'];
-                $items['item_tax_total'] = ($price / 100 * $tax);
-                $items['total_cost'] = $price;
-                // get all client
-                $this->proposal_model->_table_name = 'tbl_items';
-                $this->proposal_model->_primary_key = 'items_id';
-                $this->proposal_model->save($items);
-                $index++;
             }
         }
 
@@ -1570,31 +1576,34 @@ class Proposals extends Admin_Controller
         if (!empty($items_data)) {
             $index = 0;
             foreach ($items_data as $items) {
-                $items['estimates_id'] = $estimates_id;
-                if (!empty($items['taxname'])) {
-                    $tax = 0;
-                    foreach ($items['taxname'] as $tax_name) {
-                        $tax_rate = explode("|", $tax_name);
-                        $tax += $tax_rate[1];
-                    }
-                    $price = $items['quantity'] * $items['unit_cost'];
-                    $items['item_tax_total'] = ($price / 100 * $tax);
-                    $items['total_cost'] = $price;
+                if ($items['quantity'] > 0) {
 
-                    $items['item_tax_name'] = $items['taxname'];
-                    unset($items['taxname']);
-                    $items['item_tax_name'] = json_encode($items['item_tax_name']);
+                    $items['estimates_id'] = $estimates_id;
+                    if (!empty($items['taxname'])) {
+                        $tax = 0;
+                        foreach ($items['taxname'] as $tax_name) {
+                            $tax_rate = explode("|", $tax_name);
+                            $tax += $tax_rate[1];
+                        }
+                        $price = $items['quantity'] * $items['unit_cost'];
+                        $items['item_tax_total'] = ($price / 100 * $tax);
+                        $items['total_cost'] = $price;
+
+                        $items['item_tax_name'] = $items['taxname'];
+                        unset($items['taxname']);
+                        $items['item_tax_name'] = json_encode($items['item_tax_name']);
+                    }
+                    // get all client
+                    $this->proposal_model->_table_name = 'tbl_estimate_items';
+                    $this->proposal_model->_primary_key = 'estimate_items_id';
+                    if (!empty($itemsid[$index])) {
+                        $items_id = $itemsid[$index];
+                        $this->proposal_model->save($items, $items_id);
+                    } else {
+                        $items_id = $this->proposal_model->save($items);
+                    }
+                    $index++;
                 }
-                // get all client
-                $this->proposal_model->_table_name = 'tbl_estimate_items';
-                $this->proposal_model->_primary_key = 'estimate_items_id';
-                if (!empty($itemsid[$index])) {
-                    $items_id = $itemsid[$index];
-                    $this->proposal_model->save($items, $items_id);
-                } else {
-                    $items_id = $this->proposal_model->save($items);
-                }
-                $index++;
             }
         }
         $p_data = array('status' => 'accepted', 'convert' => 'Yes', 'convert_module' => 'estimate', 'convert_module_id' => $estimates_id);

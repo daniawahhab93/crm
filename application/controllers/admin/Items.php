@@ -1007,72 +1007,75 @@ class Items extends Admin_Controller
                 if (!empty($items_data)) {
                     $index = 0;
                     foreach ($items_data as $items) {
-                        unset($items['invoice_items_id']);
-                        unset($items['total_qty']);
-                        $items['transfer_item_id'] = $invoice_id;
-                        $tax = 0;
-                        if (!empty($items['taxname'])) {
-                            foreach ($items['taxname'] as $tax_name) {
-                                $tax_rate = explode("|", $tax_name);
-                                $tax += $tax_rate[1];
+                        if ($items['quantity'] > 0) {
+
+                            unset($items['invoice_items_id']);
+                            unset($items['total_qty']);
+                            $items['transfer_item_id'] = $invoice_id;
+                            $tax = 0;
+                            if (!empty($items['taxname'])) {
+                                foreach ($items['taxname'] as $tax_name) {
+                                    $tax_rate = explode("|", $tax_name);
+                                    $tax += $tax_rate[1];
+                                }
+                                $items['item_tax_name'] = $items['taxname'];
+                                unset($items['taxname']);
+                                $items['item_tax_name'] = json_encode($items['item_tax_name']);
                             }
-                            $items['item_tax_name'] = $items['taxname'];
-                            unset($items['taxname']);
-                            $items['item_tax_name'] = json_encode($items['item_tax_name']);
-                        }
-                        if (empty($items['saved_items_id'])) {
-                            $items['saved_items_id'] = 0;
-                        }
+                            if (empty($items['saved_items_id'])) {
+                                $items['saved_items_id'] = 0;
+                            }
 
-                        $price = $items['quantity'] * $items['unit_cost'];
-                        $items['item_tax_total'] = ($price / 100 * $tax);
-                        $items['total_cost'] = $price;
-                        $items['warehouse_id'] = $data['to_warehouse_id'];
-                        // get all client
+                            $price = $items['quantity'] * $items['unit_cost'];
+                            $items['item_tax_total'] = ($price / 100 * $tax);
+                            $items['total_cost'] = $price;
+                            $items['warehouse_id'] = $data['to_warehouse_id'];
+                            // get all client
 
-                        if (!empty($data['to_warehouse_id']) && !empty($data['from_warehouse_id']) && $data['status'] == 'approved') {
-                            $this->items_model->_table_name = 'tbl_warehouses_products';
-                            $this->items_model->_primary_key = 'id';
-                            $check = get_row('tbl_warehouses_products', array('warehouse_id ' => $data['to_warehouse_id'], 'product_id' => $items['saved_items_id']));
-                            $check2 = get_row('tbl_warehouses_products', array('warehouse_id ' => $data['from_warehouse_id'], 'product_id' => $items['saved_items_id']));
+                            if (!empty($data['to_warehouse_id']) && !empty($data['from_warehouse_id']) && $data['status'] == 'approved') {
+                                $this->items_model->_table_name = 'tbl_warehouses_products';
+                                $this->items_model->_primary_key = 'id';
+                                $check = get_row('tbl_warehouses_products', array('warehouse_id ' => $data['to_warehouse_id'], 'product_id' => $items['saved_items_id']));
+                                $check2 = get_row('tbl_warehouses_products', array('warehouse_id ' => $data['from_warehouse_id'], 'product_id' => $items['saved_items_id']));
 
-                            if (!empty($check)) {
-                                $_data['quantity'] = $items['quantity'] + $check->quantity;
-                                $_data_id = $check->id;
-                                $this->items_model->save($_data, $_data_id);
-                                $_data['quantity'] = $items['quantity'] - $check->quantity;
-                                $_data_id = $check2->id;
-                                $this->items_model->save($_data, $_data_id);
+                                if (!empty($check)) {
+                                    $_data['quantity'] = $items['quantity'] + $check->quantity;
+                                    $_data_id = $check->id;
+                                    $this->items_model->save($_data, $_data_id);
+                                    $_data['quantity'] = $items['quantity'] - $check->quantity;
+                                    $_data_id = $check2->id;
+                                    $this->items_model->save($_data, $_data_id);
+                                } else {
+                                    $_data['quantity'] = $items['quantity'];
+                                    $_data['warehouse_id'] = $data['to_warehouse_id'];
+                                    $_data['product_id'] = $items['saved_items_id'];
+                                    $this->items_model->save($_data);
+                                    $_data['quantity'] = $items['quantity'] - $check2->quantity;
+                                    $_data_id = $check2->id;
+                                    $this->items_model->save($_data, $_data_id);
+                                }
+                            }
+
+
+                            $this->invoice_model->_table_name = 'tbl_transfer_itemlist';
+                            $this->invoice_model->_primary_key = 'transfer_itemList_id';
+
+                            if (!empty($items['items_id'])) {
+                                $items_id = $items['items_id'];
+                                unset($items['items_id']);
+                                if (!empty($qty_calculation) && $qty_calculation == 'Yes') {
+                                    // $this->check_existing_qty($items_id, $items['quantity']);
+                                }
+                                $this->invoice_model->save($items, $items_id);
                             } else {
-                                $_data['quantity'] = $items['quantity'];
-                                $_data['warehouse_id'] = $data['to_warehouse_id'];
-                                $_data['product_id'] = $items['saved_items_id'];
-                                $this->items_model->save($_data);
-                                $_data['quantity'] = $items['quantity'] - $check2->quantity;
-                                $_data_id = $check2->id;
-                                $this->items_model->save($_data, $_data_id);
+                                if (!empty($items['saved_items_id']) && $items['saved_items_id'] != 'undefined') {
+                                    // $this->invoice_model->reduce_items($items['saved_items_id'], $items['quantity']);
+                                }
+
+                                $transfer_itemList_id = $this->invoice_model->save($items);
                             }
+                            $index++;
                         }
-
-
-                        $this->invoice_model->_table_name = 'tbl_transfer_itemlist';
-                        $this->invoice_model->_primary_key = 'transfer_itemList_id';
-
-                        if (!empty($items['items_id'])) {
-                            $items_id = $items['items_id'];
-                            unset($items['items_id']);
-                            if (!empty($qty_calculation) && $qty_calculation == 'Yes') {
-                                // $this->check_existing_qty($items_id, $items['quantity']);
-                            }
-                            $this->invoice_model->save($items, $items_id);
-                        } else {
-                            if (!empty($items['saved_items_id']) && $items['saved_items_id'] != 'undefined') {
-                                // $this->invoice_model->reduce_items($items['saved_items_id'], $items['quantity']);
-                            }
-
-                            $transfer_itemList_id = $this->invoice_model->save($items);
-                        }
-                        $index++;
                     }
                 }
                 $activity = array(

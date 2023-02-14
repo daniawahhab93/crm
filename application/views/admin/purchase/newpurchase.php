@@ -392,8 +392,10 @@ if (!empty($created) || !empty($edited)) {
                 $pdata['add_items'] = $this->purchase_model->ordered_items_by_id($purchase_info->purchase_id, true);
                 $pdata['warehouseId'] = $purchase_info->warehouse_id;
             }
-            $this->load->view('admin/items/selectItem', $pdata); ?>
+            $this->load->view('admin/items/selectItem', $pdata);
+            $this->load->view('admin/items/selectItem2', $pdata);
 
+            ?>
             <?php echo form_close(); ?>
         </div>
         <?php } else { ?>

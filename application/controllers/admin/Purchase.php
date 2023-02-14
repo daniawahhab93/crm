@@ -21,6 +21,7 @@ class Purchase extends Admin_Controller
         $data['subview'] = $this->load->view('admin/purchase/manage_purchase', $data, TRUE);
         $this->load->view('admin/_layout_main', $data); //page load
     }
+
     public function new_purchase($id = NULL)
     {
         $data['title'] = lang('all_purchase');
@@ -38,6 +39,7 @@ class Purchase extends Admin_Controller
         $data['subview'] = $this->load->view('admin/purchase/newpurchase', $data, TRUE);
         $this->load->view('admin/_layout_main', $data); //page load
     }
+
     public function purchaseList()
     {
         if ($this->input->is_ajax_request()) {
@@ -120,7 +122,7 @@ class Purchase extends Admin_Controller
     public function save_purchase($id = NULL)
     {
         $data = $this->purchase_model->array_from_post(array('reference_no', 'supplier_id', 'discount_type', 'tags', 'discount_percent', 'user_id', 'adjustment'
-        , 'discount_total', 'show_quantity_as','purchase_type','purchase_tax','customs_amount','shipping_price','exchange_rate'));
+        , 'discount_total', 'show_quantity_as', 'purchase_type', 'purchase_tax', 'customs_amount', 'shipping_price', 'exchange_rate'));
         $data['update_stock'] = ($this->input->post('update_stock') == 'Yes') ? 'Yes' : 'No';
         $data['purchase_date'] = date('Y-m-d', strtotime($this->input->post('purchase_date', TRUE)));
         if (empty($data['purchase_date'])) {
@@ -169,11 +171,11 @@ class Purchase extends Admin_Controller
         $this->purchase_model->_table_name = 'tbl_purchases';
         $this->purchase_model->_primary_key = 'purchase_id';
         if (!empty($id)) {
-            if($this->input->post('purchase_type')=='internal'){
-                $data['purchase_tax'] =0;
-                $data['customs_amount'] =0;
-                $data['shipping_price'] =0;
-                $data['exchange_rate'] =0;
+            if ($this->input->post('purchase_type') == 'internal') {
+                $data['purchase_tax'] = 0;
+                $data['customs_amount'] = 0;
+                $data['shipping_price'] = 0;
+                $data['exchange_rate'] = 0;
             }
             $purchase_info = $this->purchase_model->check_by(array('purchase_id' => $id), 'tbl_purchases');
             if ($purchase_info->update_stock == 'No' && $data['update_stock'] == 'Yes') {
@@ -211,56 +213,58 @@ class Purchase extends Admin_Controller
         if (!empty($items_data)) {
             $index = 0;
             foreach ($items_data as $items) {
-                $items['purchase_id'] = $purchase_id;
-                unset($items['invoice_items_id']);
-                unset($items['total_qty']);
-                $tax = 0;
-                if (!empty($items['taxname'])) {
-                    foreach ($items['taxname'] as $tax_name) {
-                        $tax_rate = explode("|", $tax_name);
-                        $tax += $tax_rate[1];
+                if ($items['quantity'] > 0) {
+                    $items['purchase_id'] = $purchase_id;
+                    unset($items['invoice_items_id']);
+                    unset($items['total_qty']);
+                    $tax = 0;
+                    if (!empty($items['taxname'])) {
+                        foreach ($items['taxname'] as $tax_name) {
+                            $tax_rate = explode("|", $tax_name);
+                            $tax += $tax_rate[1];
+                        }
+                        $items['item_tax_name'] = $items['taxname'];
+                        unset($items['taxname']);
+                        $items['item_tax_name'] = json_encode($items['item_tax_name']);
                     }
-                    $items['item_tax_name'] = $items['taxname'];
-                    unset($items['taxname']);
-                    $items['item_tax_name'] = json_encode($items['item_tax_name']);
-                }
-                if (empty($items['saved_items_id'])) {
-                    $items['saved_items_id'] = 0;
-                }
-                if ($data['update_stock'] == 'Yes') {
-                    if (!empty($items['saved_items_id']) && $items['saved_items_id'] != 'undefined') {
-                        if (!empty($items['items_id'])) {
-                            $old_quantity = get_any_field('tbl_purchase_items', array('items_id' => $items['items_id']), 'quantity');
-                            if ($old_quantity != $items['quantity']) {
-                                // $a < $b	Less than TRUE if $a is strictly less than $b.
-                                // $a > $b	Greater than TRUE if $a is strictly greater than $b.
-                                if ($old_quantity > $items['quantity']) {
-                                    $quantity = $old_quantity - $items['quantity'];
-                                    $this->purchase_model->reduce_items($items['saved_items_id'], $quantity, $data['warehouse_id']);
-                                } else {
-                                    $quantity = $items['quantity'] - $old_quantity;
-                                    $this->purchase_model->return_items($items['saved_items_id'], $quantity, $data['warehouse_id']);
+                    if (empty($items['saved_items_id'])) {
+                        $items['saved_items_id'] = 0;
+                    }
+                    if ($data['update_stock'] == 'Yes') {
+                        if (!empty($items['saved_items_id']) && $items['saved_items_id'] != 'undefined') {
+                            if (!empty($items['items_id'])) {
+                                $old_quantity = get_any_field('tbl_purchase_items', array('items_id' => $items['items_id']), 'quantity');
+                                if ($old_quantity != $items['quantity']) {
+                                    // $a < $b	Less than TRUE if $a is strictly less than $b.
+                                    // $a > $b	Greater than TRUE if $a is strictly greater than $b.
+                                    if ($old_quantity > $items['quantity']) {
+                                        $quantity = $old_quantity - $items['quantity'];
+                                        $this->purchase_model->reduce_items($items['saved_items_id'], $quantity, $data['warehouse_id']);
+                                    } else {
+                                        $quantity = $items['quantity'] - $old_quantity;
+                                        $this->purchase_model->return_items($items['saved_items_id'], $quantity, $data['warehouse_id']);
+                                    }
                                 }
+                            } else {
+                                $this->purchase_model->return_items($items['saved_items_id'], $items['quantity'], $data['warehouse_id']);
                             }
-                        } else {
-                            $this->purchase_model->return_items($items['saved_items_id'], $items['quantity'], $data['warehouse_id']);
                         }
                     }
-                }
 
-                $price = $items['quantity'] * $items['unit_cost'];
-                $items['item_tax_total'] = ($price / 100 * $tax);
-                $items['total_cost'] = $price;
-                // get all client
-                $this->purchase_model->_table_name = 'tbl_purchase_items';
-                $this->purchase_model->_primary_key = 'items_id';
-                if (!empty($items['items_id'])) {
-                    $items_id = $items['items_id'];
-                    $this->purchase_model->save($items, $items_id);
-                } else {
-                    $items_id = $this->purchase_model->save($items);
+                    $price = $items['quantity'] * $items['unit_cost'];
+                    $items['item_tax_total'] = ($price / 100 * $tax);
+                    $items['total_cost'] = $price;
+                    // get all client
+                    $this->purchase_model->_table_name = 'tbl_purchase_items';
+                    $this->purchase_model->_primary_key = 'items_id';
+                    if (!empty($items['items_id'])) {
+                        $items_id = $items['items_id'];
+                        $this->purchase_model->save($items, $items_id);
+                    } else {
+                        $items_id = $this->purchase_model->save($items);
+                    }
+                    $index++;
                 }
-                $index++;
             }
         }
         $activity = array(
@@ -594,7 +598,7 @@ class Purchase extends Admin_Controller
             $data['title'] = lang('edit') . ' ' . lang('purchase') . ' ' . lang('payment'); //Page title
             $subview = 'edit_payments';
         } else {
-            $data['title'] = lang('all_payments') ; //Page title
+            $data['title'] = lang('all_payments'); //Page title
             $subview = 'all_payments';
         }
 

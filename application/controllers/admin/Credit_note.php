@@ -17,7 +17,6 @@ class Credit_note extends Admin_Controller
     {
 
 
-
         $data['page'] = lang('sales');
         $data['sub_active'] = lang('credit_note');
         // get all_credit_note_info
@@ -116,7 +115,7 @@ class Credit_note extends Admin_Controller
         $data = array();
         $pathonor_jonno = array();
         $tata = array();
-        $pathonor_jonno['state_report'] = $this->load->view("admin/credit_note/credit_note_state_report", $data,  true);
+        $pathonor_jonno['state_report'] = $this->load->view("admin/credit_note/credit_note_state_report", $data, true);
         echo json_encode($pathonor_jonno);
         exit;
     }
@@ -458,33 +457,36 @@ class Credit_note extends Admin_Controller
             if (!empty($items_data)) {
                 $index = 0;
                 foreach ($items_data as $items) {
-                    $items['credit_note_id'] = $credit_note_id;
-                    unset($items['invoice_items_id']);
-                    unset($items['total_qty']);
-                    $tax = 0;
-                    if (!empty($items['taxname'])) {
-                        foreach ($items['taxname'] as $tax_name) {
-                            $tax_rate = explode("|", $tax_name);
-                            $tax += $tax_rate[1];
+                    if ($items['quantity'] > 0) {
+
+                        $items['credit_note_id'] = $credit_note_id;
+                        unset($items['invoice_items_id']);
+                        unset($items['total_qty']);
+                        $tax = 0;
+                        if (!empty($items['taxname'])) {
+                            foreach ($items['taxname'] as $tax_name) {
+                                $tax_rate = explode("|", $tax_name);
+                                $tax += $tax_rate[1];
+                            }
+                            $items['item_tax_name'] = $items['taxname'];
+                            unset($items['taxname']);
+                            $items['item_tax_name'] = json_encode($items['item_tax_name']);
                         }
-                        $items['item_tax_name'] = $items['taxname'];
-                        unset($items['taxname']);
-                        $items['item_tax_name'] = json_encode($items['item_tax_name']);
+                        $price = $items['quantity'] * $items['unit_cost'];
+                        $items['item_tax_total'] = ($price / 100 * $tax);
+                        $items['total_cost'] = $price;
+                        // get all client
+                        $this->credit_note_model->_table_name = 'tbl_credit_note_items';
+                        $this->credit_note_model->_primary_key = 'credit_note_items_id';
+                        if (!empty($items['items_id'])) {
+                            $items_id = $items['items_id'];
+                            unset($items['items_id']);
+                            $this->credit_note_model->save($items, $items_id);
+                        } else {
+                            $items_id = $this->credit_note_model->save($items);
+                        }
+                        $index++;
                     }
-                    $price = $items['quantity'] * $items['unit_cost'];
-                    $items['item_tax_total'] = ($price / 100 * $tax);
-                    $items['total_cost'] = $price;
-                    // get all client
-                    $this->credit_note_model->_table_name = 'tbl_credit_note_items';
-                    $this->credit_note_model->_primary_key = 'credit_note_items_id';
-                    if (!empty($items['items_id'])) {
-                        $items_id = $items['items_id'];
-                        unset($items['items_id']);
-                        $this->credit_note_model->save($items, $items_id);
-                    } else {
-                        $items_id = $this->credit_note_model->save($items);
-                    }
-                    $index++;
                 }
             }
             $activity = array(

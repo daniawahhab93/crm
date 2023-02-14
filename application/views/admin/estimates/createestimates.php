@@ -555,8 +555,10 @@
                                         $pdata['add_items'] = $this->estimates_model->ordered_items_by_id($estimates_info->estimates_id, true);
                                         $pdata['warehouseId'] = $estimates_info->warehouse_id;
                                     }
-                                    $this->load->view('admin/items/selectItem', $pdata); ?>
+                            $this->load->view('admin/items/selectItem', $pdata);
+                            $this->load->view('admin/items/selectItem2', $pdata);
 
+                            ?>
 
 </form>
 <?php } else { ?>

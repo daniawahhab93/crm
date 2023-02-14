@@ -349,6 +349,8 @@
             }
 
             $this->load->view('admin/items/selectItem', $pdata);
+            $this->load->view('admin/items/selectItem2', $pdata);
+
             ?>
         </form>
     </div>

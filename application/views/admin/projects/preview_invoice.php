@@ -367,8 +367,10 @@
                     $pdata['add_items'] = $this->items_model->make_all_items($project_info->project_id, $items_name, $tasks, $expense, true);
                     $pdata['warehouseId'] = NULL;
                 }
-                $this->load->view('admin/items/selectItem', $pdata); ?>
-            </form>
+                $this->load->view('admin/items/selectItem', $pdata);
+                $this->load->view('admin/items/selectItem2', $pdata);
+
+                ?>            </form>
             <script type="text/javascript">
                 function slideToggle($id) {
                     $('#quick_state').attr('data-original-title', '<?= lang('view_quick_state') ?>');

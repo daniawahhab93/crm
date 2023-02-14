@@ -390,8 +390,10 @@ include_once 'assets/admin-ajax.php'; ?>
                 $pdata['warehouseId'] = $items_info->from_warehouse_id;
                 $pdata['add_items'] = $this->items_model->ordered_items_by_id($items_info->transfer_item_id, true);;
             }
-            $this->load->view('admin/items/selectItem', $pdata); ?>
+            $this->load->view('admin/items/selectItem', $pdata);
+            $this->load->view('admin/items/selectItem2', $pdata);
 
+            ?>
 
 
         </form>

@@ -20,6 +20,7 @@ class Return_stock extends Admin_Controller
         $data['subview'] = $this->load->view('admin/return_stock/manage_return_stock', $data, TRUE);
         $this->load->view('admin/_layout_main', $data); //page load
     }
+
     public function create_returnstock($id = null)
     {
         $data['title'] = lang('all_return_stock');
@@ -38,6 +39,7 @@ class Return_stock extends Admin_Controller
         $data['subview'] = $this->load->view('admin/return_stock/create_return_stock', $data, TRUE);
         $this->load->view('admin/_layout_main', $data); //page load
     }
+
     public function return_stockList()
     {
         if ($this->input->is_ajax_request()) {
@@ -200,58 +202,61 @@ class Return_stock extends Admin_Controller
         if (!empty($items_data)) {
             $index = 0;
             foreach ($items_data as $items) {
-                $items['return_stock_id'] = $return_stock_id;
-                if (!empty($items['saved_items_id'])) {
-                    $items['invoice_items_id'] = $items['saved_items_id'];
-                }
-                unset($items['total_qty']);
-                $tax = 0;
-                if (!empty($items['taxname'])) {
-                    foreach ($items['taxname'] as $tax_name) {
-                        $tax_rate = explode("|", $tax_name);
-                        $tax += $tax_rate[1];
+                if ($items['quantity'] > 0) {
+
+                    $items['return_stock_id'] = $return_stock_id;
+                    if (!empty($items['saved_items_id'])) {
+                        $items['invoice_items_id'] = $items['saved_items_id'];
                     }
-                    $items['item_tax_name'] = $items['taxname'];
-                    unset($items['taxname']);
-                    $items['item_tax_name'] = json_encode($items['item_tax_name']);
-                }
-                if (empty($items['saved_items_id'])) {
-                    $items['saved_items_id'] = 0;
-                }
-                if ($data['update_stock'] == 'Yes') {
-                    if (!empty($items['saved_items_id']) && $items['saved_items_id'] != 'undefined') {
-                        if (!empty($items['items_id'])) {
-                            $old_quantity = get_any_field('tbl_return_stock_items', array('items_id' => $items['items_id']), 'quantity');
-                            if ($old_quantity != $items['quantity']) {
-                                // $a < $b	Less than TRUE if $a is strictly less than $b.
-                                // $a > $b	Greater than TRUE if $a is strictly greater than $b.
-                                if ($old_quantity > $items['quantity']) {
-                                    $quantity = $old_quantity - $items['quantity'];
-                                    $this->return_stock_model->return_items($items['saved_items_id'], $quantity, $data['warehouse_id']);
-                                } else {
-                                    $quantity = $items['quantity'] - $old_quantity;
-                                    $this->return_stock_model->reduce_items($items['saved_items_id'], $quantity, $data['warehouse_id']);
+                    unset($items['total_qty']);
+                    $tax = 0;
+                    if (!empty($items['taxname'])) {
+                        foreach ($items['taxname'] as $tax_name) {
+                            $tax_rate = explode("|", $tax_name);
+                            $tax += $tax_rate[1];
+                        }
+                        $items['item_tax_name'] = $items['taxname'];
+                        unset($items['taxname']);
+                        $items['item_tax_name'] = json_encode($items['item_tax_name']);
+                    }
+                    if (empty($items['saved_items_id'])) {
+                        $items['saved_items_id'] = 0;
+                    }
+                    if ($data['update_stock'] == 'Yes') {
+                        if (!empty($items['saved_items_id']) && $items['saved_items_id'] != 'undefined') {
+                            if (!empty($items['items_id'])) {
+                                $old_quantity = get_any_field('tbl_return_stock_items', array('items_id' => $items['items_id']), 'quantity');
+                                if ($old_quantity != $items['quantity']) {
+                                    // $a < $b	Less than TRUE if $a is strictly less than $b.
+                                    // $a > $b	Greater than TRUE if $a is strictly greater than $b.
+                                    if ($old_quantity > $items['quantity']) {
+                                        $quantity = $old_quantity - $items['quantity'];
+                                        $this->return_stock_model->return_items($items['saved_items_id'], $quantity, $data['warehouse_id']);
+                                    } else {
+                                        $quantity = $items['quantity'] - $old_quantity;
+                                        $this->return_stock_model->reduce_items($items['saved_items_id'], $quantity, $data['warehouse_id']);
+                                    }
                                 }
+                            } else {
+                                $this->return_stock_model->return_items($items['saved_items_id'], $items['quantity'], $data['warehouse_id']);
                             }
-                        } else {
-                            $this->return_stock_model->return_items($items['saved_items_id'], $items['quantity'], $data['warehouse_id']);
                         }
                     }
-                }
 
-                $price = $items['quantity'] * $items['unit_cost'];
-                $items['item_tax_total'] = ($price / 100 * $tax);
-                $items['total_cost'] = $price;
-                // get all client
-                $this->return_stock_model->_table_name = 'tbl_return_stock_items';
-                $this->return_stock_model->_primary_key = 'items_id';
-                if (!empty($items['items_id'])) {
-                    $items_id = $items['items_id'];
-                    $this->return_stock_model->save($items, $items_id);
-                } else {
-                    $items_id = $this->return_stock_model->save($items);
+                    $price = $items['quantity'] * $items['unit_cost'];
+                    $items['item_tax_total'] = ($price / 100 * $tax);
+                    $items['total_cost'] = $price;
+                    // get all client
+                    $this->return_stock_model->_table_name = 'tbl_return_stock_items';
+                    $this->return_stock_model->_primary_key = 'items_id';
+                    if (!empty($items['items_id'])) {
+                        $items_id = $items['items_id'];
+                        $this->return_stock_model->save($items, $items_id);
+                    } else {
+                        $items_id = $this->return_stock_model->save($items);
+                    }
+                    $index++;
                 }
-                $index++;
             }
         }
         $activity = array(
