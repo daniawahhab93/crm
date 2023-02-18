@@ -17,8 +17,8 @@ $cash=false;
            title="<?= lang('apply_credits') ?>" class="text-info"><?= lang('apply_credits') ?></a>
     </div>
 <?php } ?>
-<div class="row mb">
-    <div class="col-sm-12 mb">
+<div class="row mb  hidden-print">
+    <div class="col-sm-12 mb  hidden-print">
         <div class="pull-left">
             <?= lang('copy_unique_url') ?>
         </div>
@@ -636,7 +636,7 @@ if (!empty($all_payment_info)) { ?>
 <?php include_once 'assets/js/sales.php'; ?>
 
 
-<ul class="pagination" style="float: right">
+<ul class="pagination  hidden-print" style="float: right">
     <?php
     $disable_previous_payment = 'disabled';
     $disable_next_payment = 'disabled';

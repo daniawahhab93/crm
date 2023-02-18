@@ -5,7 +5,7 @@ $user_info = $this->db->where('user_id', $user_id)->get('tbl_users')->row();
 $languages = $this->db->where('active', 1)->order_by('name', 'ASC')->get('tbl_languages')->result();
 ?>
 
-<header class="topnavbar-wrapper">
+<header class="topnavbar-wrapper  hidden-print">
     <!-- START Top Navbar-->
     <nav role="navigation" class="navbar topnavbar">
         <!-- START navbar header-->

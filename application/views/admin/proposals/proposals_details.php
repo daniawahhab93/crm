@@ -4,7 +4,7 @@ $edited = can_action('140', 'edited');
 $deleted = can_action('140', 'deleted');
 ?>
 <div class="row mb">
-    <div class="col-sm-12 mb">
+    <div class="col-sm-12 mb  hidden-print">
         <div class="pull-left">
             <?= lang('copy_unique_url') ?>
         </div>

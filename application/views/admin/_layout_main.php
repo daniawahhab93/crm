@@ -106,7 +106,7 @@ if (empty($timezone)) {
             <?php } ?>
             <!-- Page content-->
             <div class="content-wrapper">
-                <div class="content-heading">
+                <div class="content-heading  hidden-print">
                     <?php
                     $breadcrumbs = $this->breadcrumbs->build_breadcrumbs();
                     if (empty($breadcrumbs)) {
@@ -166,7 +166,7 @@ if (empty($timezone)) {
                 <?= (!empty(config_item('layout-h')) != ' layout-h ' ? '</div>' : '') ?>
         </section>
         <!-- Page footer-->
-        <footer>
+        <footer class=" hidden-print">
             <div class="pull-right hidden-xs">
                 <?= '<b>' . lang('version') . '</b> ' . config_item('version') ?>
             </div>
@@ -291,7 +291,33 @@ if (empty($timezone)) {
         <?php $this->load->view('admin/_layout_modal_extra_lg'); ?>
     <?php } ?>
 
+    <style>
+        @media print {
+            #print_invoice  {
+                display: block;
+            }
+        }
+    </style>
     <script>
+        $(document).keydown(function(keyPressed) {
+            // on click f12
+            if (keyPressed.keyCode == 123) {
+                $('#searchProductModal').modal('show');
+                return false;
+            }
+
+            // on click f7
+            if (keyPressed.keyCode == 118) {
+                $( "#form" ).submit();
+                return false;
+            }
+
+            if(keyPressed.ctrlKey && keyPressed.keyCode == 80){
+               alert('hiii');
+                print_invoice('print_invoice');
+                return false;
+            });
+
         document.addEventListener("load", ins_data, false);
 
         function ins_data(url, datastring = '') {

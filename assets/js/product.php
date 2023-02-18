@@ -17,7 +17,8 @@ var test2 = "";
     pStore = {};
     let intStore = forID + 'Items'
     let productTable = forID + 'Table'
-    let Warehouses = forID + 'Warehouse' // wharehouse 
+    let selectedproductTable = 'invoice-selected-items-table'
+    let Warehouses = forID + 'Warehouse' // wharehouse
 
     let forItem = forID + '_item'
     let forItemCode = forID + '_code_contain'
@@ -61,6 +62,118 @@ var test2 = "";
 
 
     $(document).ready(function () {
+        const pathArray = window.location.pathname.split("/");
+
+        if (get(intStore) && pathArray && pathArray[5]=='create_invoice') {
+            $("#" + productTable).empty();
+            var merge_invoice = null;
+            pStore = JSON.parse(get(intStore));
+
+            $.each(pStore, function (key, data) {
+                    if (data) {
+                        var item_id = data.saved_items_id;
+                        var product_id = data.items_id;
+                        item_cost = data.rate,
+                            item_qty = data.qty,
+                            item_code = data.code,
+                            item_old_code = data.old_code,
+                            total_qty = data.total_qty,
+                            item_name = data.item_name;
+                        var table_row = '';
+                        var unit_placeholder = '';
+                        //console.log(selectedItems_data_key);
+                        var item_key = $('body').find('tbody .item').length +selectedItems_data_key;
+                        //console.log(item_key);
+                        table_row += '<tr class="sortable item" data-key="' + key + '" data-item-id="' + product_id + '" data-merge-invoice="' +
+                            merge_invoice + '">';
+                        // table_row += '<td class="dragger">';
+
+                        // Check if quantity is number
+                        if (isNaN(data.qty)) {
+                            data.qty = 0;
+                        }
+                        // Check if rate is number
+                        if (data.rate == '' || isNaN(data.rate)) {
+                            data.rate = 0;
+                        }
+                        var amount = data.rate * data.qty;
+                        var tax_name = 'items[' + item_key + '][taxname][]';
+                        $('body').append('<div class="dt-loader"></div>');
+                        var regex = /<br[^>]*>/gi;
+                        // get_taxes_dropdown_template(tax_name, data.taxname).done(function (tax_dropdown) {
+                        // order input
+                        table_row += '<input type="hidden" class="order" name="items[' + item_key +
+                            '][order]"><input type="hidden" name="items[' + item_key +
+                            '][saved_items_id]" value="' + item_key +
+                            '"><input type="hidden" name="new_itmes_id[]" value="' + item_key +
+                            '">';
+                        if (data.items_id) {
+                            table_row += '<input type="hidden" name="items[' + item_key +
+                                '][items_id]" value="' + data.items_id + '">';
+                        }
+                        table_row += '</td>';
+                        table_row += '<td>' + data.item_name + '</td>';
+                        table_row += '<td>' + ((data.item_desc) ? data.item_desc.replace(regex, "\n") : '') + '</td>';
+
+                        table_row += '<td hidden class="bold item_name"><textarea  style="width: fit-content;" name="items[' + item_key +
+                            '][item_name]" class="form-control RitemName">' + data.item_name +
+                            '</textarea></td>';
+                        table_row += '<td hidden><textarea  style="width: fit-content;"  name="items[' + item_key +
+                            '][item_desc]" class="form-control item_item_desc RitemDesc" >' + ((data
+                                .item_desc) ? data.item_desc.replace(regex, "\n") : '') +
+                            '</textarea></td>';
+                        table_row +=
+                            '<td class="qtytd"><input  style="width: 50px;" type="text" data-parsley-type="number" min="0" onblur="calculate_total();" onchange="calculate_total();" data-quantity id="qty_' +
+                            item_key + '" name="items[' + item_key + '][quantity]" value="' + data.qty +
+                            '" class="form-control Rqty">';
+
+                        unit_placeholder = '';
+                        if (!data.unit || typeof (data.unit) == 'undefined') {
+                            data.unit = '';
+                        }
+
+                        /* table_row += '<input   type="text" placeholder="' + unit_placeholder +
+                             '" name="items[' + item_key +
+                             '][unit]" class="form-control input-transparent" value="' + data.unit + '">';*/
+
+                        table_row += '</td>';
+                        table_row +=
+                            '<td class="rate"><input  style="width: 60px;" type="text" min=0 data-parsley-type="number"  onblur="calculate_total();" onchange="calculate_total();" name="items[' +
+                            item_key + '][unit_cost]" value="' + data.rate +
+                            '" class="form-control Rrate"></td>';
+                        table_row += '<td class="amount">' + amount + '</td>';
+
+                        table_row += '<td>' +
+                            '<a data-key="' + selectedItems_data_key + '" href="#" class="btn-xs btn btn-danger pull-left dizz" onclick="selectedItems_delete_item(this);">'
+                            + '<i data-key="' + selectedItems_data_key + '" class="fa fa-trash" ></i></a>'
+                            + '</td>';
+                        table_row += '</tr>';
+
+                        $('#tableInvoice').append(table_row);
+                        if (get(intStore)) {
+                            remove(intStore);
+                        }
+                        $("#" + productTable).empty();
+
+                        setTimeout(function () {
+                            calculate_total();
+                        }, 10);
+
+                        init_selectpicker();
+                        clear_main_values();
+                        reorder_items();
+
+                        $('body').find('.dt-loader').remove();
+                        $('#item_select').selectpicker('val', '');
+                        return true;
+                        // });
+                    }
+                }
+            )
+            ;
+        }
+
+
         setWarehouse();
         load_data();
 
@@ -545,7 +658,6 @@ var test2 = "";
 
 
     function loadItems() {
-        // alert('loadItems');
         var merge_invoice = null;
 
         if (get(intStore)) {
@@ -1058,8 +1170,6 @@ function selectedItems_add_item(row,itemid ) {
 		var test =  parent 	;
 			key = $(row).attr('data-key');
 
-       console.log(selectedItems_data_key);
-	   
 	   
 	   //test2 =$(".sortable").eq(key-1);
 	   test2 = parent;
@@ -1089,8 +1199,8 @@ function selectedItems_add_item(row,itemid ) {
 	//parent.remove();
 	
 		delete_item(row, itemid);
-		//console.log(amal);
-       
+		console.log(itemid);
+
 		
 	 
 	  		//$('#tableInvoice').append(this.parentElement.parentElement);
