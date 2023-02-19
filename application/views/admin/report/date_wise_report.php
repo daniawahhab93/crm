@@ -65,7 +65,7 @@
         </div>
         <div class="panel panel-custom">
             <!-- Default panel contents -->
-            <div class="panel-heading">
+            <div class="panel-heading hidden-print">
                 <div class="panel-title">
                     <strong><?= lang('date_wise_report') ?></strong>
 

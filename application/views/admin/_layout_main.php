@@ -313,10 +313,11 @@ if (empty($timezone)) {
             }
 
             if(keyPressed.ctrlKey && keyPressed.keyCode == 80){
-               alert('hiii');
                 print_invoice('print_invoice');
+                print_sales_report('invoices');
                 return false;
-            });
+            }
+        });
 
         document.addEventListener("load", ins_data, false);
 

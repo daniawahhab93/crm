@@ -20,7 +20,7 @@
         <br/>
     </div>
     <div class="panel panel-custom">
-        <div class="panel-heading">
+        <div class="panel-heading hidden-print">
             <div class="panel-title">
                 <strong><?= lang('income_report') ?></strong>
                 <div class="pull-right hidden-print">
@@ -130,7 +130,7 @@
         </div>
     </div>
 </div>
-<div class="panel panel-custom ">
+<div class="panel panel-custom  hidden-print">
     <div class="panel-heading">
         <div class="panel-title">
             <strong><?= lang('income_report') . ' ' . lang('graph') . ' ' . date('F-Y') ?></strong>

@@ -5,7 +5,7 @@ $this->lang->load('calendar', config_item('language'));
 ?>
 
 <section class="panel panel-custom">
-    <header class="panel-heading">
+    <header class="panel-heading hidden-print">
         <div class="panel-title">
             <?php echo !empty($filterBy) ? ' ' . lang('sales_report') . ' -> ' . lang($filterBy) : lang('sales_report') ?>
             <div class="pull-right">

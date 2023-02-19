@@ -187,7 +187,7 @@ $lang['ccavenue_merchant_id'] = 'معرف تاجر';
 $lang['ccavenue_key'] = 'إضافة ملف الموارد';
 $lang['ccavenue_access_code'] = 'كود التحقق';
 $lang['ccavenue_enable_test_mode'] = 'تفعيل نظام تجريبي';
-$lang['print'] = 'طباعة';
+$lang['print'] = '(Ctrl+p) طباعة';
 $lang['public'] = 'عام';
 $lang['purchase'] = 'فواتير الشراء';
 $lang['purchases'] = 'فواتير الشراء';
@@ -766,7 +766,7 @@ $lang['select_group'] = 'اختر المجموعة';
 $lang['group_contain'] = 'المجموعة تحتوي:';
 $lang['code_contain'] = 'الكود يحتوي:';
 $lang['desc_contain'] = 'الوصف يحتوي:';
-$lang['search_product'] = 'البحث عن الأصناف';
+$lang['search_product'] = '(F12) البحث عن الأصناف';
 $lang['quantity_in_warehouse'] = 'الكمية في المستودع';
 
 /* End of file main_lang.php */
