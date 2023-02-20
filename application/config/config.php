@@ -38,6 +38,7 @@ if (file_exists(APPPATH . 'config/install.php')) {
 */
 $config['base_url'] = guess_base_url();
 
+
 /*
 |--------------------------------------------------------------------------
 | Index File

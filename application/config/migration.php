@@ -56,7 +56,7 @@ $config['migration_table'] = 'tbl_migrations';
 | in your code to have the latest migration.
 |
 */
-$config['migration_auto_latest'] = FALSE;
+$config['migration_auto_latest'] = TRUE;
 /*
 |--------------------------------------------------------------------------
 | Migrations version
@@ -67,7 +67,7 @@ $config['migration_auto_latest'] = FALSE;
 | be upgraded / downgraded to.
 |
 */
-$config['migration_version'] = 506; // 5.0.6
+$config['migration_version'] = 507; // 5.0.6
 /*
 |--------------------------------------------------------------------------
 | Migrations Path
