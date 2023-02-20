@@ -17,7 +17,7 @@ $cash=false;
            title="<?= lang('apply_credits') ?>" class="text-info"><?= lang('apply_credits') ?></a>
     </div>
 <?php } ?>
-<div class="row mb">
+<div class="row mb  hidden-print">
     <div class="col-sm-12 mb">
         <div class="pull-left">
             <?= lang('copy_unique_url') ?>
@@ -231,7 +231,7 @@ $cash=false;
         </a>
         <a onclick="print_invoice('print_invoice')" href="#" data-toggle="tooltip" data-placement="top" title=""
            data-original-title="Print" class="mr-sm btn btn-xs btn-danger pull-right">
-            <i class="fa fa-print"></i>
+            <i class="fa fa-print"> Ctrl+p</i>
         </a>
         <a href="<?= base_url() ?>admin/invoice/pdf_invoice/<?= $invoice_info->invoices_id ?>" data-toggle="tooltip"
            data-placement="top" title="" data-original-title="PDF" class="btn btn-xs btn-success pull-right mr-sm">
@@ -636,7 +636,7 @@ if (!empty($all_payment_info)) { ?>
 <?php include_once 'assets/js/sales.php'; ?>
 
 
-<ul class="pagination" style="float: right">
+<ul class="pagination  hidden-print" style="float: right">
     <?php
     $disable_previous_payment = 'disabled';
     $disable_next_payment = 'disabled';

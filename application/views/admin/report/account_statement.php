@@ -1,5 +1,5 @@
 <form role="form" enctype="multipart/form-data" id="form"
-      action="<?php echo base_url(); ?>admin/report/account_statement" method="post" class="form-horizontal  ">
+      action="<?php echo base_url(); ?>admin/report/account_statement" method="post" class="form-horizontal hidden-print ">
 
     <div class="form-group">
         <label class="col-lg-3 control-label"><?= lang('account') ?> <span class="text-danger">*</span> </label>
@@ -102,7 +102,7 @@
         </div>
         <div class="panel panel-custom">
             <!-- Default panel contents -->
-            <div class="panel-heading">
+            <div class="panel-heading hidden-print">
                 <div class="panel-title">
                     <strong><?= lang('statement_report') ?></strong>
 

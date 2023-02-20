@@ -53,7 +53,7 @@
     </div>
     <div class="col-sm-4 pull-right">
         <a onclick="print_invoice('print_invoice')" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" class="btn btn-sm btn-danger pull-right">
-            <i class="fa fa-print"></i>
+            <i class="fa fa-print">Ctrl+p</i>
         </a>
 
         <a href="<?= base_url() ?>frontend/pdf_invoice/<?= $invoice_info->invoices_id ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="PDF" class="btn btn-sm btn-success pull-right mr-sm">

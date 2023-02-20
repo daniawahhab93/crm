@@ -505,7 +505,7 @@ if (!empty($all_payment_info)) { ?>
 <?php } ?>
 <?php include_once 'assets/js/sales.php'; ?>
 
-<ul class="pagination" style="float: right">
+<ul class="pagination  hidden-print" style="float: right">
     <?php
     $disable_previous_payment='disabled';
     $disable_next_payment='disabled';

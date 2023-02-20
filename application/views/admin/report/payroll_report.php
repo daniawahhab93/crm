@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row hidden-print">
     <div class="col-sm-12" data-spy="scroll" data-offset="0">
         <div class="panel panel-custom"><!-- *********     Employee Search Panel ***************** -->
             <div class="panel-heading">
@@ -124,14 +124,14 @@ if ($search_type == 'employee') {
     <!--  **************** show when print End ********************* -->
     <div class="panel panel-custom">
         <!-- Default panel contents -->
-        <div class="panel-heading">
+        <div class="panel-heading hidden-print">
             <div class="panel-title">
                 <strong><?= lang('payroll_report') . ' ' . $by ?></strong>
                 <div class="pull-right"><!-- set pdf,Excel start action -->
                     <label class="hidden-print control-label pull-left hidden-xs">
                         <button class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top"
                                 title="<?= lang('print') ?>" type="button"
-                                onclick="payment_history('payment_history')"><i class="fa fa-print"></i>
+                                onclick="payment_history('payment_history')"><i class="fa fa-print"> Ctrl+p</i>
                         </button>
                         <span><?php echo btn_pdf('admin/report/payroll_report_pdf/' . $search_type . '/' . $pdf); ?></span>
                     </label>

@@ -18,8 +18,8 @@
         </div>
         <br/>
     </div>
-    <div class="panel panel-custom">
-        <div class="panel-heading">
+    <div class="panel panel-custom ">
+        <div class="panel-heading hidden-print">
             <div class="panel-title">
                 <strong><?= lang('income_expense_report') ?></strong>
                 <div class="pull-right hidden-print">
@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" >
 
 
             <h5><strong><?= lang('income_expense') ?></strong></h5>

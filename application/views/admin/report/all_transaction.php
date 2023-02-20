@@ -19,7 +19,7 @@
         </div>
         <br/>
     </div>
-    <div class="panel panel-custom">
+    <div class="panel panel-custom ">
         <!-- Default panel contents -->
         <div class="panel-heading">
             <div class="panel-title">
@@ -139,7 +139,7 @@
         </div>
     </div>
 </div>
-<div class="panel panel-custom ">
+<div class="panel panel-custom  hidden-print ">
     <div class="panel-heading">
         <div class="panel-title">
             <strong><?= lang('transactions_report') . ' ' . lang('graph') . ' ' . date('F-Y') ?></strong>
