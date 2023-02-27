@@ -12,6 +12,7 @@ class Invoice extends Admin_Controller
 
         $this->load->model('invoice_model');
         $this->load->library('gst');
+        $this->load->library('excel');
     }
 
 
@@ -806,6 +807,7 @@ class Invoice extends Admin_Controller
                     $sub_array = array();
                     $name = null;
                     $name .= '<a class="text-info" href="' . base_url() . 'admin/invoice/manage_invoice/invoice_details/' . $v_invoices->invoices_id . '">' . $v_invoices->reference_no . '</a>';
+                    $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input name="row-check" class="crud_bulk_actions_row_checkbox"  data-primary-key-value="' . $v_invoices->invoices_id . '" value="' . $v_invoices->invoices_id . '" type="checkbox"><span class="fa fa-check "></span></label></div>';
                     $sub_array[] = $name;
                     $sub_array[] = strftime(config_item('date_format'), strtotime($v_invoices->invoice_date));
                     $payment_status = $this->invoice_model->get_payment_status($v_invoices->invoices_id);
@@ -1224,7 +1226,6 @@ class Invoice extends Admin_Controller
         if (!empty($created) || !empty($edited) && !empty($id)) {
             $data = $this->invoice_model->array_from_post(array('reference_no', 'client_id', 'project_id', 'warehouse_id', 'discount_type', 'tags', 'discount_percent', 'user_id', 'adjustment', 'discount_total', 'show_quantity_as'));
 
-
             $all_payment = get_result('tbl_online_payment');
             foreach ($all_payment as $payment) {
                 $allow_gateway = 'allow_' . slug_it(strtolower($payment->gateway_name));
@@ -1348,7 +1349,7 @@ class Invoice extends Admin_Controller
 
             $qty_calculation = config_item('qty_calculation_from_items');
             // save items
-            $invoices_to_merge = $this->input->post('invoices_to_merge', TRUE); 
+            $invoices_to_merge = $this->input->post('invoices_to_merge', TRUE);
             $cancel_merged_invoices = $this->input->post('cancel_merged_invoices', TRUE);
 
             if (!empty($invoices_to_merge)) {
@@ -1392,7 +1393,7 @@ class Invoice extends Admin_Controller
 
             $itemsid = $this->input->post('items_id', TRUE);
             $items_data = $this->input->post('items', true);
-            
+
 
             if (!empty($items_data)) {
                 $index = 0;
@@ -3396,4 +3397,189 @@ class Invoice extends Admin_Controller
             redirect('admin/dashboard');
         }
     }
+
+    public function export_to_excel($module, $client_id = null, $id = null)
+    {
+        if ($this->input->post()) {
+            if ($module == 'invoice') {
+                $invoices_ids = explode(",", $this->input->post('invoices_ids'));
+
+                $all_invoices = [];
+                if ($this->input->post('from_date') && $this->input->post('to_date')) {
+                    $from_date = $this->input->post('from_date', true);
+                    $to_date = $this->input->post('to_date', true);
+                    if (!empty($client_id)) {
+                        $this->db->where('client_id', $client_id);
+                    }
+                    if ($invoices_ids)
+                        $this->db->where_in('invoices_id', $invoices_ids);
+                    $this->db->where('invoice_date BETWEEN "' . $from_date . '" AND "' . $to_date . '"');
+                    $this->db->order_by('invoices_id','desc');
+                    $all_invoices = $this->db->get('tbl_invoices')->result();
+                } else {
+                    if ($invoices_ids)
+                        $this->db->where_in('invoices_id', $invoices_ids);
+                    $this->db->order_by('invoices_id','desc');
+                    $all_invoices = $this->db->get('tbl_invoices')->result();
+                }
+
+                $this->excel->setActiveSheetIndex(0);
+                //name the worksheet
+                $this->excel->getActiveSheet()->setTitle('Invoices');
+
+                //set cell A1 content with some text
+                $array_of_row_one = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'G1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1', 'R1', 'S1', 'T1', 'U1', 'V1', 'W1', 'X1', 'Y1', 'Z1',
+                    'A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2', 'H2', 'I2', 'G2', 'K2', 'L2', 'M2', 'N2', 'O2', 'P2', 'Q2', 'R2', 'S2', 'T2', 'U2', 'V2', 'W2', 'X2', 'Y2', 'Z2',];
+                $array_of_cells = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'G', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                    'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AG', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ'
+                ];
+
+                $index = 0;
+                $fields_for_get_values = [];
+                $label_of_fields = $this->invoice_model->get_invoice_fields_for_excel();
+                foreach ($label_of_fields as $i => $label) {
+                    if ($this->input->post('invoice_field_' . $label['value'])) {
+                        //               //make the font become bold
+                        $this->excel->getActiveSheet()->getStyle($array_of_row_one[$index])->getFont()->setBold(true);
+                        $this->excel->getActiveSheet()->getStyle($array_of_row_one[$index])->getFont()->setSize(14);
+                        //              $this->excel->getActiveSheet()->getStyle('A1')->getFill()->getStartColor()->setARGB('#333');
+
+                        $this->excel->getActiveSheet()->setCellValue($array_of_row_one[$index], lang($label['value']));
+                        $fields_for_get_values[] = $label['value'];
+                        $index++;
+                    }
+                }
+
+                $show_custom_fields = custom_form_table(9, null);
+                if (!empty($show_custom_fields)) {
+                    foreach ($show_custom_fields as $c_label => $v_fields) {
+                        $name = slug_it($c_label);
+                        $post = $this->input->post($name, true);
+                        if (!empty($c_label) && $post) {
+                            //               //make the font become bold
+                            $this->excel->getActiveSheet()->getStyle($array_of_row_one[$index])->getFont()->setBold(true);
+                            $this->excel->getActiveSheet()->getStyle($array_of_row_one[$index])->getFont()->setSize(14);
+                            //              $this->excel->getActiveSheet()->getStyle('A1')->getFill()->getStartColor()->setARGB('#333');
+
+                            $this->excel->getActiveSheet()->setCellValue($array_of_row_one[$index], $c_label);
+                            $fields_for_get_values[] = $c_label;
+                            $index++;
+                        }
+                    }
+                }
+
+                $this->excel->getActiveSheet()->getStyle($array_of_row_one[$index])->getFont()->setBold(true);
+                $this->excel->getActiveSheet()->getStyle($array_of_row_one[$index])->getFont()->setSize(14);
+                $this->excel->getActiveSheet()->setCellValue($array_of_row_one[$index++], lang('items'));
+
+                $sheet = $this->excel->getActiveSheet();
+                $rows = 2;
+
+                foreach ($all_invoices as $val) {
+                    $i = 0;
+
+                    if (in_array('reference_no', $fields_for_get_values)) {
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, $val->reference_no);
+                    }
+                    if (in_array('invoice_date', $fields_for_get_values)) {
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, $val->invoice_date);
+                    }
+                    if (in_array('due_date', $fields_for_get_values)) {
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, $val->due_date);
+
+                    }
+                    if (in_array('client_id', $fields_for_get_values)) {
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, client_name($val->client_id));
+
+                    }
+                    if (in_array('due_amount', $fields_for_get_values)) {
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, display_money($this->invoice_model->calculate_to('invoice_due', $val->invoices_id), client_currency($val->client_id)));
+
+                    }
+                    if (in_array('status', $fields_for_get_values)) {
+                        $payment_status = $this->invoice_model->get_payment_status( $val->invoices_id);
+
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, $payment_status);
+
+                    }
+                    if (in_array('tags', $fields_for_get_values)) {
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, $val->tags);
+                    }
+
+                    foreach ($show_custom_fields as $c_label => $v_fields) {
+                        if (!empty($c_label) && in_array($c_label, $fields_for_get_values)) {
+                            $c_label = str_replace(' ', '_', $c_label);
+                            $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                            $sheet->setCellValue($array_of_cells[$i++] . $rows, $val->$c_label);
+
+                        }
+                    }
+
+                    $invoice_items = $this->invoice_model->ordered_items_by_id($val->invoices_id);
+                    if (!empty($invoice_items)) {
+                        $row_content = '';
+                        foreach ($invoice_items as $key => $v_item) {
+                            $item_name = $v_item->item_name ? $v_item->item_name : $v_item->item_desc;
+                            $item_tax_name = json_decode($v_item->item_tax_name);
+
+                            $row_content .= lang('item_name') . ': ' . $item_name . ' , ';
+//                            $row_content .= lang('item_desc') . ': ' . nl2br($v_item->item_desc) . ' ,';
+
+                            $invoice_view = config_item('invoice_view');
+                            if (!empty($invoice_view) && $invoice_view == '2') {
+                                $row_content .= lang('hsn_code') . ': ' . $v_item->hsn_code . ' , ';
+                            }
+                            $row_content .= lang('qty') . ': ' . $v_item->quantity . ' ' . $v_item->unit . ' , ';
+                            $row_content .= lang('price') . ': ' . display_money($v_item->unit_cost) . ' , ';
+
+                            if (!empty($item_tax_name)) {
+                                $row_content .= lang('tax') . ': ';
+                                foreach ($item_tax_name as $v_tax_name) {
+                                    $i_tax_name = explode('|', $v_tax_name);
+                                    $row_content .= $i_tax_name[0] . ' (' . $i_tax_name[1] . ' %)' . display_money($v_item->total_cost / 100 * $i_tax_name[1]) . " \r\n" . ' , ';
+                                }
+                            }
+                            $row_content .= lang('total') . ': ' . display_money($v_item->total_cost) . "\r\n";
+
+                        }
+
+                        $this->excel->getActiveSheet()->getRowDimension($rows)->setRowHeight(100);
+                        $this->excel->getActiveSheet()->getColumnDimension($array_of_cells[$i])->setWidth(150);
+                        $this->excel->getActiveSheet()->getStyle($array_of_cells[$i])->getAlignment()->setWrapText(true);
+
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, $row_content);
+
+                    } else {
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, '');
+                    }
+                    $rows++;
+                }
+//die;
+                $filename = 'invoices.xls';
+                header('Content-Type: application/vnd.ms-excel'); //mime type
+                header('Content-Disposition: attachment;filename="' . $filename . '"'); //tell browser what's the file name
+                header('Cache-Control: max-age=0'); //no cache
+
+                //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                //if you want to save it as .XLSX Excel 2007 format
+                $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+                //force user to download the Excel file without writing it to server's HD
+                $objWriter->save('php://output');
+            }
+        } else {
+            $data['title'] = lang('export_to_excel_' . $module);
+            $data['client_id'] = $client_id;
+            $data['module'] = $module;
+            $data['subview'] = $this->load->view('admin/invoice/export_to_excel', $data, FALSE);
+            $this->load->view('admin/_layout_modal', $data);
+        }
+    }
+
 }

@@ -785,3 +785,7 @@ $lang['code_contain'] = 'Code contain';
 $lang['desc_contain'] = 'Description contain';
 $lang['search_product'] = 'Search for product (F12)';
 $lang['quantity_in_warehouse'] = 'Quantity in warehouse';
+$lang['export_to_excel'] = 'Export to excel';
+$lang['fields'] = 'Fields';
+$lang['client_id'] = 'Client name';
+$lang['supplier_id'] = 'Supplier name';

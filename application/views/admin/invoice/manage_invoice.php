@@ -127,6 +127,9 @@ if (!empty($created) || !empty($edited)) {
 <a data-toggle="modal" data-target="#myModal" href="<?= base_url() ?>admin/invoice/zipped/invoice"
     class="btn btn-success btn-xs ml-lg"><?= lang('zip_invoice') ?></a>
 
+<a data-toggle="modal" data-target="#myModal" href="<?= base_url() ?>admin/invoice/export_to_excel/invoice"
+    class="btn btn-success btn-xs ml-lg"><?= lang('export_to_excel') ?></a>
+
 <div class="row">
     <div class="col-sm-12">
         <?php $is_department_head = is_department_head();
@@ -218,7 +221,14 @@ if (!empty($created) || !empty($edited)) {
                             <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                        <th><?= lang('invoice') ?></th>
+                                        <th data-orderable="false">
+                                            <div class="checkbox c-checkbox">
+                                                <label class="needsclick">
+                                                    <input id="check_all" type="checkbox">
+                                                    <span class="fa fa-check"></span></label>
+                                            </div>
+                                        </th>
+                                        <th><?= lang('reference_no') ?></th>
                                         <th class="col-date"><?= lang('invoice_date') ?></th>
                                         <th class="col-date"><?= lang('due_date') ?></th>
                                         <th><?= lang('client_name') ?></th>
@@ -347,6 +357,7 @@ if (!empty($created) || !empty($edited)) {
                 </div>
 
                 <script type="text/javascript">
+
                 function slideToggle($id) {
                     $('#quick_state').attr('data-original-title', '<?= lang('view_quick_state') ?>');
                     $($id).slideToggle("slow");
@@ -406,5 +417,32 @@ if (!empty($created) || !empty($edited)) {
                 <script>
                 $(document).ready(function() {
                     ins_data(base_url + 'admin/invoice/invo_data');
+                    $(function() {
+                        //If check_all checked then check all table rows
+                        $("#check_all").on("click", function () {
+                            if ($("input:checkbox").prop("checked")) {
+                                $("input:checkbox[name='row-check']").prop("checked", true);
+                            } else {
+                                $("input:checkbox[name='row-check']").prop("checked", false);
+                            }
+                        });
+
+                        // Check each table row checkbox
+                        $("input:checkbox[name='row-check']").on("click", function () {
+                            var total_check_boxes = $("input:checkbox[name='row-check']").length;
+                            var total_checked_boxes = $("input:checkbox[name='row-check']:checked").length;
+
+                            // If all checked manually then check check_all checkbox
+                            if (total_check_boxes === total_checked_boxes) {
+                                $("#check_all").prop("checked", true);
+                            }
+                            else {
+                                $("#check_all").prop("checked", false);
+                            }
+                        });
+                    });
+
                 });
+
+
                 </script>

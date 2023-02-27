@@ -330,4 +330,50 @@ class Purchase_model extends MY_Model
         }
         return false;
     }
+
+    public function get_purchase_fields_for_excel()
+    {
+        $fields = array(
+            array(
+                'id' => 1,
+                'value' => 'reference_no',
+                'name' => lang('reference_no'),
+                'order' => 1,
+            ),
+            array(
+                'id' => 2,
+                'value' => 'supplier_id',
+                'name' => lang('supplier_name'),
+                'order' => 2,
+            ),
+            array(
+                'id' => 3,
+                'value' => 'purchase_date',
+                'name' => lang('purchase_date'),
+                'order' => 3,
+            ),
+            array(
+                'id' => 4,
+                'value' => 'due_amount',
+                'name' => lang('due_amount'),
+                'order' => 1,
+            ), array(
+                'id' => 5,
+                'value' => 'status',
+                'name' => lang('status'),
+                'order' => 1,
+            ), array(
+                'id' => 6,
+                'value' => 'tags',
+                'name' => lang('tags'),
+                'order' => 1,
+            ),
+        );
+
+
+        $result = $this->db->get('tbl_purchases')->result();
+        return $fields;
+
+    }
+
 }

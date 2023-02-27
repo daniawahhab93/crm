@@ -335,4 +335,46 @@ class Return_stock_model extends MY_Model
         return $total;
     }
 
+
+    public function get_return_stock_fields_for_excel()
+    {
+        $fields = array(
+            array(
+                'id' => 1,
+                'value' => 'reference_no',
+                'name' => lang('reference_no'),
+                'order' => 1,
+            ),
+            array(
+                'id' => 2,
+                'value' => 'supplier_client',
+                'name' => lang('supplier_client'),
+                'order' => 2,
+            ),
+            array(
+                'id' => 3,
+                'value' => 'return_stock_date',
+                'name' => lang('return_stock_date'),
+                'order' => 3,
+            ),
+            array(
+                'id' => 4,
+                'value' => 'due_amount',
+                'name' => lang('due_amount'),
+                'order' => 1,
+            ), array(
+                'id' => 5,
+                'value' => 'status',
+                'name' => lang('status'),
+                'order' => 1,
+            )
+        );
+
+
+        $result = $this->db->get('tbl_return_stock')->result();
+        return $fields;
+
+    }
+
+
 }
