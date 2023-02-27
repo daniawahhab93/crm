@@ -625,11 +625,15 @@ var test2 = "";
     }
 
     function setWarehouse() {
+		//console.log('malek');
         var getWarehouse = $('.mwarehouse');
+		console.log(getWarehouse);
         if (get(Warehouses)) {
             warehouse_id = get(Warehouses);
+			console.log(warehouse_id);
         } else {
             warehouse_id = getWarehouse.val();
+			console.log(warehouse_id);
         }
         getWarehouse.val(warehouse_id);
         $('.WarehouseValue').val(warehouse_id);
