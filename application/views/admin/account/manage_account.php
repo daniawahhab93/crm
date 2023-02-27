@@ -30,6 +30,7 @@ if (!empty($created) || !empty($edited)) {
                     <table class="table table-striped DataTables " id="DataTables" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th><?= lang('account') ?></th>
                                 <th><?= lang('description') ?></th>
                                 <th><?= lang('account_number') ?></th>

@@ -63,6 +63,7 @@ class Return_stock extends Admin_Controller
                     $can_delete = $this->return_stock_model->can_action('tbl_return_stock', 'delete', array('return_stock_id' => $v_return_stock->return_stock_id));
 
                     $currency = $this->return_stock_model->check_by(array('code' => config_item('default_currency')), 'tbl_currencies');
+                    $sub_array[] = '';
                     $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input name="row-check" class="crud_bulk_actions_row_checkbox"  data-primary-key-value="' . $v_return_stock->return_stock_id . '" value="' . $v_return_stock->return_stock_id . '" type="checkbox"><span class="fa fa-check "></span></label></div>';
                     $sub_array[] = '<a href="' . base_url() . 'admin/return_stock/return_stock_details/' . $v_return_stock->return_stock_id . '">' . ($v_return_stock->reference_no) . '</a>';
                     if ($v_return_stock->module == 'client') {
@@ -640,6 +641,8 @@ class Return_stock extends Admin_Controller
                 } else {
                     $v_payments_info->method_name = $v_payments_info->payment_method;
                 }
+
+                $sub_array[] ='';
                 $sub_array[] = '<a href="' . base_url() . 'admin/return_stock/payments_details/' . $v_payments_info->payments_id . '">' . display_date($v_payments_info->payment_date) . '</a>';
                 $sub_array[] = display_date($v_payments_info->return_stock_date);
                 $sub_array[] = '<a href="' . base_url() . 'admin/return_stock/return_stock_details/' . $v_payments_info->return_stock_id . '">' . display_date($v_payments_info->payment_date) . '</a>';

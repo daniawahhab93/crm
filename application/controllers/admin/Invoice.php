@@ -805,6 +805,7 @@ class Invoice extends Admin_Controller
                     }
 
                     $sub_array = array();
+                    $sub_array[] = '';
                     $name = null;
                     $name .= '<a class="text-info" href="' . base_url() . 'admin/invoice/manage_invoice/invoice_details/' . $v_invoices->invoices_id . '">' . $v_invoices->reference_no . '</a>';
                     $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input name="row-check" class="crud_bulk_actions_row_checkbox"  data-primary-key-value="' . $v_invoices->invoices_id . '" value="' . $v_invoices->invoices_id . '" type="checkbox"><span class="fa fa-check "></span></label></div>';
@@ -919,6 +920,7 @@ class Invoice extends Admin_Controller
                     }
 
                     $sub_array = array();
+                    $sub_array[] ='';
                     $name = null;
                     $name .= '<a class="text-info" href="' . base_url() . 'admin/invoice/manage_invoice/invoice_details/' . $v_invoices->invoices_id . '">' . $v_invoices->reference_no . '</a>';
 
@@ -1053,6 +1055,7 @@ class Invoice extends Admin_Controller
                         $v_payments_info->method_name = $v_payments_info->payment_method;
                     }
                     $sub_array = array();
+                    $sub_array[] ='';
                     $name = null;
                     $name .= '<a class="text-info" href="' . base_url() . 'admin/invoice/manage_invoice/payments_details/' . $v_payments_info->payments_id . '">' . strftime(config_item('date_format'), strtotime($v_payments_info->payment_date)) . '</a>';
 
@@ -2751,7 +2754,7 @@ class Invoice extends Admin_Controller
                 $can_edit = $this->invoice_model->can_action('tbl_tax_rates', 'edit', array('tax_rates_id' => $v_tax_rates->tax_rates_id));
 
                 $sub_array = array();
-
+                $sub_array[] ='';
                 $sub_array[] = $v_tax_rates->tax_rate_name;
                 $sub_array[] = $v_tax_rates->tax_rate_percent . '%';
 
@@ -3387,6 +3390,7 @@ class Invoice extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $clientname;
                 $sub_array[] = $clientpoint;
                 $data[] = $sub_array;

@@ -112,6 +112,7 @@ if (!empty($created) || !empty($edited)) {
                                     width="100%">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th><?= lang('bug_title') ?></th>
                                             <th><?= lang('date') ?></th>
                                             <th><?= lang('status') ?></th>

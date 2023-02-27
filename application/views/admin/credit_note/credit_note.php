@@ -203,6 +203,7 @@
                                 <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th><?= lang('credit_note') ?> #</th>
                                             <th><?= lang('credit_note') . ' ' . lang('date') ?></th>
                                             <th><?= lang('client_name') ?></th>

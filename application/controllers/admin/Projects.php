@@ -121,6 +121,7 @@ class Projects extends Admin_Controller
                     $can_delete = $this->items_model->can_action('tbl_project', 'delete', array('project_id' => $v_project->project_id));
 
                     $sub_array = array();
+                    $sub_array[] ='';
                     if (!empty($deleted)) {
                         $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input value="' . $v_project->project_id . '" type="checkbox"><span class="fa fa-check"></span></label></div>';
                     }

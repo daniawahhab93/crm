@@ -40,6 +40,7 @@
             <table class="table table-striped DataTables " cellspacing="0" width="100%">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th><?= lang('account') ?></th>
                     <th><?= lang('balance') ?></th>
                 </tr>
@@ -49,9 +50,10 @@
                 $curency = $this->transactions_model->check_by(array('code' => config_item('default_currency')), 'tbl_currencies');
                 $total_amount = 0;
                 $all_account = $this->db->get('tbl_accounts')->result();
-                foreach ($all_account as $v_account):
+                foreach ($all_account as $i=>$v_account):
                     ?>
                     <tr>
+                        <td><?= $i+1 ?></td>
                         <td class="vertical-td"><?php
                             if (!empty($v_account->account_name)) {
                                 echo $v_account->account_name;
@@ -66,7 +68,7 @@
                 endforeach;
                 ?>
                 <tr class="custom-color-with-td">
-                    <th style="text-align: right;" colspan="1"><strong><?= lang('total') ?>:</strong></th>
+                    <th style="text-align: right;" colspan="2"><strong><?= lang('total') ?>:</strong></th>
                     <td><strong><?= display_money($total_amount, $curency->symbol) ?></strong></td>
                 <tr>
                 </tbody>

@@ -186,7 +186,8 @@
                                     width="100%">
                                     <thead>
                                         <tr>
-                                            <th><?= lang('reference_no') ?> #</th>
+                                            <th>#</th>
+                                            <th><?= lang('reference_no') ?> </th>
                                             <th><?= lang('proposal_date') ?></th>
                                             <th><?= lang('expire_date') ?></th>
                                             <th><?= lang('client_name') ?></th>
@@ -211,8 +212,10 @@
                                     <tbody>
                                         <script type="text/javascript">
                                         $(document).ready(function() {
-                                            list = base_url + "admin/proposals/proposalsList";
-                                            <?php if (admin_head()) { ?>
+                                            // list = base_url + "admin/proposals/proposalsList";
+                                            fire_datatable(base_url + "admin/proposals/proposalsList/");
+
+                                        <?php if (admin_head()) { ?>
                                             $('.filtered > .dropdown-toggle').on('click', function() {
                                                 if ($('.group').css('display') == 'block') {
                                                     $('.group').css('display', 'none');

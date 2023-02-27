@@ -80,6 +80,7 @@ class Quotations extends Client_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = '<a class="text-info" href="' . base_url() . 'client/quotations/quotations_details/' . $v_quatations->quotations_id . '">' . $v_quatations->quotations_form_title . '</a>';
                 $sub_array[] = strftime(config_item('date_format'), strtotime($v_quatations->quotations_date));
                 $amount = null;

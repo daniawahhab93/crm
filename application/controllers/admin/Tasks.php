@@ -203,6 +203,7 @@ class Tasks extends Admin_Controller
                         $c_progress = 0;
                     }
                     $sub_array = array();
+                    $sub_array[] ='';
                     if (!empty($created) || !empty($edited) || !empty($deleted)) {
                         $checkbox .= '<div class="is_complete checkbox c-checkbox"><label><input type="checkbox" value="' . $v_task->task_id . '"  data-id="' . $v_task->task_id . '" style="position: absolute"' . (($c_progress >= 100) ? 'checked' : null) . '><span class="fa fa-check"></span></label></div>';
                         $sub_array[] = $checkbox;

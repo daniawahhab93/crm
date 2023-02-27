@@ -172,6 +172,7 @@ class Invoice extends Client_Controller
                 }
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $name = null;
                 $name .= '<a class="text-info" href="' . base_url() . 'client/invoice/manage_invoice/invoice_details/' . $v_invoices->invoices_id . '">' . $v_invoices->reference_no . '</a>';
                 $sub_array[] = $name;
@@ -228,6 +229,7 @@ class Invoice extends Client_Controller
                 if (!empty($v_return_stock)) {
                     $action = null;
                     $sub_array = array();
+                    $sub_array[] ='';
                     $currency = $this->return_stock_model->check_by(array('code' => config_item('default_currency')), 'tbl_currencies');
 
                     $sub_array[] = '<a href="' . base_url() . 'client/invoice/return_stock_details/' . $v_return_stock->return_stock_id . '">' . ($v_return_stock->reference_no) . '</a>';

@@ -23,6 +23,7 @@ $deleted = can_action('101', 'deleted');
         <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
             <thead>
             <tr>
+                <th>#</th>
                 <th><?= lang('name') ?></th>
                 <th><?= lang('course_training') ?></th>
                 <th><?= lang('vendor') ?></th>

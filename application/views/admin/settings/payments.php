@@ -46,6 +46,7 @@
                         <table class="table table-striped DataTables " id="Transation_DataTables">
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th><?= lang('icon') ?></th>
                                     <th><?= lang('gateway_name') ?></th>
                                     <th><?= lang('status') ?></th>

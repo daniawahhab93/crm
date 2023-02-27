@@ -69,6 +69,7 @@ class Projects extends Client_Controller
                 $progress = $this->items_model->get_project_progress($v_project->project_id);
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $name = null;
                 $name .= '<a class="text-info" href="' . base_url() . 'client/projects/project_details/' . $v_project->project_id . '">' . $v_project->project_name . '</a>';
                 if (strtotime(date('Y-m-d')) > strtotime($v_project->end_date) && $progress < 100) {

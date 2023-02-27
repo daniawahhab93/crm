@@ -2521,7 +2521,7 @@ function make_datatables($where = null, $where_in = null)
     if (!empty($where_in)) {
         $CI->db->where_in($where_in[0], $where_in[1]);
     }
-    if ($_POST["length"] != -1) {
+    if (isset($_POST['length']) && $_POST["length"] != -1) {
         $CI->db->limit($_POST['length'], $_POST['start']);
     }
     $query = $CI->db->get();

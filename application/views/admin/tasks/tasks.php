@@ -169,6 +169,7 @@ if ($tasks == 'kanban') {
                                     width="100%">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <?php if (!empty($deleted) || !empty($edited)) { ?>
                                             <th data-orderable="false">
                                                 <div class="checkbox c-checkbox">

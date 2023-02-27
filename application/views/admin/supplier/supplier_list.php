@@ -28,6 +28,7 @@ if (!empty($created) || !empty($edited)) {
                     <table class="table table-striped DataTables " id="DataTables" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th><?= lang('name') ?></th>
                                 <th class="col-sm-1"><?= lang('mobile') ?></th>
                                 <th class="col-sm-1"><?= lang('phone') ?></th>

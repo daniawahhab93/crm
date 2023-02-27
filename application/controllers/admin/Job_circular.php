@@ -51,6 +51,7 @@ class Job_Circular extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $title = null;
                 $title .= '<a data-toggle="modal" data-target="#myModal_lg" class="text-info" href="' . base_url() . 'admin/job_circular/view_circular_details/' . $v_job_post->job_circular_id . '">' . $v_job_post->job_title . '</a>';
                 $sub_array[] = $title;
@@ -317,6 +318,7 @@ class Job_Circular extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $title = null;
                 $title .= '<a data-toggle="modal" data-target="#myModal_lg" class="text-info" href="' . base_url() . 'admin/job_circular/view_circular_details/' . $v_job_application->job_circular_id . '">' . $v_job_application->job_title . '</a>';
                 $sub_array[] = $title;

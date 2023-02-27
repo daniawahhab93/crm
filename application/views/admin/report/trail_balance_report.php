@@ -34,6 +34,7 @@
                 <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th style="width: 15%"><?= lang('name') ?></th>
                         <th style="width: 15%"><?= lang('date') ?></th>
                         <th><?= lang('type') ?></th>

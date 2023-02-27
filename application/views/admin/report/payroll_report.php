@@ -144,6 +144,7 @@ if ($search_type == 'employee') {
         <table class="table table-striped " id="DataTables" cellspacing="0" width="100%">
             <thead>
             <tr>
+                <th>#</th>
                 <th><?= lang('month') ?></th>
                 <th><?= lang('date') ?></th>
                 <th><?= lang('gross_salary') ?></th>

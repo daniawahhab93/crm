@@ -197,6 +197,7 @@ class Credit_note extends Admin_Controller
                     }
 
                     $sub_array = array();
+                    $sub_array[] ='';
                     $name = null;
                     $name .= '<a class="text-info" href="' . base_url() . 'admin/credit_note/index/credit_note_details/' . $v_credit_note->credit_note_id . '">' . $v_credit_note->reference_no . '</a>';
                     $sub_array[] = $name;

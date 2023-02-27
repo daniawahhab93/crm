@@ -72,6 +72,7 @@ class Training extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $name;
                 $sub_array[] = $v_training->training_name;
                 $sub_array[] = $v_training->vendor_name;

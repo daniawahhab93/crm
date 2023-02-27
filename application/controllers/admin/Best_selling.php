@@ -50,6 +50,7 @@ class Best_selling extends Admin_Controller
             $data = array();
             foreach ($fetch_data as $_key => $v_rule) {
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $v_rule->item_name;
                 $sub_array[] = $v_rule->code;
                 $sub_array[] = $v_rule->quantity;

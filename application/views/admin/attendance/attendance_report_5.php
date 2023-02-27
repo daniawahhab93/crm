@@ -54,6 +54,7 @@ if ((!empty($date)) && !empty($attendace_info)) : ?>
                     <table class="table table-striped table-bordered" id="Transation_DataTables">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th style="background-color: #eef5f7;"><?= lang('date') ?></th>
                                 <th><?= lang('time') ?></th>
                                 <th><?= lang('overtime') ?></th>

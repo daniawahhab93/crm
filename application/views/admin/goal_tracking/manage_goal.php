@@ -55,6 +55,7 @@ if (!empty($created) || !empty($edited)) {
                     <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th><?= lang('subject') ?></th>
                                 <th><?= lang('type') ?></th>
                                 <th><?= lang('achievement') ?></th>

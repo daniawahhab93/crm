@@ -65,6 +65,7 @@ class Knowledgebase extends Admin_Controller
 
 
                 $sub_array = array();
+                $sub_array[] ='';
 
                 $sub_array[] = $v_kb_category->category;;
                 $sub_array[] = $v_kb_category->description;
@@ -270,6 +271,7 @@ class Knowledgebase extends Admin_Controller
             foreach ($fetch_data as $_key => $v_kb) {
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $title = null;
                 $title .= '<a class="text-info" href="' . base_url() . 'admin/knowledgebase/details/articles/' . $v_kb->kb_id . '">' . $v_kb->title . '</a>';
                 $sub_array[] = $title;

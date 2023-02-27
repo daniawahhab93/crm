@@ -36,6 +36,7 @@ if (!empty($created) || !empty($edited)) {
                     <table class="table table-striped DataTables " id="DataTables" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th data-orderable="false">
                                     <div class="checkbox c-checkbox">
                                         <label class="needsclick">

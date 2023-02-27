@@ -184,6 +184,7 @@ class Warehouse extends Admin_Controller
                 $can_edit = $this->warehouse_model->can_action('tbl_warehouse', 'edit', array('warehouse_id' => $row->warehouse_id));
                 $can_delete = $this->warehouse_model->can_action('tbl_warehouse', 'delete', array('warehouse_id' => $row->warehouse_id));
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $row->warehouse_code;
                 $sub_array[] = $row->warehouse_name;
                 $sub_array[] = $row->phone;

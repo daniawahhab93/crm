@@ -164,6 +164,7 @@ class Tickets extends Client_Controller
                 }
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $ticket_code = null;
                 $ticket_code .= '<a class="text-info" href="' . base_url() . 'client/tickets/index/tickets_details/' . $v_tickets_info->tickets_id . '">' . $v_tickets_info->ticket_code . '</a>';
                 $sub_array[] = $ticket_code;

@@ -46,6 +46,7 @@ if (!empty($created) || !empty($edited)) {
                 <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th class="col-sm-1"><?= lang('photo') ?></th>
                             <th><?= lang('name') ?></th>
                             <th class="col-sm-2"><?= lang('username') ?></th>

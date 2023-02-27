@@ -193,6 +193,7 @@ class Leave_Management extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = '<span class="tags">' . $staff_details->fullname . '</span>';
                 $sub_array[] = '<span class="tags">' . $a_leave_category->leave_category . '</span>';
                 $date = null;
@@ -306,6 +307,7 @@ class Leave_Management extends Admin_Controller
 
                     $action = null;
                     $sub_array = array();
+                    $sub_array[] ='';
                     $sub_array[] = '<span class="tags">' . $staff_details->fullname . '</span>';
                     $sub_array[] = '<span class="tags">' . $a_leave_category->leave_category . '</span>';
                     $date = null;
@@ -400,6 +402,7 @@ class Leave_Management extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = '<span class="tags">' . $staff_details->fullname . '</span>';
                 $sub_array[] = '<span class="tags">' . $a_leave_category->leave_category . '</span>';
                 $date = null;

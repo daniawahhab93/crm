@@ -828,6 +828,7 @@ class Settings extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $v_rule->rule_name;
                 $sub_array[] = $clientname;
                 $sub_array[] = $v_rule->award_point_from;
@@ -2570,6 +2571,7 @@ class Settings extends Admin_Controller
             foreach ($fetch_data as $_key => $v_activity) {
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = display_datetime($v_activity->activity_date);
                 $sub_array[] = fullname($v_activity->user);
                 $sub_array[] = lang($v_activity->module);
@@ -2680,6 +2682,7 @@ class Settings extends Admin_Controller
                 $action = null;
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $v_custom_fields->field_label;
                 $sub_array[] = lang($form_info->form_name);
                 $sub_array[] = $type;
@@ -3982,6 +3985,7 @@ class Settings extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $v_rule->program_name;
                 $sub_array[] = $rule_name;
                 $sub_array[] = $clientname;
@@ -4072,6 +4076,7 @@ class Settings extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $v_rule->rule_name;
                 $sub_array[] = $clientname;
                 $sub_array[] = $v_rule->award_point_from;

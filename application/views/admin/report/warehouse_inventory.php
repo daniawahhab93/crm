@@ -33,6 +33,7 @@ $edited = can_action('39', 'edited');
                 <table class="table table-striped DataTables bulk_table" id="DataTables" cellspacing="0" width="100%">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th><?= lang('item') ?></th>
                         <?php
                         $invoice_view = config_item('invoice_view');

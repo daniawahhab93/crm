@@ -42,6 +42,7 @@
             <table class="table table-striped" id="DataTables" width="100%" >
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th><?= lang('job_title') ?></th>
                     <th><?= lang('name') ?></th>
                     <th><?= lang('email') ?></th>

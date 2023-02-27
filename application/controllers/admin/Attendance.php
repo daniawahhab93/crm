@@ -330,6 +330,7 @@ class Attendance extends Admin_Controller
                 $sub_array = array();
                 $emp_id = null;
                 $emp_id .= '<a class="text-info" href="' . base_url() . 'admin/user/user_details/' . $v_clock_history->user_id . '">' . $v_clock_history->employment_id . '</a>';
+                $sub_array[] ='';
                 $sub_array[] = $emp_id;
 
                 $name = null;

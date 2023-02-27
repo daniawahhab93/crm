@@ -55,6 +55,7 @@ class User extends Client_Controller
             foreach ($fetch_data as $_key => $v_user) {
                 $v_user = get_staff_details($v_user->user_id);
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = '<img style="width: 36px;margin-right: 10px;" src="' . base_url() . staffImage($v_user->user_id) . '" class="img-circle">';;
                 $sub_array[] = $v_user->fullname;
                 $sub_array[] = $v_user->username;

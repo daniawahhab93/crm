@@ -18,6 +18,7 @@
                     <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th><?= lang('program_name') ?></th>
                                 <th><?= lang('client_name') ?></th>
                                 <th><?= lang('award_name') ?></th>

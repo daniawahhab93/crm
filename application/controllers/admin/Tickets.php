@@ -218,6 +218,7 @@ class Tickets extends Admin_Controller
                     }
 
                     $sub_array = array();
+                    $sub_array[] ='';
                     if (!empty($deleted) || !empty($can_delete)) {
                         $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input value="' . $v_tickets_info->tickets_id . '" type="checkbox"><span class="fa fa-check"></span></label></div>';
                     }

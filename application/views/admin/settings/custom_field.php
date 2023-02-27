@@ -50,6 +50,7 @@ if (!empty($created) || !empty($edited)){
                     <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                         <thead>
                         <tr>
+                            <th>#</th>
                             <th><?= lang('label') ?></th>
                             <th><?= lang('custom_field_for') ?></th>
                             <th><?= lang('type') ?></th>

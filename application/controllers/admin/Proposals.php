@@ -174,6 +174,7 @@ class Proposals extends Admin_Controller
                     }
 
                     $sub_array = array();
+                    $sub_array[] ='';
                     $name = null;
                     $name .= '<a class="text-info" href="' . base_url() . 'admin/proposals/index/proposals_details/' . $v_proposals->proposals_id . '">' . $v_proposals->reference_no . '</a>';
                     if ($v_proposals->convert == 'Yes') {

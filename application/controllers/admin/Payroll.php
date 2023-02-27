@@ -708,6 +708,7 @@ class Payroll extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $v_emp_salary->employment_id;
 
                 $title = null;
@@ -986,6 +987,7 @@ class Payroll extends Admin_Controller
                 $staff_details = get_staff_details($my_salary->user_id);
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $staff_details->employment_id;
                 $sub_array[] = $staff_details->fullname;
                 $sub_array[] = display_money($my_salary->advance_amount, default_currency());
@@ -1032,6 +1034,7 @@ class Payroll extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $my_salary->employment_id;
                 $sub_array[] = $my_salary->fullname;
                 $sub_array[] = display_money($my_salary->advance_amount, default_currency());
@@ -2104,6 +2107,7 @@ class Payroll extends Admin_Controller
 
                     $action = null;
                     $psub_array = array();
+                    $psub_array[] ='';
                     $psub_array[] = date('F-Y', strtotime($v_history->payment_month));
                     $psub_array[] = display_date($v_history->paid_date);
                     $psub_array[] = display_money($total_paid_amount, default_currency());
@@ -2183,6 +2187,7 @@ class Payroll extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = date('F-Y', strtotime($v_payroll->payment_month));
                 $sub_array[] = display_date($v_payroll->paid_date);
                 $sub_array[] = display_money($total_paid_amount, default_currency());
@@ -2263,6 +2268,7 @@ class Payroll extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = date('F-Y', strtotime($v_payroll->payment_month));
                 $sub_array[] = display_date($v_payroll->paid_date);
                 $sub_array[] = display_money($total_paid_amount, default_currency());

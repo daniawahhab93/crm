@@ -72,6 +72,7 @@ class Purchase extends Admin_Controller
                     $can_delete = $this->purchase_model->can_action('tbl_purchases', 'delete', array('purchase_id' => $v_purchase->purchase_id));
 
                     $currency = $this->purchase_model->check_by(array('code' => config_item('default_currency')), 'tbl_currencies');
+                    $sub_array[] = '';
                     $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input name="row-check" class="crud_bulk_actions_row_checkbox"  data-primary-key-value="' . $v_purchase->purchase_id . '" value="' . $v_purchase->purchase_id . '" type="checkbox"><span class="fa fa-check "></span></label></div>';
                     $sub_array[] = '<a href="' . base_url() . 'admin/purchase/purchase_details/' . $v_purchase->purchase_id . '">' . ($v_purchase->reference_no) . '</a>';
                     $sub_array[] = !empty($v_purchase) ? '<span class="tags">' . $v_purchase->name . '</span>' : '-';
@@ -652,6 +653,8 @@ class Purchase extends Admin_Controller
                 } else {
                     $v_payments_info->method_name = $v_payments_info->payment_method;
                 }
+
+                $sub_array[] ='';
                 $sub_array[] = '<a href="' . base_url() . 'admin/purchase/payments_details/' . $v_payments_info->payments_id . '">' . display_date($v_payments_info->payment_date) . '</a>';
                 $sub_array[] = display_date($v_payments_info->purchase_date);
                 $sub_array[] = '<a href="' . base_url() . 'admin/purchase/purchase_details/' . $v_payments_info->purchase_id . '">' . display_date($v_payments_info->payment_date) . '</a>';

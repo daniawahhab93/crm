@@ -58,6 +58,7 @@
             <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th><?= lang('date') ?></th>
                     <th><?= lang('account_name') ?></th>
                     <th class="col-date"><?= lang('notes') ?></th>
