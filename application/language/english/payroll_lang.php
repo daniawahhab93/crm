@@ -130,3 +130,4 @@ $lang['did_not_set_salary_yet'] = 'Salary did not set yet';
 $lang['this_expense_from_salary_payment'] = "This Expense from monthly salary payment.The Reference is %s";
 $lang['new_advance_salary'] = 'new advance salary';
 $lang['apply_advance_salary'] = 'apply advance salary';
+$lang['department'] = 'Department';

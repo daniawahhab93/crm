@@ -14,15 +14,18 @@ $deleted = can_action('91', 'deleted');
 
     <!-- Table -->
     <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
+	
         <thead>
             <tr>
                 <th class="col-sm-1"><?= lang('emp_id') ?></th>
                 <th><?= lang('name') ?></th>
-                <th><?= lang('salary_type') ?></th>
+               <!-- <th><?= lang('salary_type') ?></th>-->
+                <th><?= lang('department') ?></th>
                 <th><?= lang('basic_salary') ?></th>
                 <th><?= lang('overtime') ?>
                     <small>(<?= lang('per_hour') ?>)</small>
                 </th>
+				
                 <?php if (!empty($edited)) { ?>
                 <th><?= lang('action') ?></th>
                 <?php } ?>
@@ -33,6 +36,7 @@ $deleted = can_action('91', 'deleted');
             <script type="text/javascript">
             $(document).ready(function() {
                 list = base_url + "admin/payroll/employee_salaryList";
+				
             });
             </script>
         </tbody>
