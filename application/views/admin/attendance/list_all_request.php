@@ -19,6 +19,7 @@
     <table class="table table-striped " id="DataTables" width="100%" >
         <thead>
         <tr>
+            <th>#</th>
             <th><?= lang('emp_id') ?></th>
             <th><?= lang('name') ?></th>
             <th><?= lang('time_in') ?></th>

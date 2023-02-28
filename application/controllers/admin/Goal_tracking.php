@@ -92,6 +92,7 @@ class Goal_Tracking extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $name = null;
                 $name .= '<a class="text-info" href="' . base_url() . 'admin/goal_tracking/goal_details/' . $v_goal_tracking->goal_tracking_id . '">' . $v_goal_tracking->subject . '</a>';
 

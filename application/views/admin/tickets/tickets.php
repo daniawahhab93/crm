@@ -118,6 +118,7 @@ if (!empty($created) || !empty($edited)) {
                                 width="100%">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <?php if (!empty($deleted)) { ?>
                                         <th data-orderable="false">
                                             <div class="checkbox c-checkbox">

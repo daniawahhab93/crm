@@ -80,6 +80,7 @@ if (!empty($created) || !empty($edited)) {
                         <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
+<!--                                    <th>#</th>-->
                                     <th class="col-sm-1"><?= lang('sl') ?></th>
                                     <th><?= lang('item_name') ?></th>
                                     <th><?= lang('stock_category') ?></th>

@@ -155,6 +155,7 @@ class Leads extends Admin_Controller
                 $can_delete = $this->items_model->can_action('tbl_leads', 'delete', array('leads_id' => $v_leads->leads_id));
 
                 $sub_array = array();
+                $sub_array[] ='';
                 if (!empty($deleted) || !empty($can_delete)) {
                     $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input value="' . $v_leads->leads_id . '" type="checkbox"><span class="fa fa-check"></span></label></div>';
                 }
@@ -2074,6 +2075,7 @@ class Leads extends Admin_Controller
                 if (!empty($v_leads)) {
 
                     $sub_array = array();
+                    $sub_array[] ='';
                     if (!empty($deleted)) {
                         $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input value="' . $v_leads->lead_form_id . '" type="checkbox"><span class="fa fa-check"></span></label></div>';
                     }

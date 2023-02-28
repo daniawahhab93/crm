@@ -53,12 +53,23 @@
                         <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th><?= lang('invoice') ?></th>
+                                    <th>#</th>
+                                    <th><?= lang('reference_no') ?></th>
                                     <th class="col-date"><?= lang('due_date') ?></th>
                                     <th><?= lang('client_name') ?></th>
                                     <th class="col-currency"><?= lang('due_amount') ?></th>
                                     <th><?= lang('status') ?></th>
                                     <th><?= lang('tags') ?></th>
+                                    <?php $show_custom_fields = custom_form_table(9, null);
+                                    if (!empty($show_custom_fields)) {
+                                        foreach ($show_custom_fields as $c_label => $v_fields) {
+                                            if (!empty($c_label)) {
+                                                ?>
+                                                <th><?= $c_label ?> </th>
+                                            <?php }
+                                        }
+                                    }
+                                    ?>
                                     <?php if (!empty($edited) || !empty($deleted)) { ?>
                                         <th class="hidden-print"><?= lang('action') ?></th>
                                     <?php } ?>

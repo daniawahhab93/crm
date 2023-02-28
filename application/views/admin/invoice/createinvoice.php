@@ -130,6 +130,9 @@
     <a data-toggle="modal" data-target="#myModal" href="<?= base_url() ?>admin/invoice/zipped/invoice"
        class="btn btn-success btn-xs ml-lg"><?= lang('zip_invoice') ?></a>
 
+    <a data-toggle="modal" data-target="#myModal" href="<?= base_url() ?>admin/invoice/export_to_excel/invoice"
+       class="btn btn-success btn-xs ml-lg"><?= lang('export_to_excel') ?></a>
+
     <div class="row">
         <div class="col-sm-12">
             <?php $is_department_head = is_department_head();

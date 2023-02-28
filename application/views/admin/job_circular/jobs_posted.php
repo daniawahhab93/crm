@@ -24,6 +24,7 @@ $deleted = can_action('103', 'deleted');
         <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
             <thead>
             <tr>
+                <th>#</th>
                 <th><?= lang('job_title') ?></th>
                 <th><?= lang('designation') ?></th>
                 <th><?= lang('vacancy_no') ?></th>

@@ -26,6 +26,7 @@ $deleted = can_action('186', 'deleted');
                 <table class="table table-striped DataTables " id="DataTables" width="100%">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th><?= lang('warehouse_code') ?></th>
                             <th><?= lang('warehouse_name') ?></th>
                             <th><?= lang('phone') ?></th>

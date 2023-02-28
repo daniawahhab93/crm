@@ -21,6 +21,7 @@
         <table class="table table-striped DataTables bulk_table" id="DataTables" cellspacing="0" width="100%">
             <thead>
             <tr>
+                <th>#</th>
                 <?php
                 $deleted = can_action('161', 'deleted');
                 if (!empty($deleted)) { ?>

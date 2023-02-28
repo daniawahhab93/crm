@@ -810,6 +810,7 @@ endif;
                         <table class="table table-striped" id="Transation_DataTables">
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th style="width: 200px"><?= lang('date') ?></th>
                                     <th style="width: 10px"><?= lang('module') ?></th>
                                     <th style="width: 500px"><?= lang('activity') ?></th>

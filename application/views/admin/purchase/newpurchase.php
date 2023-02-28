@@ -20,6 +20,9 @@ if (!empty($created) || !empty($edited)) {
                     href="<?= base_url('admin/purchase/new_purchase') ?>"><?= lang('new_purchase') ?></a>
         </li>
 
+        <a data-toggle="modal" data-target="#myModal" href="<?= base_url() ?>admin/invoice/export_to_excel/purchase"
+           class="btn btn-success btn-xs ml-lg" style="margin: 10px"><?= lang('export_to_excel') ?></a>
+
     </ul>
     <div class="tab-content bg-white">
         <?php

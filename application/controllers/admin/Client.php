@@ -109,6 +109,7 @@ class Client extends Admin_Controller
                 $client_outstanding = $this->invoice_model->client_outstanding($client_details->client_id);
 
                 $sub_array = array();
+                $sub_array[] ='';
                 if (!empty($deleted)) {
                     $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input value="' . $client_details->client_id . '" type="checkbox"><span class="fa fa-check"></span></label></div>';
                 }
@@ -603,6 +604,7 @@ class Client extends Admin_Controller
             foreach ($fetch_data as $_key => $contact) {
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $name = null;
                 $name .= '<a class="text-info" href="' . base_url() . 'admin/user/user_details/' . $contact->user_id . '">' . $contact->fullname . '</a>';
                 $sub_array[] = $name;
@@ -648,6 +650,7 @@ class Client extends Admin_Controller
             foreach ($fetch_data as $_key => $invoice) {
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $name = null;
                 $name .= '<a class="text-info" href="' . base_url() . 'admin/invoice/manage_invoice/invoice_details/' . $invoice->invoices_id . '">' . $invoice->reference_no . '</a>';
                 $sub_array[] = $name;
@@ -687,6 +690,7 @@ class Client extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $name = null;
                 $name .= '<a class="text-info" href="' . base_url() . 'admin/client/client_details/' . $id . '/notes/' . $v_notes->notes_id . '">' . $v_notes->notes . '</a>';
                 $sub_array[] = $name;
@@ -740,6 +744,7 @@ class Client extends Admin_Controller
                 }
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $name = null;
                 $name .= '<a class="text-info" href="' . base_url() . 'admin/invoice/manage_invoice/payments_details/' . $v_paid->payments_id . '">' . display_date($v_paid->payment_date) . '</a>';
                 $sub_array[] = $name;

@@ -43,7 +43,7 @@
 				// print_r ($selected);
             } else {
                 $warehouseList = $this->admin_model->select_data('tbl_warehouse', 'warehouse_id', 'warehouse_name', array('status' => 'published'));
-				print_r ($warehouseList);
+//				print_r ($warehouseList);
 			   $selected = (!empty($warehouseID) ? $warehouseID : '');
             }
             echo form_dropdown(' ', $warehouseList, $selected, array('class' => 'form-control selectpicker ' . (!empty($warehouseID) ? $warehouseID : 'mwarehouse') . '', 'onchange' => 'getItemByWarehouse(this.value)', 'data-live-search' => true, 'style' => 'width:100%'));

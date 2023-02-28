@@ -81,6 +81,7 @@ class Quotations extends Admin_Controller
 
                 $sub_array = array();
 
+                $sub_array[] ='';
                 $sub_array[] = '<a class="text-info" href="' . base_url() . 'admin/quotations/quotations_details/' . $v_quatations->quotations_id . '">' . $v_quatations->quotations_form_title . '</a>';
 
                 $sub_array[] = $v_quatations->name;
@@ -182,6 +183,7 @@ class Quotations extends Admin_Controller
                 $action = null;
                 $sub_array = array();
 
+                $sub_array[] ='';
                 $sub_array[] = '<a class="text-info" href="' . base_url() . 'admin/quotations/quotations_form_details/' . $v_quatations->quotationforms_id . '">' . $v_quatations->quotationforms_title . '</a>';
 
                 $sub_array[] = fullname($v_quatations->quotations_created_by_id);

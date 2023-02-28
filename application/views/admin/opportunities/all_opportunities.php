@@ -26,6 +26,7 @@ if (!empty($created) || !empty($edited)) {
                     <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th><?= lang('opportunity_name') ?></th>
                                 <th><?= lang('stages') ?></th>
                                 <th><?= lang('state') ?></th>

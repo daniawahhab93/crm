@@ -13,6 +13,7 @@
         <table class="table table-striped DataTables" id="DataTables" width="100%" >
             <thead>
             <tr>
+                <th>#</th>
                 <th><?= lang('invoice') ?></th>
                 <th><?= lang('amount') . ' ' . ('credited') ?></th>
                 <th><?= lang('date') ?></th>

@@ -106,6 +106,7 @@ if (!empty($created) || !empty($edited)) {
                     <table class="table table-striped DataTables bulk_table" id="DataTables" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <?php if (!empty($deleted)) { ?>
                                     <th data-orderable="false">
                                         <div class="checkbox c-checkbox">

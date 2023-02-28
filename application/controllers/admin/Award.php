@@ -96,6 +96,7 @@ class Award extends Admin_Controller
             $sub_array = array();
             if (!empty($v_award_info)) {
                 $staff_details = get_staff_details($v_award_info->user_id);
+                $sub_array[] ='';
                 $sub_array[] = $staff_details->employment_id;
                 $sub_array[] = $staff_details->fullname;
                 $sub_array[] = $v_award_info->award_name;

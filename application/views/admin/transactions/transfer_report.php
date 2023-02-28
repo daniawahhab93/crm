@@ -83,6 +83,7 @@
                 <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th style="width: 15%"><?= lang('date') ?></th>
                             <th style="width: 15%"><?= lang('from_account') ?></th>
                             <th style="width: 15%"><?= lang('to_account') ?></th>

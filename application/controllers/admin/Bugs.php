@@ -132,6 +132,7 @@ class Bugs extends Admin_Controller
 
                     $sub_array = array();
 
+                    $sub_array[] ='';
                     $name = null;
                     $name .= '<a class="text-info" href="' . base_url() . 'admin/bugs/view_bug_details/' . $v_bugs->bug_id . '">' . $v_bugs->bug_title . '</a>';
 

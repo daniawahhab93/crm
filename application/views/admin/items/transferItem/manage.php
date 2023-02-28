@@ -30,6 +30,15 @@ $deleted = can_action('187', 'deleted');
                     <thead>
                         <tr>
                             <th>#</th>
+                            <?php if (!empty($deleted)) { ?>
+                                <th data-orderable="false">
+                                    <div class="checkbox c-checkbox">
+                                        <label class="needsclick">
+                                            <input id="select_all" type="checkbox">
+                                            <span class="fa fa-check"></span></label>
+                                    </div>
+                                </th>
+                            <?php } ?>
                             <th><?= lang('reference_no') ?></th>
                             <th><?= lang('date') ?></th>
                             <th><?=  lang('FROM').' '.lang('warehouse')   ?></th>

@@ -117,6 +117,7 @@ class Transactions extends Admin_Controller
                     }
 
                     $sub_array = array();
+                    $sub_array[] ='';
                     if (!empty($deleted) || !empty($can_delete)) {
                         $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input value="' . $v_deposit->transactions_id . '" type="checkbox"><span class="fa fa-check"></span></label></div>';
                     }
@@ -709,6 +710,7 @@ class Transactions extends Admin_Controller
                                                                 class="fa fa-retweet"></i></span>';
                 }
                 $sub_array = array();
+                $sub_array[] ='';
                 if (!empty($deleted) || !empty($can_delete)) {
                     $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input value="' . $v_expense->transactions_id . '" type="checkbox"><span class="fa fa-check"></span></label></div>';
                 }
@@ -1425,6 +1427,7 @@ class Transactions extends Admin_Controller
                 $from_account_info = $this->transactions_model->check_by(array('account_id' => $v_transfer->from_account_id), 'tbl_accounts');
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = (!empty($from_account_info->account_name) ? $from_account_info->account_name : '-');
                 $sub_array[] = (!empty($to_account_info->account_name) ? $to_account_info->account_name : '-');
 
@@ -1795,6 +1798,7 @@ class Transactions extends Admin_Controller
                 $account_info = $this->transactions_model->check_by(array('account_id' => $v_transaction->account_id), 'tbl_accounts');
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = strftime(config_item('date_format'), strtotime($v_transaction->date));
                 $sub_array[] = (!empty($account_info->account_name) ? $account_info->account_name : '-');
                 $sub_array[] = lang($v_transaction->type);
@@ -1881,6 +1885,7 @@ class Transactions extends Admin_Controller
                 $from_account_info = $this->transactions_model->check_by(array('account_id' => $v_transfer->from_account_id), 'tbl_accounts');
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = strftime(config_item('date_format'), strtotime($v_transfer->date));
                 $sub_array[] = (!empty($from_account_info->account_name) ? $from_account_info->account_name : '-');
                 $sub_array[] = (!empty($from_account_info->account_name) ? $to_account_info->account_name : '-');

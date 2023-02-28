@@ -115,6 +115,7 @@ $deleted = can_action('137', 'deleted');
         <table id="table-translations-files" class="table table-striped b-t b-light AppendDataTables">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th class="col-xs-2 no-sort"><?= lang('type') ?></th>
                     <th class="col-xs-3"><?= lang('file') ?></th>
                     <th class="col-xs-4"><?= lang('progress') ?></th>
@@ -202,6 +203,7 @@ $deleted = can_action('137', 'deleted');
         <table id="table-strings" class="table table-striped b-t b-light AppendDataTables">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th class="col-xs-5">English</th>
                     <th class="col-xs-7"><?= ucwords(str_replace("_", " ", $language)) ?></th>
                 </tr>

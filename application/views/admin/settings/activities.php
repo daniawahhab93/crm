@@ -46,6 +46,7 @@
                     <table class="table table-striped" id="DataTables" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th class="col-xs-2"><?= lang('activity_date') ?></th>
                                 <th class="col-xs-3"><?= lang('user') ?></th>
                                 <th class="col-xs-1"><?= lang('module') ?></th>

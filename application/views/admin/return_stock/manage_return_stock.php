@@ -18,6 +18,10 @@ if (!empty($created) || !empty($edited)) {
         <li class="<?= $active == 2 ? 'active' : ''; ?>"><a
                 href="<?= base_url('admin/return_stock/create_returnstock') ?>"><?= lang('new_return_stock') ?></a>
         </li>
+
+        <a data-toggle="modal" data-target="#myModal" href="<?= base_url() ?>admin/return_stock/export_to_excel/return_stock"
+           class="btn btn-success btn-xs ml-lg" style="margin: 10px"><?= lang('export_to_excel') ?></a>
+
     </ul>
     <div class="tab-content bg-white">
         <!-- ************** general *************-->
@@ -32,6 +36,14 @@ if (!empty($created) || !empty($edited)) {
                     <table class="table table-striped DataTables " id="DataTables" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
+                                <th data-orderable="false">
+                                    <div class="checkbox c-checkbox">
+                                        <label class="needsclick">
+                                            <input id="check_all" type="checkbox">
+                                            <span class="fa fa-check"></span></label>
+                                    </div>
+                                </th>
                                 <th><?= lang('reference_no') ?></th>
                                 <th><?= lang('supplier_client') ?></th>
                                 <th><?= lang('return_stock_date') ?></th>
@@ -56,7 +68,33 @@ if (!empty($created) || !empty($edited)) {
     </div>
     <script type="text/javascript">
     $(document).ready(function() {
-        <?php if (isset($return_stock_info)) {
+        $(function() {
+            //If check_all checked then check all table rows
+            $("#check_all").on("click", function () {
+                if ($("input:checkbox").prop("checked")) {
+                    $("input:checkbox[name='row-check']").prop("checked", true);
+                } else {
+                    $("input:checkbox[name='row-check']").prop("checked", false);
+                }
+            });
+
+            // Check each table row checkbox
+            $("input:checkbox[name='row-check']").on("click", function () {
+                var total_check_boxes = $("input:checkbox[name='row-check']").length;
+                var total_checked_boxes = $("input:checkbox[name='row-check']:checked").length;
+
+                // If all checked manually then check check_all checkbox
+                if (total_check_boxes === total_checked_boxes) {
+                    $("#check_all").prop("checked", true);
+                }
+                else {
+                    $("#check_all").prop("checked", false);
+                }
+            });
+        });
+
+
+    <?php if (isset($return_stock_info)) {
                     if (!empty($supplier_id)) {
                         $val = $supplier_id;
                         $name = 'supplier_id';

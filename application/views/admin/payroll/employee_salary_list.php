@@ -17,6 +17,7 @@ $deleted = can_action('91', 'deleted');
 	
         <thead>
             <tr>
+                <th>#</th>
                 <th class="col-sm-1"><?= lang('emp_id') ?></th>
                 <th><?= lang('name') ?></th>
                <!-- <th><?= lang('salary_type') ?></th>-->

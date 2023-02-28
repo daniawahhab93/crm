@@ -24,6 +24,7 @@ if (!empty($created) || !empty($edited)) {
                     <table class="table table-striped DataTables " id="DataTables" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th><?= lang('shift_name') ?></th>
                                 <th><?= lang('start_time') ?></th>
                                 <th><?= lang('end_time') ?></th>

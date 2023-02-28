@@ -105,6 +105,7 @@ class Office_items extends Admin_Controller
                 $item_name = !empty($v_items->item_name) ? $v_items->item_name : $v_items->item_name;
 
                 $sub_array = array();
+                $sub_array[] ='';
                 if (!empty($deleted)) {
                     $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input value="' . $v_items->items_id . '" type="checkbox"><span class="fa fa-check"></span></label></div>';
                 }
@@ -657,6 +658,7 @@ class Office_items extends Admin_Controller
                 $tomane = get_row('tbl_warehouse', array('warehouse_id' => $v_items->to_warehouse_id));
 
                 $sub_array = array();
+                $sub_array[] ='';
                 if (!empty($deleted)) {
                     $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input value="' . $v_items->transfer_itemList_id . '" type="checkbox"><span class="fa fa-check"></span></label></div>';
                 }

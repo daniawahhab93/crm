@@ -1,5 +1,6 @@
 <script type="text/javascript">
     function fire_datatable(req_url, ttable = null) {
+        var index = 0;
         // For some browsers, `attr` is undefined; for others,
         // `attr` is false.  Check for both.
         //alert(ttable);
@@ -156,6 +157,10 @@
                     },
                 },
                 'fnCreatedRow': function(nRow, aData, iDataIndex) {
+                   index = index  +1;
+                    $('td:eq(0)',nRow).html(index);
+                    // return nRow;
+
                     $(nRow).attr('id', 'table_' + iDataIndex); // or whatever you choose to set as the id
                 },
                 // Text translation options

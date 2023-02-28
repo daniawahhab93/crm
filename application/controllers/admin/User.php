@@ -140,6 +140,7 @@ class User extends Admin_Controller
                     $can_delete = $this->user_model->can_action('tbl_users', 'delete', array('user_id' => $v_user->user_id));
 
                     $sub_array = array();
+                    $sub_array[] ='';
                     $sub_array[] = '<img style="width: 36px;margin-right: 10px;" src="' . base_url() . staffImage($v_user->user_id) . '" class="img-circle">';;
                     $sub_array[] = '<a class="text-info" href="' . base_url() . 'admin/user/user_details/' . $v_user->user_id . '">' . $v_user->fullname . '</a>';;
                     $sub_array[] = $account_info->username;
@@ -1406,6 +1407,7 @@ class User extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $clientname;
                 $sub_array[] = "<a href='" . base_url('admin/invoice/manage_invoice/invoice_details/' . $v_rule->invoices_id) . "' >" . $v_rule->reference_no . "</a>";;
                 $sub_array[] = strftime(config_item('date_format'), strtotime($v_rule->date));

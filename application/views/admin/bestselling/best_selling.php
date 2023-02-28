@@ -14,6 +14,7 @@
                     <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th><?= lang('name') ?></th>
                                 <th><?= lang('code') ?></th>
                                 <th><?= lang('quantity') ?></th>

@@ -12,6 +12,7 @@ $deleted = can_action('129', 'deleted');
             <table class="table table-striped DataTables ">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th class="col-sm-3"><?= lang('opportunities_state') ?></th>
                     <th><?= lang('reason') ?></th>
                     <?php if (!empty($edited) || !empty($deleted)) { ?>

@@ -99,6 +99,7 @@ if (!empty($edited) && !empty($deleted)) {
             <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th><?= lang('payment_date') ?></th>
                         <th><?= lang('invoice_date') ?></th>
                         <th><?= lang('reference_no') ?></th>

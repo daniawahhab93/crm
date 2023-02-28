@@ -18,6 +18,9 @@ if (!empty($created) || !empty($edited)) {
         <li class="<?= $active == 2 ? 'active' : ''; ?>"><a
                 href="<?= base_url('admin/return_stock/create_returnstock') ?>"><?= lang('new_return_stock') ?></a>
         </li>
+          <a data-toggle="modal" data-target="#myModal" href="<?= base_url() ?>admin/return_stock/export_to_excel/return_stock"
+           class="btn btn-success btn-xs ml-lg" style="margin: 10px"><?= lang('export_to_excel') ?></a>
+
     </ul>
     <div class="tab-content bg-white">
         <?php

@@ -74,6 +74,7 @@ if (!empty($created) || !empty($edited)) {
                     <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th><?= lang('from_account') ?></th>
                                 <th><?= lang('to_account') ?></th>
                                 <th class="col-currency"><?= lang('amount') ?></th>

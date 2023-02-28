@@ -77,6 +77,7 @@ class Announcements extends Admin_Controller
             foreach ($fetch_data as $_key => $v_announcements) {
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $v_announcements->title;
                 $sub_array[] = fullname($v_announcements->user_id);
                 $sub_array[] = display_date($v_announcements->start_date);

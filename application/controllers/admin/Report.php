@@ -72,6 +72,7 @@ class Report extends Admin_Controller
                 $account_info = $this->transactions_model->check_by(array('account_id' => $v_deposit->account_id), 'tbl_accounts');
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $name = null;
                 $name .= '<a data-toggle="modal" data-target="#myModal" class="text-info" href="' . base_url() . 'admin/transactions/view_expense/' . $v_deposit->transactions_id . '">' . display_date($v_deposit->date) . '</a>';
                 $sub_array[] = $name;
@@ -127,6 +128,7 @@ class Report extends Admin_Controller
 
                 $sub_array = array();
 
+                $sub_array[] ='';
                 $date = null;
                 $date .= '<a class="text-info" href="' . base_url() . 'admin/transactions/view_expense/' . $v_expense->transactions_id . '">' . strftime(config_item('date_format'), strtotime($v_expense->date)) . '</a>';
                 $sub_array[] = $date;
@@ -1640,6 +1642,7 @@ class Report extends Admin_Controller
 
                     $action = null;
                     $psub_array = array();
+                    $psub_array[] ='';
                     $psub_array[] = date('F-Y', strtotime($v_history->payment_month));
                     $psub_array[] = display_date($v_history->paid_date);
                     $psub_array[] = display_money($total_paid_amount, default_currency());
@@ -1726,6 +1729,7 @@ class Report extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = date('F-Y', strtotime($v_payroll->payment_month));
                 $sub_array[] = display_date($v_payroll->paid_date);
                 $sub_array[] = display_money($total_paid_amount, default_currency());
@@ -1793,6 +1797,7 @@ class Report extends Admin_Controller
                 $account_info = $this->transactions_model->check_by(array('account_id' => $v_transaction->account_id), 'tbl_accounts');
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $client_name = '-';
                 $client_info = $this->transactions_model->check_by(array('client_id' => $v_transaction->paid_by), 'tbl_client');
                 if (!empty($client_info)) {
@@ -1877,6 +1882,7 @@ class Report extends Admin_Controller
                 $item_name = !empty($v_items->item_name) ? $v_items->item_name : $v_items->item_name;
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = '<a data-toggle="modal" data-target="#myModal_extra_lg" href="' . base_url('admin/items/items_details/' . $v_items->saved_items_id) . '"><strong class="block">' . $item_name . '</strong></a>';
 
                 $invoice_view = config_item('invoice_view');
@@ -2056,6 +2062,7 @@ class Report extends Admin_Controller
                 $item_name = !empty($v_items->item_name) ? $v_items->item_name : $v_items->item_name;
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = '<a data-toggle="modal" data-target="#myModal_extra_lg" href="' . base_url('admin/items/items_details/' . $v_items->saved_items_id) . '"><strong class="block">' . $item_name . '</strong></a>';
 
                 $invoice_view = config_item('invoice_view');
@@ -2145,6 +2152,62 @@ class Report extends Admin_Controller
     public function warehouses_report_details()
     {
         $data['title'] = lang('warehouses_report_details');
+        $warehouse_id = 'all';
+        $quantity = 'all';
+        $cost = 'all';
+        $start_date = null;
+        $end_date = null;
+
+        $this->warehouse_model->_table_name = 'tbl_warehouses_products';
+        $this->warehouse_model->_order_by = 'id';
+        $this->db->join('tbl_saved_items', 'tbl_saved_items.saved_items_id=tbl_warehouses_products.product_id');
+        $this->db->join('tbl_warehouse', 'tbl_warehouse.warehouse_id=tbl_warehouses_products.warehouse_id');
+
+        if ($this->input->post()) {
+            $warehouse_id = $this->input->post('warehouse_id');
+            $quantity = $this->input->post('quantity');
+//            $range = explode('-', $this->input->post('range', true));
+//            if (!empty($range[0])) {
+//                $start_date = date('Y-m-d', strtotime($range[0]));
+//                $end_date = date('Y-m-d', strtotime($range[1]));
+//                $this->db->where('tbl_warehouses_products.quantity >=', 0);
+//
+//                $data['range'] = array($start_date, $end_date);
+//            }
+
+            if ($quantity != 'all') {
+                if ($quantity == 'available_quantity') {
+                    $this->db->where('tbl_warehouses_products.quantity >=', 0);
+                } elseif ($quantity == 'negative_quantity') {
+                    $this->db->where('tbl_warehouses_products.quantity <', 0);
+                }
+            }
+
+            if ($warehouse_id != 'all') {
+                $this->db->where('tbl_warehouses_products.warehouse_id =', $warehouse_id);
+            }
+
+            if ($cost != 'all') {
+                if ($cost == 'negative_cost_price') {
+                    $this->db->where('cost_price <', 0);
+                }
+            }
+        }
+
+//        $range = array($start_date, $end_date);
+
+        $data['items'] = $this->warehouse_model->get();
+
+        $data['warehouse_id'] = $warehouse_id;
+        $data['quantity'] = $quantity;
+        $data['cost'] = $cost;
+        $data['subview'] = $this->load->view('admin/report/warehouses_report_details', $data, TRUE);
+        $this->load->view('admin/_layout_main', $data); //page load
+    }
+
+    public function warehouses_report_summarized()
+    {
+        $data['title'] = lang('warehouses_report_summarized');
         $warehouse_id = 'all';
         $quantity = 'all';
         $cost = 'all';

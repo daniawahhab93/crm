@@ -48,7 +48,7 @@ class Datatables extends MY_Model
         if (!empty($this->column_search)) {
             foreach ($this->column_search as $item) // loop column
             {
-                if ($_POST['search']['value']) // if datatable send POST for search
+                if (isset($_POST['search']) && $_POST['search']['value']) // if datatable send POST for search
                 {
                     if ($i === 0) // first loop
                     {

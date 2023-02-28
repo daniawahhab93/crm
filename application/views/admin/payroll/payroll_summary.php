@@ -197,6 +197,7 @@ if ($search_type == 'employee') {
         <table class="table table-striped " id="DataTables" cellspacing="0" width="100%">
             <thead>
             <tr>
+                <th>#</th>
                 <th><?= lang('month') ?></th>
                 <th><?= lang('date') ?></th>
                 <th><?= lang('gross_salary') ?></th>
@@ -220,7 +221,9 @@ if ($search_type == 'employee') {
 
                     <?php if($search_type == 'period'){?>
                     list = base_url + "admin/payroll/payment_historyPeriod/<?= $pdf ?>";
-                    <?php }?>
+                    <?php }
+
+                    ?>
                 });
             </script>
 
@@ -317,6 +320,7 @@ if ($search_type == 'employee') {
             <table class="table table-striped" id="Transation_DataTables">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th class="col-xs-2"><?= lang('activity_date') ?></th>
                     <th class="col-xs-3"><?= lang('user') ?></th>
                     <th class="col-xs-1"><?= lang('module') ?></th>
@@ -329,10 +333,11 @@ if ($search_type == 'employee') {
                 <?php
                 $activities_info = $this->db->where('module', 'payroll')->get('tbl_activities')->result();
                 if (!empty($activities_info)) {
-                    foreach ($activities_info as $v_activity) {
+                    foreach ($activities_info as $index=>$v_activity) {
 
                         ?>
                         <tr>
+                            <td><?= $index+1?></td>
                             <td><?= display_datetime($v_activity->activity_date); ?></td>
                             <td><?= $this->db->where('user_id', $v_activity->user)->get('tbl_account_details')->row()->fullname; ?></td>
                             <td><?= $v_activity->module ?></td>

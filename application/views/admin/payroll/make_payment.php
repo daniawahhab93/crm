@@ -632,6 +632,7 @@ $deleted = can_action('92', 'deleted');
                     <table class="table table-striped " id="DataTables" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th><?= lang('month') ?></th>
                                 <th><?= lang('date') ?></th>
                                 <th><?= lang('gross_salary') ?></th>

@@ -14,6 +14,7 @@ $deleted = can_action('152', 'deleted');
         <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th><?= lang('payment_date') ?></th>
                     <th><?= lang('purchase_date') ?></th>
                     <th><?= lang('purchase') ?></th>

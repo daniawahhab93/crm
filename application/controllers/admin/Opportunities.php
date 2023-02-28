@@ -93,6 +93,7 @@ class Opportunities extends Admin_Controller
 
                 $sub_array = array();
 
+                $sub_array[] ='';
                 $name = null;
                 $name .= '<a class="text-info" href="' . base_url() . 'admin/opportunities/opportunity_details/' . $v_opportunity->opportunities_id . '">' . $v_opportunity->opportunity_name . '</a>';
                 if (strtotime($v_opportunity->close_date) < strtotime(date('Y-m-d')) && $v_opportunity->probability < 100) {

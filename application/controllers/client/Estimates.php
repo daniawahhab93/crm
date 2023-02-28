@@ -131,6 +131,7 @@ class Estimates extends Client_Controller
                 }
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $name = null;
                 $name .= '<a class="text-info" href="' . base_url() . 'client/estimates/index/estimates_details/' . $v_estimates->estimates_id . '">' . $v_estimates->reference_no . '</a>';
                 if ($v_estimates->invoiced == 'Yes') {

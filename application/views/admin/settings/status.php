@@ -15,6 +15,7 @@
                 <table class="table table-striped DataTables" id="DataTables" width="100%" >
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th><?= $status ?></th>
                         <th class="col-options no-sort"><?= lang('action') ?></th>
                     </tr>

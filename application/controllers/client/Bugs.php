@@ -72,6 +72,7 @@ class Bugs extends Client_Controller
                 $action = null;
 
                 $sub_array = array();
+                $sub_array[] ='';
                 $issue_no = null;
                 $issue_no .= '<a class="text-info" href="' . base_url() . 'client/bugs/view_bug_details/' . $v_bugs->bug_id . '">' . $v_bugs->issue_no . '</a>';
                 $sub_array[] = $issue_no;

@@ -1143,4 +1143,70 @@ class Invoice_Model extends MY_Model
         return false;
     }
 
+    public function get_invoice_fields_for_excel()
+    {
+        $fields = array(
+            array(
+                'id' => 1,
+                'value' => 'reference_no',
+                'name' => lang('reference_no'),
+                'order' => 1,
+            ),
+            array(
+                'id' => 2,
+                'value' => 'invoice_date',
+                'name' => lang('invoice_date'),
+                'order' => 2,
+            ),
+            array(
+                'id' => 3,
+                'value' => 'due_date',
+                'name' => lang('due_date'),
+                'order' => 3,
+            ),
+            array(
+                'id' => 4,
+                'value' => 'client_id',
+                'name' => lang('client_name'),
+                'order' => 1,
+            ), array(
+                'id' => 5,
+                'value' => 'due_amount',
+                'name' => lang('due_amount'),
+                'order' => 1,
+            ), array(
+                'id' => 6,
+                'value' => 'status',
+                'name' => lang('status'),
+                'order' => 1,
+            ), array(
+                'id' => 7,
+                'value' => 'tags',
+                'name' => lang('tags'),
+                'order' => 1,
+            ),
+        );
+
+
+        $this->db->select('invoice_year');
+        $this->db->group_by('invoice_year');
+        $result = $this->db->get('tbl_invoices')->result();
+//        if (!empty($result)) {
+//            foreach ($result as $v_year) {
+//                $test = array(
+//                    'id' => 1,
+//                    'value' => '_' . $v_year->invoice_year,
+//                    'name' => $v_year->invoice_year,
+//                    'order' => 1
+//                );
+//                if (!empty($test)) {
+//                    array_push($fields, $test);
+//                }
+//            }
+//        }
+        return $fields;
+
+    }
+
+
 }

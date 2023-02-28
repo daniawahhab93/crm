@@ -11,6 +11,7 @@ class Return_stock extends Admin_Controller
         parent::__construct();
         $this->load->model('return_stock_model');
         $this->load->library('gst');
+        $this->load->library('excel');
     }
 
     public function index($id = NULL)
@@ -62,7 +63,8 @@ class Return_stock extends Admin_Controller
                     $can_delete = $this->return_stock_model->can_action('tbl_return_stock', 'delete', array('return_stock_id' => $v_return_stock->return_stock_id));
 
                     $currency = $this->return_stock_model->check_by(array('code' => config_item('default_currency')), 'tbl_currencies');
-
+                    $sub_array[] = '';
+                    $sub_array[] = '<div class="checkbox c-checkbox" ><label class="needsclick"> <input name="row-check" class="crud_bulk_actions_row_checkbox"  data-primary-key-value="' . $v_return_stock->return_stock_id . '" value="' . $v_return_stock->return_stock_id . '" type="checkbox"><span class="fa fa-check "></span></label></div>';
                     $sub_array[] = '<a href="' . base_url() . 'admin/return_stock/return_stock_details/' . $v_return_stock->return_stock_id . '">' . ($v_return_stock->reference_no) . '</a>';
                     if ($v_return_stock->module == 'client') {
                         $client_info = $this->return_stock_model->check_by(array('client_id' => $v_return_stock->module_id), 'tbl_client');
@@ -639,6 +641,8 @@ class Return_stock extends Admin_Controller
                 } else {
                     $v_payments_info->method_name = $v_payments_info->payment_method;
                 }
+
+                $sub_array[] ='';
                 $sub_array[] = '<a href="' . base_url() . 'admin/return_stock/payments_details/' . $v_payments_info->payments_id . '">' . display_date($v_payments_info->payment_date) . '</a>';
                 $sub_array[] = display_date($v_payments_info->return_stock_date);
                 $sub_array[] = '<a href="' . base_url() . 'admin/return_stock/return_stock_details/' . $v_payments_info->return_stock_id . '">' . display_date($v_payments_info->payment_date) . '</a>';
@@ -1055,4 +1059,167 @@ The " . config_item('company_name') . " Team </p > ";
         echo json_encode($invoice_items);
         exit();
     }
+
+    public function export_to_excel($module, $supplier_id = null, $id = null)
+    {
+        if ($this->input->post()) {
+            if ($module == 'return_stock') {
+                $return_stocks_ids = explode(",", $this->input->post('return_stocks_ids'));
+
+                $all_return_stocks = [];
+                if ($this->input->post('from_date') && $this->input->post('to_date')) {
+                    $from_date = $this->input->post('from_date', true);
+                    $to_date = $this->input->post('to_date', true);
+                    if (!empty($supplier_id)) {
+                        $this->db->where('supplier_id', $supplier_id);
+                    }
+                    if ($return_stocks_ids)
+                        $this->db->where_in('return_stock_id', $return_stocks_ids);
+                    $this->db->where('return_stock_date BETWEEN "' . $from_date . '" AND "' . $to_date . '"');
+                    $this->db->order_by('return_stock_id','desc');
+                    $all_return_stocks = $this->db->get('tbl_return_stock')->result();
+                } else {
+                    if ($return_stocks_ids)
+                        $this->db->where_in('return_stock_id', $return_stocks_ids);
+                    $this->db->order_by('return_stock_id','desc');
+                    $all_return_stocks = $this->db->get('tbl_return_stock')->result();
+                }
+
+                $this->excel->setActiveSheetIndex(0);
+                //name the worksheet
+                $this->excel->getActiveSheet()->setTitle('return_stocks');
+
+                //set cell A1 content with some text
+                $array_of_row_one = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'G1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1', 'R1', 'S1', 'T1', 'U1', 'V1', 'W1', 'X1', 'Y1', 'Z1',
+                    'A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2', 'H2', 'I2', 'G2', 'K2', 'L2', 'M2', 'N2', 'O2', 'P2', 'Q2', 'R2', 'S2', 'T2', 'U2', 'V2', 'W2', 'X2', 'Y2', 'Z2',];
+                $array_of_cells = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'G', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                    'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AG', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ'
+                ];
+
+                $index = 0;
+                $fields_for_get_values = [];
+                $label_of_fields = $this->return_stock_model->get_return_stock_fields_for_excel();
+                foreach ($label_of_fields as $i => $label) {
+                    if ($this->input->post('return_stock_field_' . $label['value'])) {
+                        //               //make the font become bold
+                        $this->excel->getActiveSheet()->getStyle($array_of_row_one[$index])->getFont()->setBold(true);
+                        $this->excel->getActiveSheet()->getStyle($array_of_row_one[$index])->getFont()->setSize(14);
+                        //              $this->excel->getActiveSheet()->getStyle('A1')->getFill()->getStartColor()->setARGB('#333');
+
+                        $this->excel->getActiveSheet()->setCellValue($array_of_row_one[$index], lang($label['value']));
+                        $fields_for_get_values[] = $label['value'];
+                        $index++;
+                    }
+                }
+                $this->excel->getActiveSheet()->getStyle($array_of_row_one[$index])->getFont()->setBold(true);
+                $this->excel->getActiveSheet()->getStyle($array_of_row_one[$index])->getFont()->setSize(14);
+                $this->excel->getActiveSheet()->setCellValue($array_of_row_one[$index++], lang('items'));
+
+                $sheet = $this->excel->getActiveSheet();
+                $rows = 2;
+
+                foreach ($all_return_stocks as $val) {
+                    $i = 0;
+
+                    if (in_array('reference_no', $fields_for_get_values)) {
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, $val->reference_no);
+                    }
+                    if (in_array('supplier_client', $fields_for_get_values)) {
+                        if ($val->module == 'client') {
+                            $client_info = $this->return_stock_model->check_by(array('client_id' => $val->module_id), 'tbl_client');
+                        } else if ($val->module == 'supplier') {
+                            $client_info = $this->return_stock_model->check_by(array('supplier_id' => $val->module_id), 'tbl_suppliers');
+                        }
+                        $client_name = '-';
+                        if (!empty($client_info)) {
+                            $client_name = lang($val->module) . ': ' . $client_info->name;
+                        }
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows,$client_name);
+                    }
+
+                    if (in_array('return_stock_date', $fields_for_get_values)) {
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, $val->return_stock_date);
+                    }
+                    if (in_array('due_date', $fields_for_get_values)) {
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, $val->due_date);
+
+                    }
+                    if (in_array('due_amount', $fields_for_get_values)) {
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $currency = $this->return_stock_model->check_by(array('code' => config_item('default_currency')), 'tbl_currencies');
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, display_money($this->return_stock_model->calculate_to('return_stock_due', $val->return_stock_id), $currency->symbol));
+
+                    }
+                    if (in_array('status', $fields_for_get_values)) {
+                        $payment_status = $this->return_stock_model->get_payment_status($val->return_stock_id);
+
+                        $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, lang($payment_status));
+
+                    }
+
+                    $return_stock_items = $this->return_stock_model->ordered_items_by_id($val->return_stock_id);
+                    if (!empty($return_stock_items)) {
+                        $row_content = '';
+                        foreach ($return_stock_items as $key => $v_item) {
+                            $item_name = $v_item->item_name ? $v_item->item_name : $v_item->item_desc;
+                            $item_tax_name = json_decode($v_item->item_tax_name);
+
+                            $row_content .= lang('item_name') . ': ' . $item_name . ' , ';
+//                            $row_content .= lang('item_desc') . ': ' . nl2br($v_item->item_desc) . ' ,';
+
+                            $return_stock_view = config_item('return_stock_view');
+                            if (!empty($return_stock_view) && $return_stock_view == '2') {
+                                $row_content .= lang('hsn_code') . ': ' . $v_item->hsn_code . ' , ';
+                            }
+                            $row_content .= lang('qty') . ': ' . $v_item->quantity . ' ' . $v_item->unit . ' , ';
+                            $row_content .= lang('price') . ': ' . display_money($v_item->unit_cost) . ' , ';
+
+                            if (!empty($item_tax_name)) {
+                                $row_content .= lang('tax') . ': ';
+                                foreach ($item_tax_name as $v_tax_name) {
+                                    $i_tax_name = explode('|', $v_tax_name);
+                                    $row_content .= $i_tax_name[0] . ' (' . $i_tax_name[1] . ' %)' . display_money($v_item->total_cost / 100 * $i_tax_name[1]) . " \r\n" . ' , ';
+                                }
+                            }
+                            $row_content .= lang('total') . ': ' . display_money($v_item->total_cost) . "\r\n";
+
+                        }
+
+                        $this->excel->getActiveSheet()->getRowDimension($rows)->setRowHeight(100);
+                        $this->excel->getActiveSheet()->getColumnDimension($array_of_cells[$i])->setWidth(150);
+                        $this->excel->getActiveSheet()->getStyle($array_of_cells[$i])->getAlignment()->setWrapText(true);
+
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, $row_content);
+
+                    } else {
+                        $sheet->setCellValue($array_of_cells[$i++] . $rows, '');
+                    }
+                    $rows++;
+                }
+//die;
+                $filename = 'return_stocks.xls';
+                header('Content-Type: application/vnd.ms-excel'); //mime type
+                header('Content-Disposition: attachment;filename="' . $filename . '"'); //tell browser what's the file name
+                header('Cache-Control: max-age=0'); //no cache
+
+                //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                //if you want to save it as .XLSX Excel 2007 format
+                $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+                //force user to download the Excel file without writing it to server's HD
+                $objWriter->save('php://output');
+            }
+        } else {
+            $data['title'] = lang('export_to_excel_' . $module);
+            $data['supplier_id'] = $supplier_id;
+            $data['module'] = $module;
+            $data['subview'] = $this->load->view('admin/return_stock/export_to_excel', $data, FALSE);
+            $this->load->view('admin/_layout_modal', $data);
+        }
+    }
+
 }

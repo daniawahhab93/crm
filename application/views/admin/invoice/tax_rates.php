@@ -24,6 +24,7 @@ if (!empty($created) || !empty($edited)) {
                     <table class="table table-striped DataTables " id="DataTables" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th><?= lang('tax_rate_name') ?></th>
                                 <th><?= lang('tax_rate_percent') ?></th>
                                 <?php if (!empty($edited) || !empty($deleted)) { ?>

@@ -768,6 +768,10 @@ $lang['code_contain'] = 'الكود يحتوي:';
 $lang['desc_contain'] = 'الوصف يحتوي:';
 $lang['search_product'] = '(F12) البحث عن الأصناف';
 $lang['quantity_in_warehouse'] = 'الكمية في المستودع';
+$lang['export_to_excel'] = 'استخراج إلى اكسل';
+$lang['fields'] = 'الحقول';
+$lang['client_id'] = 'اسم العميل';
+$lang['supplier_id'] = 'اسم المورد';
 
 /* End of file main_lang.php */
 /* Location: ./application/language/arabic/main_lang.php */

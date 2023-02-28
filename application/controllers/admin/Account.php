@@ -159,6 +159,7 @@ class Account extends Admin_Controller
                 $can_edit = $this->account_model->can_action('tbl_accounts', 'edit', array('account_id' => $row->account_id));
                 $can_delete = $this->account_model->can_action('tbl_accounts', 'delete', array('account_id' => $row->account_id));
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $row->account_name;
                 $sub_array[] = $row->description;
                 $sub_array[] = $row->account_number;

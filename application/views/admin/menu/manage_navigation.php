@@ -17,6 +17,7 @@
             <table class="table table-striped" id="Transation_DataTables">
                 <thead>
                     <tr class="active" >
+                        <th>#</th>
                         <th class="col-sm-1">SL</th>
                         <th>Label</th>
                         <th>Icon</th>

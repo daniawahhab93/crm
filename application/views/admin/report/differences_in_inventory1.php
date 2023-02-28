@@ -68,6 +68,7 @@
                 <table class="table table-striped DataTables bulk_table" id="DataTables" cellspacing="0" width="100%">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th><?= lang('item') ?></th>
                         <th class="col-sm-1"><?= lang('value1') ?></th>
                         <th class="col-sm-1"><?= lang('value2') ?></th>

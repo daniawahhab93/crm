@@ -54,6 +54,7 @@ class Supplier extends Admin_Controller
             foreach ($fetch_data as $_key => $v_items) {
                 $action = null;
                 $sub_array = array();
+                $sub_array[] ='';
                 $sub_array[] = $v_items->name;
                 $sub_array[] = $v_items->mobile;
                 $sub_array[] = $v_items->phone;
