@@ -116,8 +116,17 @@
                                 } else {
                                     $payment_methods->method_name = $v_payment_history->payment_method;
                                 }
-                                $account = get_row('tbl_accounts', array('account_id' => $v_payment_history->account_id), 'account_name')
-                            ?>
+                                $account = '';
+                                $accounts = json_decode($v_payment_history->account_id);
+                                if (is_array($accounts))
+                                    foreach ($accounts as $i => $a) {
+                                        $account .= get_row('tbl_accounts', array('account_id' => $a), 'account_name');
+                                        if ($i != sizeof($accounts) - 1)
+                                            $account .= ' , ';
+                                    }
+                                else
+                                    $account = get_row('tbl_accounts', array('account_id' => $v_payment_history->account_id), 'account_name');
+                                ?>
                         <tr>
                             <td>
                                 <a

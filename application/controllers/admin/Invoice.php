@@ -920,7 +920,7 @@ class Invoice extends Admin_Controller
                     }
 
                     $sub_array = array();
-                    $sub_array[] ='';
+                    $sub_array[] = '';
                     $name = null;
                     $name .= '<a class="text-info" href="' . base_url() . 'admin/invoice/manage_invoice/invoice_details/' . $v_invoices->invoices_id . '">' . $v_invoices->reference_no . '</a>';
 
@@ -1055,7 +1055,7 @@ class Invoice extends Admin_Controller
                         $v_payments_info->method_name = $v_payments_info->payment_method;
                     }
                     $sub_array = array();
-                    $sub_array[] ='';
+                    $sub_array[] = '';
                     $name = null;
                     $name .= '<a class="text-info" href="' . base_url() . 'admin/invoice/manage_invoice/payments_details/' . $v_payments_info->payments_id . '">' . strftime(config_item('date_format'), strtotime($v_payments_info->payment_date)) . '</a>';
 
@@ -2093,17 +2093,21 @@ class Invoice extends Admin_Controller
         }
     }
 
-    public
-    function get_payment($invoices_id, $pos = null)
+    public function get_payment($invoices_id, $pos = null)
     {
         $edited = can_action('13', 'edited');
         $can_edit = $this->invoice_model->can_action('tbl_invoices', 'edit', array('invoices_id' => $invoices_id));
+        $account_info = $this->db->order_by('account_id', 'DESC')->get('tbl_accounts')->result();
+        $paid_amount = 0;
         if (!empty($can_edit) && !empty($edited)) {
             $due = $this->invoice_model->calculate_to('invoice_due', $invoices_id);
 
-            var_dump($invoices_id, $due);
+            foreach ($account_info as $v_account) {
+                $account_paid_amount = $this->input->post($v_account->account_id, true);
+                $paid_amount += $account_paid_amount;
+            }
+
             if (!empty($pos)) {
-                var_dump('1');
                 $paid_amount = $due;
                 $payment_date = date('Y-m-d H:i');
                 $this->load->helper('string');
@@ -2113,8 +2117,7 @@ class Invoice extends Admin_Controller
                 $send_thank_you = 'on';
                 $send_sms = 'on';
             } else {
-                var_dump('2');
-                $paid_amount = $this->input->post('amount', TRUE);
+//                $paid_amount = $this->input->post('amount', TRUE);
                 $payment_date = $this->input->post('payment_date', TRUE);
                 $trans_id = $this->input->post('trans_id');
                 $notes = $this->input->post('notes', true);
@@ -2124,8 +2127,6 @@ class Invoice extends Admin_Controller
             }
             if ($paid_amount != 0) {
                 if ($paid_amount > $due) {
-                    var_dump('4');
-                    die;
                     // messages for user
                     $type = "error";
                     $message = lang('overpaid_amount');
@@ -2147,6 +2148,16 @@ class Invoice extends Admin_Controller
                         'year_paid' => date("Y", strtotime($payment_date)),
                     );
 
+                    $account_ids=[];
+                    foreach ($account_info as $v_account) {
+                        $paid_amount = $this->input->post($v_account->account_id, true);
+                        $account_id = $v_account->account_id;
+                        if ($paid_amount > 0) {
+                            $account_ids[]=$account_id;
+                        }
+                    }
+                    $data['account_id']=json_encode($account_ids);
+
                     $this->invoice_model->_table_name = 'tbl_payments';
                     $this->invoice_model->_primary_key = 'payments_id';
                     $payments_id = $this->invoice_model->save($data);
@@ -2160,6 +2171,8 @@ class Invoice extends Admin_Controller
                     $invoice_data['status'] = $status;
                     update('tbl_invoices', array('invoices_id' => $invoices_id), $invoice_data);
 
+//                    var_dump($invoice_data);
+//                    die;
 
                     $this->invoice_model->_table_name = 'tbl_award_points';
                     $this->invoice_model->_primary_key = 'tbl_award_points_id ';
@@ -2221,65 +2234,70 @@ class Invoice extends Admin_Controller
                     }
 
                     if ($save_into_account == 'on') {
-                        $account_id = $this->input->post('account_id', true);
-                        if (empty($account_id)) {
-                            $account_id = config_item('default_account');
-                        }
-                        if (!empty($account_id)) {
-                            $reference = lang('invoice') . ' ' . lang('reference_no') . ": <a href='" . base_url('admin/invoice/manage_invoice/invoice_details/' . $inv_info->invoices_id) . "' >" . $inv_info->reference_no . "</a> and " . lang('trans_id') . ": <a href='" . base_url('admin/invoice/manage_invoice/payments_details/' . $payments_id) . "'>" . $this->input->post('trans_id', true) . "</a>";
-                            $trans_id = $this->input->post('trans_id', true);
-                            // save into tbl_transaction
-                            $tr_data = array(
-                                'name' => lang('invoice_payment', lang('trans_id') . '# ' . $trans_id),
-                                'type' => 'Income',
-                                'amount' => $paid_amount,
-                                'credit' => $paid_amount,
-                                'date' => date('Y-m-d', strtotime($this->input->post('payment_date', TRUE))),
-                                'paid_by' => $inv_info->client_id,
-                                'payment_methods_id' => $this->input->post('payment_methods_id', TRUE),
-                                'reference' => $trans_id,
-                                'notes' => lang('this_deposit_from_invoice_payment', $reference),
-                                'permission' => 'all',
-                            );
+                        foreach ($account_info as $v_account) {
+                            $paid_amount = $this->input->post($v_account->account_id, true);
+                            $account_id = $v_account->account_id;
+                            if($paid_amount >0){
+                                if (empty($account_id)) {
+                                    $account_id = config_item('default_account');
+                                }
+                                if (!empty($account_id)) {
+                                    $reference = lang('invoice') . ' ' . lang('reference_no') . ": <a href='" . base_url('admin/invoice/manage_invoice/invoice_details/' . $inv_info->invoices_id) . "' >" . $inv_info->reference_no . "</a> and " . lang('trans_id') . ": <a href='" . base_url('admin/invoice/manage_invoice/payments_details/' . $payments_id) . "'>" . $this->input->post('trans_id', true) . "</a>";
+                                    $trans_id = $this->input->post('trans_id', true);
+                                    // save into tbl_transaction
+                                    $tr_data = array(
+                                        'name' => lang('invoice_payment', lang('trans_id') . '# ' . $trans_id),
+                                        'type' => 'Income',
+                                        'amount' => $paid_amount,
+                                        'credit' => $paid_amount,
+                                        'date' => date('Y-m-d', strtotime($this->input->post('payment_date', TRUE))),
+                                        'paid_by' => $inv_info->client_id,
+                                        'payment_methods_id' => $this->input->post('payment_methods_id', TRUE),
+                                        'reference' => $trans_id,
+                                        'notes' => lang('this_deposit_from_invoice_payment', $reference),
+                                        'permission' => 'all',
+                                    );
 
 
-                            $account_info = $this->invoice_model->check_by(array('account_id' => $account_id), 'tbl_accounts');
-                            if (!empty($account_info)) {
-                                $ac_data['balance'] = $account_info->balance + $tr_data['amount'];
-                                $this->invoice_model->_table_name = "tbl_accounts"; //table name
-                                $this->invoice_model->_primary_key = "account_id";
-                                $this->invoice_model->save($ac_data, $account_info->account_id);
+                                    $account_info = $this->invoice_model->check_by(array('account_id' => $account_id), 'tbl_accounts');
+                                    if (!empty($account_info)) {
+                                        $ac_data['balance'] = $account_info->balance + $tr_data['amount'];
+                                        $this->invoice_model->_table_name = "tbl_accounts"; //table name
+                                        $this->invoice_model->_primary_key = "account_id";
+                                        $this->invoice_model->save($ac_data, $account_info->account_id);
 
-                                $aaccount_info = $this->invoice_model->check_by(array('account_id' => $account_id), 'tbl_accounts');
+                                        $aaccount_info = $this->invoice_model->check_by(array('account_id' => $account_id), 'tbl_accounts');
 
-                                $tr_data['total_balance'] = $aaccount_info->balance;
-                                $tr_data['account_id'] = $account_id;
+                                        $tr_data['total_balance'] = $aaccount_info->balance;
+                                        $tr_data['account_id'] = $account_id;
 
-                                // save into tbl_transaction
-                                $this->invoice_model->_table_name = "tbl_transactions"; //table name
-                                $this->invoice_model->_primary_key = "transactions_id";
-                                $return_id = $this->invoice_model->save($tr_data);
+                                        // save into tbl_transaction
+                                        $this->invoice_model->_table_name = "tbl_transactions"; //table name
+                                        $this->invoice_model->_primary_key = "transactions_id";
+                                        $return_id = $this->invoice_model->save($tr_data);
 
-                                $deduct_account['account_id'] = $account_id;
-                                $this->invoice_model->_table_name = 'tbl_payments';
-                                $this->invoice_model->_primary_key = 'payments_id';
-                                $this->invoice_model->save($deduct_account, $payments_id);
+                                        $deduct_account['account_id'] = json_encode($account_ids);
+                                        $this->invoice_model->_table_name = 'tbl_payments';
+                                        $this->invoice_model->_primary_key = 'payments_id';
+                                        $this->invoice_model->save($deduct_account, $payments_id);
 
-                                // save into activities
-                                $activities = array(
-                                    'user' => $this->session->userdata('user_id'),
-                                    'module' => 'transactions',
-                                    'module_field_id' => $return_id,
-                                    'activity' => 'activity_new_deposit',
-                                    'icon' => 'fa-building-o',
-                                    'link' => 'admin/transactions/view_details/' . $return_id,
-                                    'value1' => $account_info->account_name,
-                                    'value2' => $paid_amount,
-                                );
-                                // Update into tbl_project
-                                $this->invoice_model->_table_name = "tbl_activities"; //table name
-                                $this->invoice_model->_primary_key = "activities_id";
-                                $this->invoice_model->save($activities);
+                                        // save into activities
+                                        $activities = array(
+                                            'user' => $this->session->userdata('user_id'),
+                                            'module' => 'transactions',
+                                            'module_field_id' => $return_id,
+                                            'activity' => 'activity_new_deposit',
+                                            'icon' => 'fa-building-o',
+                                            'link' => 'admin/transactions/view_details/' . $return_id,
+                                            'value1' => $account_info->account_name,
+                                            'value2' => $paid_amount,
+                                        );
+                                        // Update into tbl_project
+                                        $this->invoice_model->_table_name = "tbl_activities"; //table name
+                                        $this->invoice_model->_primary_key = "activities_id";
+                                        $this->invoice_model->save($activities);
+                                    }
+                                }
                             }
                         }
                     }
@@ -2309,8 +2327,7 @@ class Invoice extends Admin_Controller
         }
     }
 
-    public
-    function update_payemnt($payments_id)
+    public function update_payemnt($payments_id)
     {
         $data = array(
             'amount' => $this->input->post('amount', TRUE),
@@ -2754,7 +2771,7 @@ class Invoice extends Admin_Controller
                 $can_edit = $this->invoice_model->can_action('tbl_tax_rates', 'edit', array('tax_rates_id' => $v_tax_rates->tax_rates_id));
 
                 $sub_array = array();
-                $sub_array[] ='';
+                $sub_array[] = '';
                 $sub_array[] = $v_tax_rates->tax_rate_name;
                 $sub_array[] = $v_tax_rates->tax_rate_percent . '%';
 
@@ -3390,7 +3407,7 @@ class Invoice extends Admin_Controller
 
                 $action = null;
                 $sub_array = array();
-                $sub_array[] ='';
+                $sub_array[] = '';
                 $sub_array[] = $clientname;
                 $sub_array[] = $clientpoint;
                 $data[] = $sub_array;
@@ -3418,12 +3435,12 @@ class Invoice extends Admin_Controller
                     if ($invoices_ids)
                         $this->db->where_in('invoices_id', $invoices_ids);
                     $this->db->where('invoice_date BETWEEN "' . $from_date . '" AND "' . $to_date . '"');
-                    $this->db->order_by('invoices_id','desc');
+                    $this->db->order_by('invoices_id', 'desc');
                     $all_invoices = $this->db->get('tbl_invoices')->result();
                 } else {
                     if ($invoices_ids)
                         $this->db->where_in('invoices_id', $invoices_ids);
-                    $this->db->order_by('invoices_id','desc');
+                    $this->db->order_by('invoices_id', 'desc');
                     $all_invoices = $this->db->get('tbl_invoices')->result();
                 }
 
@@ -3506,7 +3523,7 @@ class Invoice extends Admin_Controller
 
                     }
                     if (in_array('status', $fields_for_get_values)) {
-                        $payment_status = $this->invoice_model->get_payment_status( $val->invoices_id);
+                        $payment_status = $this->invoice_model->get_payment_status($val->invoices_id);
 
                         $sheet->getColumnDimension($array_of_cells[$i])->setWidth(20);
                         $sheet->setCellValue($array_of_cells[$i++] . $rows, $payment_status);

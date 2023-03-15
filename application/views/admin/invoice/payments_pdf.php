@@ -140,13 +140,30 @@ if(!file_exists($img)){
     </tr>
     <?php
     $role = $this->session->userdata('user_type');
-    if ($role == 1 && $payments_info->account_id != 0) {
-        $account_info = $this->invoice_model->check_by(array('account_id' => $payments_info->account_id), 'tbl_accounts');
-        if (!empty($account_info)) {
+    if ($role == 1 && $payments_info->account_id) {
+        $account = '';
+        $accounts = json_decode($payments_info->account_id);
+        if (is_array($accounts)) {
+            foreach ($accounts as $i => $a) {
+                $account_info = $this->invoice_model->check_by(array('account_id' => $a), 'tbl_accounts');
+                if (!empty($account_info)) {
+                    $account .= $account_info->account_name;
+                    if ($i != sizeof($accounts) - 1)
+                        $account .= ' , ';
+                }
+            }
+        } else {
+            $account_info = $this->invoice_model->check_by(array('account_id' => $payments_info->account_id), 'tbl_accounts');
+            if (!empty($account_info)) {
+                $account = $account_info->account_name;
+            }
+        }
+
+        if (!empty($account)) {
             ?>
             <tr>
                 <td class="headcol"><?= lang('received_account') ?></td>
-                <td><strong><?= $account_info->account_name ?></strong>
+                <td><strong><?= $account ?></strong>
                 </td>
             </tr>
         <?php }

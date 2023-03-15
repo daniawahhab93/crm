@@ -23,23 +23,23 @@ if (!empty($client_info)) {
             </div>
             <div class="panel-body">
                 <form method="post" data-parsley-validate="" novalidate=""
-                    action="<?= base_url() ?>admin/invoice/update_payemnt/<?php
-                                                                                                                                    if (!empty($payments_info)) {
-                                                                                                                                        echo $payments_info->payments_id;
-                                                                                                                                    }
-                                                                                                                                    ?>" class="form-horizontal">
+                      action="<?= base_url() ?>admin/invoice/update_payemnt/<?php
+                      if (!empty($payments_info)) {
+                          echo $payments_info->payments_id;
+                      }
+                      ?>" class="form-horizontal">
 
                     <div class="form-group">
                         <label class="col-lg-12"><?= lang('amount') ?> <span class="text-danger">*</span></label>
                         <div class="col-lg-12">
                             <input type="text" data-parsley-type="number" required="" class="form-control"
-                                value="<?= $payments_info->amount ?>" name="amount">
+                                   value="<?= $payments_info->amount ?>" name="amount">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-lg-12"><?= lang('payment_method') ?> <span
-                                class="text-danger">*</span></label>
+                                    class="text-danger">*</span></label>
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <select class="form-control select_box" style="width: 100%" name="payment_methods_id">
@@ -48,23 +48,23 @@ if (!empty($client_info)) {
                                     $apayment_methods = $this->db->order_by('payment_methods_id', 'DESC')->get('tbl_payment_methods')->result();
                                     if (!empty($apayment_methods)) {
                                         foreach ($apayment_methods as $p_method) {
-                                    ?>
-                                    <option value="<?= $p_method->payment_methods_id ?>" <?php
-                                                                                                    if (!empty($payments_info->payment_method)) {
-                                                                                                        echo $payments_info->payment_method == $p_method->payment_methods_id ? 'selected' : '';
-                                                                                                    }
-                                                                                                    ?>>
-                                        <?= $p_method->method_name ?></option>
-                                    <?php
+                                            ?>
+                                            <option value="<?= $p_method->payment_methods_id ?>" <?php
+                                            if (!empty($payments_info->payment_method)) {
+                                                echo $payments_info->payment_method == $p_method->payment_methods_id ? 'selected' : '';
+                                            }
+                                            ?>>
+                                                <?= $p_method->method_name ?></option>
+                                            <?php
                                         }
                                     }
                                     ?>
                                 </select>
                                 <div class="input-group-addon" title="<?= lang('new') . ' ' . lang('payment_method') ?>"
-                                    data-toggle="tooltip" data-placement="top">
+                                     data-toggle="tooltip" data-placement="top">
                                     <a data-toggle="modal" data-target="#myModal"
-                                        href="<?= base_url() ?>admin/settings/inline_payment_method"><i
-                                            class="fa fa-plus"></i></a>
+                                       href="<?= base_url() ?>admin/settings/inline_payment_method"><i
+                                                class="fa fa-plus"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -75,14 +75,14 @@ if (!empty($client_info)) {
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <input type="text" required="" name="payment_date" class="form-control datepicker"
-                                    value="<?php
-                                                                                                                            if (!empty($payments_info->payment_date)) {
-                                                                                                                                echo $payments_info->payment_date;
-                                                                                                                            } else {
-                                                                                                                                echo date('Y-m-d');
-                                                                                                                            }
-                                                                                                                            ?>"
-                                    data-date-format="<?= config_item('date_picker_format'); ?>">
+                                       value="<?php
+                                       if (!empty($payments_info->payment_date)) {
+                                           echo $payments_info->payment_date;
+                                       } else {
+                                           echo date('Y-m-d');
+                                       }
+                                       ?>"
+                                       data-date-format="<?= config_item('date_picker_format'); ?>">
                                 <div class="input-group-addon">
                                     <a href="#"><i class="fa fa-calendar"></i></a>
                                 </div>
@@ -114,16 +114,16 @@ if (!empty($client_info)) {
                 <div class="panel-heading">
                     <?= lang('payment_details') . '- ' . $payments_info->trans_id ?>
                     <?php if (!empty($can_edit) && !empty($edited)) { ?>
-                    <a data-toggle="tooltip" data-placement="top"
-                        href="<?= base_url() ?>admin/invoice/send_payment/<?= $payments_info->payments_id . '/' . $payments_info->amount ?>"
-                        title="<?= lang('send_email') ?>" class="btn btn-xs btn-danger pull-right ">
-                        <i class="fa fa-envelope"></i> <?= lang('send_email') ?></a>
+                        <a data-toggle="tooltip" data-placement="top"
+                           href="<?= base_url() ?>admin/invoice/send_payment/<?= $payments_info->payments_id . '/' . $payments_info->amount ?>"
+                           title="<?= lang('send_email') ?>" class="btn btn-xs btn-danger pull-right ">
+                            <i class="fa fa-envelope"></i> <?= lang('send_email') ?></a>
 
 
-                    <a data-toggle="tooltip" data-placement="top"
-                        href="<?= base_url() ?>admin/invoice/payments_pdf/<?= $payments_info->payments_id ?>"
-                        title="<?= lang('pdf') ?>" class="btn btn-xs btn-success pull-right mr">
-                        <i class="fa fa-file-pdf-o"></i> <?= lang('pdf') ?></a>
+                        <a data-toggle="tooltip" data-placement="top"
+                           href="<?= base_url() ?>admin/invoice/payments_pdf/<?= $payments_info->payments_id ?>"
+                           title="<?= lang('pdf') ?>" class="btn btn-xs btn-success pull-right mr">
+                            <i class="fa fa-file-pdf-o"></i> <?= lang('pdf') ?></a>
                     <?php } ?>
                 </div>
                 <div class="panel-body">
@@ -157,29 +157,47 @@ if (!empty($client_info)) {
                                          padding: 20px 5px;">
                                         <span> <?= lang('amount_received') ?></span><br>
                                         <span
-                                            style="font-size:16pt;"><?= display_money($payments_info->amount, $currency->symbol); ?></span>
+                                                style="font-size:16pt;"><?= display_money($payments_info->amount, $currency->symbol); ?></span>
                                     </div>
                                     <div style="clear:both;"></div>
                                     <div style="padding-top:10px">
                                         <div class="payment_details_border"><strong><a
-                                                    href="<?= base_url() ?>admin/client/client_details/<?= $payments_info->paid_by ?>"><?= $client_name ?></a></strong>
+                                                        href="<?= base_url() ?>admin/client/client_details/<?= $payments_info->paid_by ?>"><?= $client_name ?></a></strong>
                                         </div>
                                         <div style="color:#999;width:25%"><?= lang('received_from') ?></div>
                                     </div>
                                     <?php
                                     $role = $this->session->userdata('user_type');
-                                    if ($role == 1 && $payments_info->account_id != 0) {
-                                        $account_info = $this->invoice_model->check_by(array('account_id' => $payments_info->account_id), 'tbl_accounts');
-                                        if (!empty($account_info)) {
-                                    ?>
-                                    <div style="padding-top:25px">
-                                        <div class="payment_details_border">
-                                            <a
-                                                href="<?= base_url() ?>admin/account/create_account"><?= $account_info->account_name ?></a>
-                                        </div>
-                                        <div style="color:#999;width:25%"><?= lang('received_account') ?></div>
-                                    </div>
-                                    <?php }
+                                    if ($role == 1 && $payments_info->account_id ) {
+
+                                        $account = '';
+                                        $accounts = json_decode($payments_info->account_id);
+                                        if (is_array($accounts)) {
+                                            foreach ($accounts as $i => $a) {
+                                                $account_info = $this->invoice_model->check_by(array('account_id' => $a), 'tbl_accounts');
+                                                if (!empty($account_info)) {
+                                                    $account .= $account_info->account_name;
+                                                    if ($i != sizeof($accounts) - 1)
+                                                        $account .= ' , ';
+                                                }
+                                            }
+                                        } else {
+                                            $account_info = $this->invoice_model->check_by(array('account_id' => $payments_info->account_id), 'tbl_accounts');
+                                            if (!empty($account_info)) {
+                                                $account = $account_info->account_name;
+                                            }
+                                        }
+
+                                        if (!empty($account)) {
+                                            ?>
+                                            <div style="padding-top:25px">
+                                                <div class="payment_details_border">
+                                                    <a
+                                                            href="<?= base_url() ?>admin/account/create_account"><?= $account ?></a>
+                                                </div>
+                                                <div style="color:#999;width:25%"><?= lang('received_account') ?></div>
+                                            </div>
+                                        <?php }
                                     } ?>
                                     <div style="padding-top:25px">
                                         <div class="payment_details_border">
@@ -201,57 +219,57 @@ if (!empty($client_info)) {
                                         </div>
 
                                         <table style="width:100%;margin-bottom:35px;table-layout:fixed;" cellpadding="0"
-                                            cellspacing="0" border="0">
+                                               cellspacing="0" border="0">
                                             <thead>
-                                                <tr class="payment_header">
-                                                    <td style="padding:5px 10px 5px 10px;word-wrap: break-word;">
-                                                        <?= lang('invoice_code') ?>
-                                                    </td>
-                                                    <td style="padding:5px 10px 5px 5px;word-wrap: break-word;"
-                                                        align="right">
-                                                        <?= lang('invoice_date') ?>
-                                                    </td>
-                                                    <td style="padding:5px 10px 5px 5px;word-wrap: break-word;"
-                                                        align="right">
-                                                        <?= lang('invoice_amount') ?>
-                                                    </td>
-                                                    <td style="padding:5px 10px 5px 5px;word-wrap: break-word;"
-                                                        align="right">
-                                                        <?= lang('paid_amount') ?>
-                                                    </td>
-                                                    <?php if ($invoice_due > 0) { ?>
+                                            <tr class="payment_header">
+                                                <td style="padding:5px 10px 5px 10px;word-wrap: break-word;">
+                                                    <?= lang('invoice_code') ?>
+                                                </td>
+                                                <td style="padding:5px 10px 5px 5px;word-wrap: break-word;"
+                                                    align="right">
+                                                    <?= lang('invoice_date') ?>
+                                                </td>
+                                                <td style="padding:5px 10px 5px 5px;word-wrap: break-word;"
+                                                    align="right">
+                                                    <?= lang('invoice_amount') ?>
+                                                </td>
+                                                <td style="padding:5px 10px 5px 5px;word-wrap: break-word;"
+                                                    align="right">
+                                                    <?= lang('paid_amount') ?>
+                                                </td>
+                                                <?php if ($invoice_due > 0) { ?>
                                                     <td style="padding:5px 10px 5px 5px;color:red;word-wrap: break-word;"
                                                         align="right">
                                                         <?= lang('due_amount') ?>
                                                     </td>
-                                                    <?php } ?>
-                                                </tr>
+                                                <?php } ?>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                                <tr class="cbb">
-                                                    <td style="padding: 10px 0px 10px 10px;" valign="top"><a
+                                            <tr class="cbb">
+                                                <td style="padding: 10px 0px 10px 10px;" valign="top"><a
                                                             href="<?= base_url() ?>admin/invoice/manage_invoice/invoice_details/<?= $payments_info->invoices_id ?>">
-                                                            <?= $invoice_info->reference_no ?></a>
-                                                    </td>
-                                                    <td style="padding: 10px 10px 5px 10px;text-align:right;word-wrap: break-word;"
-                                                        valign="top">
-                                                        <?= strftime(config_item('date_format'), strtotime($invoice_info->date_saved)) ?>
-                                                    </td>
-                                                    <td style="padding: 10px 10px 5px 10px;text-align:right;word-wrap: break-word;"
-                                                        valign="top">
-                                                        <span><?= display_money($this->invoice_model->calculate_to('total', $invoice_info->invoices_id), $currency->symbol); ?></span>
-                                                    </td>
-                                                    <td style="text-align:right;padding: 10px 10px 10px 5px;word-wrap: break-word;"
-                                                        valign="top">
-                                                        <span><?= display_money($payments_info->amount, $currency->symbol); ?></span>
-                                                    </td>
-                                                    <?php if ($invoice_due > 0) { ?>
+                                                        <?= $invoice_info->reference_no ?></a>
+                                                </td>
+                                                <td style="padding: 10px 10px 5px 10px;text-align:right;word-wrap: break-word;"
+                                                    valign="top">
+                                                    <?= strftime(config_item('date_format'), strtotime($invoice_info->date_saved)) ?>
+                                                </td>
+                                                <td style="padding: 10px 10px 5px 10px;text-align:right;word-wrap: break-word;"
+                                                    valign="top">
+                                                    <span><?= display_money($this->invoice_model->calculate_to('total', $invoice_info->invoices_id), $currency->symbol); ?></span>
+                                                </td>
+                                                <td style="text-align:right;padding: 10px 10px 10px 5px;word-wrap: break-word;"
+                                                    valign="top">
+                                                    <span><?= display_money($payments_info->amount, $currency->symbol); ?></span>
+                                                </td>
+                                                <?php if ($invoice_due > 0) { ?>
                                                     <td style="text-align:right;padding: 10px 10px 10px 5px;word-wrap: break-word;color: red"
                                                         valign="top">
                                                         <span><?= display_money($invoice_due, $currency->symbol); ?></span>
                                                     </td>
-                                                    <?php } ?>
-                                                </tr>
+                                                <?php } ?>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>

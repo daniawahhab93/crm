@@ -176,18 +176,36 @@ $currency = $this->invoice_model->client_currency_symbol($client_info->client_id
                                     </div>
                                     <?php
                                     $role = $this->session->userdata('user_type');
-                                    if ($role == 1 && $payments_info->account_id != 0) {
-                                        $account_info = $this->invoice_model->check_by(array('account_id' => $payments_info->account_id), 'tbl_accounts');
-                                        if (!empty($account_info)) {
-                                    ?>
-                                    <div style="padding-top:25px">
-                                        <div class="payment_details_border">
-                                            <a
-                                                href="<?= base_url() ?>admin/account/create_account"><?= $account_info->account_name ?></a>
-                                        </div>
-                                        <div style="color:#999;width:25%"><?= lang('received_account') ?></div>
-                                    </div>
-                                    <?php }
+                                    if ($role == 1 && $payments_info->account_id ) {
+
+                                        $account = '';
+                                        $accounts = json_decode($payments_info->account_id);
+                                        if (is_array($accounts)) {
+                                            foreach ($accounts as $i => $a) {
+                                                $account_info = $this->invoice_model->check_by(array('account_id' => $a), 'tbl_accounts');
+                                                if (!empty($account_info)) {
+                                                    $account .= $account_info->account_name;
+                                                    if ($i != sizeof($accounts) - 1)
+                                                        $account .= ' , ';
+                                                }
+                                            }
+                                        } else {
+                                            $account_info = $this->invoice_model->check_by(array('account_id' => $payments_info->account_id), 'tbl_accounts');
+                                            if (!empty($account_info)) {
+                                                $account = $account_info->account_name;
+                                            }
+                                        }
+
+                                        if (!empty($account)) {
+                                            ?>
+                                            <div style="padding-top:25px">
+                                                <div class="payment_details_border">
+                                                    <a
+                                                            href="<?= base_url() ?>admin/account/create_account"><?= $account ?></a>
+                                                </div>
+                                                <div style="color:#999;width:25%"><?= lang('received_account') ?></div>
+                                            </div>
+                                        <?php }
                                     } ?>
                                     <div style="padding-top:25px">
                                         <div class="payment_details_border">
