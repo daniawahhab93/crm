@@ -307,14 +307,28 @@ if (is_file(config_item('invoice_logo'))) {
             </div>
             <div class="col-lg-4 col-xs-12 ">
                 <div class="pull-right pr-lg">
-                    <?php $this->load->library('QRcode');
+                    <?php
+
+                    $tax_info = json_decode($invoice_info->total_tax);
+                    $tax_total = 0;
+                    if (!empty($tax_info)) {
+                        $tax_name = $tax_info->tax_name;
+                        $total_tax = $tax_info->total_tax;
+                        if (!empty($tax_name)) {
+                            foreach ($tax_name as $t_key => $v_tax_info) {
+                                $tax = explode('|', $v_tax_info);
+                                $tax_total += $total_tax[$t_key];
+                                }
+                        }
+                    }
+                    $this->load->library('QRcode');
                     $encoder = new Encoder();
                     $qr_signature = $encoder->encode(
                         config_item('company_name'),
                         config_item('company_vat'),
                         $invoice_info->date_saved,
-                        $this->invoice_model->calculate_to('paid_amount', $invoice_info->invoices_id),
-                        $invoice_info->tax,
+                        $paid_amount,
+                        $tax_total
                     );
                     echo '<img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='. $qr_signature . '&choe=UTF-8">';
 
@@ -507,11 +521,7 @@ if (is_file(config_item('invoice_logo'))) {
                     </div>
                 <?php endif ?>
                 <?php
-                $tax_info = json_decode($invoice_info->total_tax);
-                $tax_total = 0;
-                if (!empty($tax_info)) {
-                    $tax_name = $tax_info->tax_name;
-                    $total_tax = $tax_info->total_tax;
+
                     if (!empty($tax_name)) {
                         foreach ($tax_name as $t_key => $v_tax_info) {
                             $tax = explode('|', $v_tax_info);
@@ -524,7 +534,6 @@ if (is_file(config_item('invoice_logo'))) {
                                 </p>
                             </div>
                         <?php }
-                    }
                 } ?>
                 <?php if ($tax_total > 0) : ?>
                     <div class="clearfix">

@@ -78,6 +78,7 @@ $active_record = TRUE;
 $db['default'] = array(
     'dsn' => '',
     'hostname' => 'localhost',
+//    'username' => 'futumcge_crm',
     'username' => 'root',
     'password' => '',
 //    'password' => 'ifhA@~LTsNca',
