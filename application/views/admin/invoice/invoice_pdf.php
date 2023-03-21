@@ -331,6 +331,21 @@ if ($uri == 'invoice_email') {
             </div>
         </td>
         <td style="width: 50%;">
+            <div class="pull-right pr-lg">
+                <?php $this->load->library('QRcode');
+                $encoder = new Encoder();
+                $qr_signature = $encoder->encode(
+                    config_item('company_name'),
+                    config_item('company_vat'),
+                    $invoice_info->date_saved,
+                    $this->invoice_model->calculate_to('paid_amount', $invoice_info->invoices_id),
+                    $invoice_info->tax,
+                );
+                echo '<img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='. $qr_signature . '&choe=UTF-8">';
+
+                ?>
+            </div>
+
             <div class="right" style="">
                 <h3 style="margin-bottom: 0;margin-top: 0"><?= $language_info['invoice'] ?>: <span
                             style="text-align: right"><?= $invoice_info->reference_no ?></span></h3>

@@ -3,8 +3,10 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
+
 class Invoice extends Admin_Controller
 {
+
 
     public function __construct()
     {
@@ -13,6 +15,7 @@ class Invoice extends Admin_Controller
         $this->load->model('invoice_model');
         $this->load->library('gst');
         $this->load->library('excel');
+        $this->load->library('QRcode');
     }
 
 
@@ -169,9 +172,22 @@ class Invoice extends Admin_Controller
 
         if ($action == 'invoice_details') {
             $data['title'] = "Invoice Details"; //Page title
-            $data['invoice_info'] = $this->invoice_model->check_by(array('invoices_id' => $id), 'tbl_invoices');
+            $data['invoice_info'] = $invoice_info = $this->invoice_model->check_by(array('invoices_id' => $id), 'tbl_invoices');
             if (!empty($data['invoice_info'])) {
                 $data['client_info'] = $this->invoice_model->check_by(array('client_id' => $data['invoice_info']->client_id), 'tbl_client');
+                // QR Code generation using png()
+                // When this function has only the
+                // text parameter it directly
+                // outputs QR in the browser
+                $encoder = new Encoder();
+                $qr_signature = $encoder->encode(
+                    config_item('company_name'),
+                    config_item('company_vat'),
+                    $invoice_info->date_saved,
+                    $this->invoice_model->calculate_to('paid_amount', $invoice_info->invoices_id),
+                    $invoice_info->tax,
+                );
+                $data['qr_signature'] = $qr_signature;
                 $payment_status = $this->invoice_model->get_payment_status($id);
                 if ($payment_status != lang('cancelled') && $payment_status != lang('fully_paid')) {
                     $this->load->model('credit_note_model');
@@ -318,9 +334,17 @@ class Invoice extends Admin_Controller
 
         if ($action == 'invoice_details') {
             $data['title'] = "Invoice Details"; //Page title
-            $data['invoice_info'] = $this->invoice_model->check_by(array('invoices_id' => $id), 'tbl_invoices');
+            $data['invoice_info']=$invoice_info = $this->invoice_model->check_by(array('invoices_id' => $id), 'tbl_invoices');
             if (!empty($data['invoice_info'])) {
                 $data['client_info'] = $this->invoice_model->check_by(array('client_id' => $data['invoice_info']->client_id), 'tbl_client');
+
+                // QR Code generation using png()
+                // When this function has only the
+                // text parameter it directly
+                // outputs QR in the browser
+
+//                $data['qr_signature'] = $qr_signature;
+
                 $payment_status = $this->invoice_model->get_payment_status($id);
                 if ($payment_status != lang('cancelled') && $payment_status != lang('fully_paid')) {
                     $this->load->model('credit_note_model');
@@ -2148,15 +2172,15 @@ class Invoice extends Admin_Controller
                         'year_paid' => date("Y", strtotime($payment_date)),
                     );
 
-                    $account_ids=[];
+                    $account_ids = [];
                     foreach ($account_info as $v_account) {
                         $paid_amount = $this->input->post($v_account->account_id, true);
                         $account_id = $v_account->account_id;
                         if ($paid_amount > 0) {
-                            $account_ids[]=$account_id;
+                            $account_ids[] = $account_id;
                         }
                     }
-                    $data['account_id']=json_encode($account_ids);
+                    $data['account_id'] = json_encode($account_ids);
 
                     $this->invoice_model->_table_name = 'tbl_payments';
                     $this->invoice_model->_primary_key = 'payments_id';
@@ -2237,7 +2261,7 @@ class Invoice extends Admin_Controller
                         foreach ($account_info as $v_account) {
                             $paid_amount = $this->input->post($v_account->account_id, true);
                             $account_id = $v_account->account_id;
-                            if($paid_amount >0){
+                            if ($paid_amount > 0) {
                                 if (empty($account_id)) {
                                     $account_id = config_item('default_account');
                                 }

@@ -4,7 +4,7 @@ $edited = can_action('13', 'edited');
 $deleted = can_action('13', 'deleted');
 $paid_amount = $this->invoice_model->calculate_to('paid_amount', $invoice_info->invoices_id);
 $payment_status = $this->invoice_model->get_payment_status($invoice_info->invoices_id);
-$cash=false;
+$cash = false;
 ?>
 <?php if ($payment_status != lang('cancelled') && $payment_status != lang('fully_paid') && !empty($total_available_credit)) { ?>
     <div class="alert text-success btn-outline-success bg-white">
@@ -267,18 +267,18 @@ if (is_file(config_item('invoice_logo'))) {
         <div class="row">
             <div class="col-lg-4 hidden-xs"></div>
             <div class="col-lg-4 " style="margin: 0 0 30px 60px;">
-            <?php $show_custom_fields = custom_form_label(9, $invoice_info->invoices_id);
-            if (!empty($show_custom_fields)) {
-                foreach ($show_custom_fields as $c_label => $v_fields) {
-                    if (!empty($v_fields)) {
-                        if(($c_label=='نوع الفاتورة'|| $c_label=="bill_type") && ($v_fields=='نقدي'||$v_fields=='cash'))
-                            $cash=true;
-                            echo '<span style="font-size: 25px;"><b>'.lang('simple_tax_bill').'</b></span>';
-                        ?>
-                    <?php }
+                <?php $show_custom_fields = custom_form_label(9, $invoice_info->invoices_id);
+                if (!empty($show_custom_fields)) {
+                    foreach ($show_custom_fields as $c_label => $v_fields) {
+                        if (!empty($v_fields)) {
+                            if (($c_label == 'نوع الفاتورة' || $c_label == "bill_type") && ($v_fields == 'نقدي' || $v_fields == 'cash'))
+                                $cash = true;
+                            echo '<span style="font-size: 25px;"><b>' . lang('simple_tax_bill') . '</b></span>';
+                            ?>
+                        <?php }
+                    }
                 }
-            }
-            ?>
+                ?>
             </div>
             <div class="col-lg-4 hidden-xs"></div>
         </div>
@@ -288,25 +288,41 @@ if (is_file(config_item('invoice_logo'))) {
                 <img class="pl-lg" style="width: 233px;height: 120px;" src="<?= $img ?>">
             </div>
             <div class="col-lg-3  col-xs-12">
-                    <?php if ($payment_status == lang('fully_paid')) {
-                        $label = "success";
-                    } elseif ($payment_status == lang('draft')) {
-                        $label = "default";
-                        $text = lang('status_as_draft');
-                    } elseif ($payment_status == lang('cancelled')) {
-                        $label = "danger";
-                    } elseif ($payment_status == lang('partially_paid')) {
-                        $label = "warning";
-                    } elseif ($invoice_info->emailed == 'Yes') {
-                        $label = "info";
-                        $payment_status = lang('sent');
-                    } else {
-                        $label = "danger";
-                    } ?>
-                    <br><span style="font-size: 20px" class="label label-<?= $label ?>"><?= $payment_status ?></span>
+                <?php if ($payment_status == lang('fully_paid')) {
+                    $label = "success";
+                } elseif ($payment_status == lang('draft')) {
+                    $label = "default";
+                    $text = lang('status_as_draft');
+                } elseif ($payment_status == lang('cancelled')) {
+                    $label = "danger";
+                } elseif ($payment_status == lang('partially_paid')) {
+                    $label = "warning";
+                } elseif ($invoice_info->emailed == 'Yes') {
+                    $label = "info";
+                    $payment_status = lang('sent');
+                } else {
+                    $label = "danger";
+                } ?>
+                <br><span style="font-size: 20px" class="label label-<?= $label ?>"><?= $payment_status ?></span>
             </div>
             <div class="col-lg-4 col-xs-12 ">
                 <div class="pull-right pr-lg">
+                    <?php $this->load->library('QRcode');
+                    $encoder = new Encoder();
+                    $qr_signature = $encoder->encode(
+                        config_item('company_name'),
+                        config_item('company_vat'),
+                        $invoice_info->date_saved,
+                        $this->invoice_model->calculate_to('paid_amount', $invoice_info->invoices_id),
+                        $invoice_info->tax,
+                    );
+                    echo '<img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='. $qr_signature . '&choe=UTF-8">';
+
+                    ?>
+                </div>
+                <div class="pull-right pr-lg">
+
+
                     <h4 class="mb0"><?= lang('invoice') . ' : ' . $invoice_info->reference_no ?></h4>
                     <?= lang('invoice_date') ?>
                     : <?= strftime(config_item('date_format'), strtotime($invoice_info->invoice_date)); ?>

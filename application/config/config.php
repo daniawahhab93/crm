@@ -324,7 +324,7 @@ $config['cache_path'] = '';
 */
 $config['cache_query_string'] = FALSE;
 
-$autoload['libraries'] = array('events');
+$autoload['libraries'] = array('events','QRcode');
 
 /*
 |--------------------------------------------------------------------------
