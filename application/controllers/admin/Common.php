@@ -942,7 +942,7 @@ class Common extends MY_Controller
         $item_desc= $this->input->get('item_desc', TRUE);
         $warehouse_id = $this->input->get('warehouse_id', TRUE);
         if (!empty($warehouse_id)) {
-            $rows = $this->admin_model->getItemsInfoByName($warehouse_id,null,$item_code,$item_group,$item_desc);
+            $rows = $this->admin_model->getItemsInfoByName($warehouse_id,10,$item_code,$item_group,$item_desc);
         }
 
         if (!empty($rows)) {
@@ -1065,7 +1065,7 @@ class Common extends MY_Controller
         $term = $this->input->get('term', TRUE);
         $warehouse_id = $this->input->get('warehouse_id', TRUE);
         if (!empty($warehouse_id)) {
-            $rows = $this->admin_model->getItemsInfoByDesc($term, $warehouse_id);
+            $rows = $this->admin_model->getItemsInfoByDesc($term, $warehouse_id,10);
         }
         if (!empty($rows)) {
             foreach ($rows as $row) {

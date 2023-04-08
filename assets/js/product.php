@@ -304,36 +304,41 @@ var test2 = "";
                 $("#" + forItemCode).val('');
                 return false;
             } else {
-                $.ajax({
-                    url: '<?= base_url('admin/common/suggestionsName') ?>',
-                    dataType: "json",
-                    data: {
-                        item_code: $("#" + forItemCode).val(),
-                        item_group: $("#" + forItemGroup).val(),
-                        item_desc: $("#" + forItemDesc).val(),
-                        for: forItemCode,
-                        warehouse_id: warehouse_id,
-                        supplier_id: supplier_id,
-                        client_id: client_id
-                    },
-                    success: function (data) {
-                        if (!$.trim(data)){
-                            if (get(intStore)) {
-                                remove(intStore);
-                            }
-                            $("#" + productTable).empty();
+               var item_code= $("#" + forItemCode).val();
+               if(item_code.length > 2){
+                   $.ajax({
+                       url: '<?= base_url('admin/common/suggestionsName') ?>',
+                       dataType: "json",
+                       data: {
+                           item_code: $("#" + forItemCode).val(),
+                           item_group: $("#" + forItemGroup).val(),
+                           item_desc: $("#" + forItemDesc).val(),
+                           for: forItemCode,
+                           warehouse_id: warehouse_id,
+                           supplier_id: supplier_id,
+                           client_id: client_id
+                       },
+                       success: function (data) {
+                           if (!$.trim(data)){
+                               if (get(intStore)) {
+                                   remove(intStore);
+                               }
+                               $("#" + productTable).empty();
 
-                        }
-                        // if ($("#" + forItemCode).val()) {
-                            $.each(data, function (i, obj) {
-                                var row = add_order_item(obj.row, true);
-                            });
-                        // }
+                           }
+                           // if ($("#" + forItemCode).val()) {
 
-                    }
-                });
+                           for (var i=0; i < data['length']; i++) {
+                               // $.each(data, function (i, obj) {
+                               var row = add_order_item(data[i]['row'], true);
+                               // });
+                           }
+
+                       }
+                   });
+               }
             }
-        }, 1000));
+        }, 2000));
 
         $("#" + forItemGroup).keydown(delay(function (request) {
             if (get(intStore)) {
@@ -352,35 +357,44 @@ var test2 = "";
                 $("#" + forItemCode).val('');
                 return false;
             } else {
-                $.ajax({
-                    url: '<?= base_url('admin/common/suggestionsName') ?>',
-                    dataType: "json",
-                    data: {
-                        item_code: $("#" + forItemCode).val(),
-                        item_group: $("#" + forItemGroup).val(),
-                        item_desc: $("#" + forItemDesc).val(),
-                        for: forItemGroup,
-                        warehouse_id: warehouse_id,
-                        supplier_id: supplier_id,
-                        client_id: client_id
-                    },
-                    success: function (data) {
-                        if (!$.trim(data)){
-                            if (get(intStore)) {
-                                remove(intStore);
-                            }
-                            $("#" + productTable).empty();
+                var item_group = $("#" + forItemGroup).val();
+                if (item_group.length > 2) {
+                    $.ajax({
+                        url: '<?= base_url('admin/common/suggestionsName') ?>',
+                        dataType: "json",
+                        data: {
+                            item_code: $("#" + forItemCode).val(),
+                            item_group: $("#" + forItemGroup).val(),
+                            item_desc: $("#" + forItemDesc).val(),
+                            for: forItemGroup,
+                            warehouse_id: warehouse_id,
+                            supplier_id: supplier_id,
+                            client_id: client_id
+                        },
+                        success: function (data) {
+                            if (!$.trim(data)) {
+                                if (get(intStore)) {
+                                    remove(intStore);
+                                }
+                                $("#" + productTable).empty();
 
+                            }
+
+                            for (var i=0; i < data['length']; i++) {
+                                // $.each(data, function (i, obj) {
+                                var row = add_order_item(data[i]['row'], true);
+                                // });
+                            }
+                            // if ($("#" + forItemGroup).val()) {
+                            // $.each(data, function (i, obj) {
+                            //     var row = add_order_item(obj.row, true);
+                            // });
+                            // }
                         }
-                        // if ($("#" + forItemGroup).val()) {
-                            $.each(data, function (i, obj) {
-                                var row = add_order_item(obj.row, true);
-                            });
-                        // }
-                    }
-                });
+                    });
+                }
             }
-        }, 1000));
+        }, 2000));
 
         $("#" + forItemDesc).keyup(delay(function (request) {
             if (get(intStore)) {
@@ -399,44 +413,53 @@ var test2 = "";
                 $("#" + forItemCode).val('');
                 return false;
             } else {
-                $.ajax({
-                    url: '<?= base_url('admin/common/suggestionsName') ?>',
-                    dataType: "json",
-                    data: {
-                        item_code: $("#" + forItemCode).val(),
-                        item_group: $("#" + forItemGroup).val(),
-                        item_desc: $("#" + forItemDesc).val(),
-                        for: forItemDesc,
-                        warehouse_id: warehouse_id,
-                        supplier_id: supplier_id,
-                        client_id: client_id
-                    },
-                    success: function (data) {
-                        if (!$.trim(data)){
-                            if (get(intStore)) {
-                                remove(intStore);
+                var item_desc = $("#" + forItemDesc).val();
+                if (item_desc.length > 2) {
+                    $.ajax({
+                        url: '<?= base_url('admin/common/suggestionsName') ?>',
+                        dataType: "json",
+                        data: {
+                            item_code: $("#" + forItemCode).val(),
+                            item_group: $("#" + forItemGroup).val(),
+                            item_desc: $("#" + forItemDesc).val(),
+                            for: forItemDesc,
+                            warehouse_id: warehouse_id,
+                            supplier_id: supplier_id,
+                            client_id: client_id
+                        },
+                        success: function (data) {
+                            if (!$.trim(data)) {
+                                if (get(intStore)) {
+                                    remove(intStore);
+                                }
+                                $("#" + productTable).empty();
                             }
-                            $("#" + productTable).empty();
+                            // $("#" + productTable).remove();
+
+                            // $.each(data, function (i, obj) {
+                            //     var item_id = obj.saved_items_id;
+                            //     // var product_id = data.items_id;
+                            //     pStore[item_id]=obj;
+                            //     store(intStore, JSON.stringify(pStore));
+                            // loadItems();
+                            //     });
+                            // if ($("#" + forItemDesc).val()) {
+
+                            for (var i=0; i < data['length']; i++) {
+                                // $.each(data, function (i, obj) {
+                                var row = add_order_item(data[i]['row'], true);
+                                // });
+                            }
+                            // $.each(data, function (i, obj) {
+                            //     var row = add_order_item(obj.row, true);
+                            // });
+                            // }
+
                         }
-                        // $("#" + productTable).remove();
-
-                        // $.each(data, function (i, obj) {
-                        //     var item_id = obj.saved_items_id;
-                        //     // var product_id = data.items_id;
-                        //     pStore[item_id]=obj;
-                        //     store(intStore, JSON.stringify(pStore));
-                        // loadItems();
-                        //     });
-                        // if ($("#" + forItemDesc).val()) {
-                            $.each(data, function (i, obj) {
-                                var row = add_order_item(obj.row, true);
-                            });
-                        // }
-
-                    }
-                });
+                    });
+                }
             }
-        }, 1000));
+        }, 2000));
         loadItems();
         calculate_total();
 
@@ -627,13 +650,13 @@ var test2 = "";
     function setWarehouse() {
 		//console.log('malek');
         var getWarehouse = $('.mwarehouse');
-		console.log(getWarehouse);
+		// console.log(getWarehouse);
         if (get(Warehouses)) {
             warehouse_id = get(Warehouses);
-			console.log(warehouse_id);
+			// console.log(warehouse_id);
         } else {
             warehouse_id = getWarehouse.val();
-			console.log(warehouse_id);
+			// console.log(warehouse_id);
         }
         getWarehouse.val(warehouse_id);
         $('.WarehouseValue').val(warehouse_id);
@@ -1178,7 +1201,7 @@ function selectedItems_add_item(row,itemid ) {
 	   //test2 =$(".sortable").eq(key-1);
 	   test2 = parent;
 	    //console.log(test2);
-	   console.log($(test2).find('.taxrate'));
+	   // console.log($(test2).find('.taxrate'));
 	   $(test2).find('.old_code').remove();
 	   $(test2).find('.alternative_items').remove();
 	   $(test2).find('.total-qty').remove();
@@ -1198,12 +1221,12 @@ function selectedItems_add_item(row,itemid ) {
 	   +'</tr>';
 	  
 	   selectedItems_data_key++;
-	   console.log(test2);
+	   // console.log(test2);
 		$('#tableInvoice').append(test2);
 	//parent.remove();
 	
 		delete_item(row, itemid);
-		console.log(itemid);
+		// console.log(itemid);
 
 		
 	 
@@ -1248,7 +1271,7 @@ function selectedItems_add_item(row,itemid ) {
         var table_row = '';
         var unit_placeholder = '';
         var item_key = $('body').find('tbody .item').length +selectedItems_data_key;
-		console.log(item_key);
+		// console.log(item_key);
         table_row += '<tr class=" " data-merge-invoice="' + merge_invoice + '">';
         // table_row += '<td class="dragger">';
 
