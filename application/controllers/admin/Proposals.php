@@ -9,6 +9,7 @@ class Proposals extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+		
         $this->load->model('proposal_model');
         $this->load->library('gst');
 

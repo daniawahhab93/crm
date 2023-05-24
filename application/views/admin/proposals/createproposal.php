@@ -283,6 +283,57 @@
                                                         </div>
                                                     </div>
                                                 <?php endif ?>
+                                                
+                                                
+                                            </div>
+                                        </div>
+										
+										<div class="col-sm-6 col-xs-12 br pv">
+                                            <div class="row">
+                                                
+                                                
+                                                <?php if (!empty($leads_id)) : ?>
+                                                    <div class="form-group <?= $leads_id ? 'leads_module' : 'company' ?>" id="border-none">
+                                                        <label for="field-1" class="col-sm-3 control-label"><?= lang('select') . ' ' . lang('leads') ?>
+                                                            <span class="required">*</span></label>
+                                                        <div class="col-sm-7">
+                                                            <select name="leads_id" style="width: 100%" class="select_box <?= $leads_id ? 'leads_module' : 'company' ?>" required="1">
+                                                                <?php
+                                                                $all_leads_info = $this->db->get('tbl_leads')->result();
+                                                                if (!empty($all_leads_info)) {
+                                                                    foreach ($all_leads_info as $v_leads) {
+                                                                ?>
+                                                                        <option value="<?= $v_leads->leads_id ?>" <?php
+                                                                                                                    if (!empty($leads_id)) {
+                                                                                                                        echo $v_leads->leads_id == $leads_id ? 'selected' : '';
+                                                                                                                    }
+                                                                                                                    ?>>
+                                                                            <?= $v_leads->lead_name ?></option>
+                                                                <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group <?= $leads_id ? 'leads_module' : 'company' ?>" id="border-none">
+                                                        <label for="field-1" class="col-sm-3 control-label"><?= lang('currency') ?>
+                                                            <span class="required">*</span></label>
+                                                        <div class="col-sm-7">
+                                                            <select name="currency" style="width: 100%" class="select_box <?= $leads_id ? 'leads_module' : 'company' ?>" required="1">
+                                                                <?php
+                                                                $all_currency = $this->db->get('tbl_currencies')->result();
+                                                                foreach ($all_currency as $v_currency) {
+                                                                ?>
+                                                                    <option value="<?= $v_currency->code ?>" <?= (config_item('default_currency') == $v_currency->code ? ' selected="selected"' : '') ?>>
+                                                                        <?= $v_currency->name ?></option>
+                                                                <?php
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                <?php endif ?>
                                                 <?php if (!empty($client_id)) : ?>
                                                     <div class="form-group <?= $client_id ? 'client_module' : 'company' ?>" id="border-none">
                                                         <label for="field-1" class="col-sm-3 control-label"><?= lang('select') . ' ' . lang('client') ?>
@@ -375,117 +426,12 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="discount_type" class="control-label col-sm-3"><?= lang('tags') ?></label>
-                                                    <div class="col-sm-7">
-                                                        <input type="text" name="tags" data-role="tagsinput" class="form-control" value="<?php
-                                                                                                                                            if (!empty($proposals_info->tags)) {
-                                                                                                                                                echo $proposals_info->tags;
-                                                                                                                                            }
-                                                                                                                                            ?>">
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-xs-12 br pv">
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <label for="field-1" class="col-sm-3 control-label"><?= lang('employee_name') ?></label>
-                                                    <div class="col-sm-7">
-                                                        <select class="form-control select_box" required style="width: 100%" name="user_id">
-                                                            <option value="">
-                                                                <?= lang('select') . ' ' . lang('employee_name') ?>
-                                                            </option>
-                                                            <?php
-                                                            $all_user = $this->db->where('role_id != ', 2)->get('tbl_users')->result();
-                                                            if (!empty($all_user)) {
-                                                                foreach ($all_user as $v_user) {
-                                                                    $profile_info = $this->db->where('user_id', $v_user->user_id)->get('tbl_account_details')->row();
-                                                                    if (!empty($profile_info)) {
-                                                            ?>
-                                                                        <option value="<?= $v_user->user_id ?>" <?php
-                                                                                                                if (!empty($proposals_info->user_id)) {
-                                                                                                                    echo $proposals_info->user_id == $v_user->user_id ? 'selected' : null;
-                                                                                                                } else {
-                                                                                                                    echo $this->session->userdata('user_id') == $v_user->user_id ? 'selected' : null;
-                                                                                                                }
-                                                                                                                ?>>
-                                                                            <?= $profile_info->fullname ?></option>
-                                                            <?php
-                                                                    }
-                                                                }
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-lg-3 control-label"><?= lang('proposal_date') ?></label>
-                                                    <div class="col-lg-7">
-                                                        <div class="input-group">
-                                                            <input type="text" name="proposal_date" class="form-control datepicker" value="<?php
-                                                                                                                                            if (!empty($proposals_info->proposal_date)) {
-                                                                                                                                                echo $proposals_info->proposal_date;
-                                                                                                                                            } else {
-                                                                                                                                                echo date('Y-m-d');
-                                                                                                                                            }
-                                                                                                                                            ?>" data-date-format="<?= config_item('date_picker_format'); ?>">
-                                                            <div class="input-group-addon">
-                                                                <a href="#"><i class="fa fa-calendar"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-lg-3 control-label"><?= lang('expire_date') ?></label>
-                                                    <div class="col-lg-7">
-                                                        <div class="input-group">
-                                                            <input type="text" name="due_date" class="form-control datepicker" value="<?php
-                                                                                                                                        if (!empty($proposals_info->due_date)) {
-                                                                                                                                            echo $proposals_info->due_date;
-                                                                                                                                        } else {
-                                                                                                                                            echo date('Y-m-d');
-                                                                                                                                        }
-                                                                                                                                        ?>" data-date-format="<?= config_item('date_picker_format'); ?>">
-                                                            <div class="input-group-addon">
-                                                                <a href="#"><i class="fa fa-calendar"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                if (!empty($proposals_info)) {
-                                                    $proposals_id = $proposals_info->proposals_id;
-                                                } else {
-                                                    $proposals_id = null;
-                                                }
-                                                ?>
-                                                <?= custom_form_Fields(11, $proposals_id); ?>
-
-                                            </div>
-                                            <?php
-                                            $permissionL = null;
-                                            if (!empty($proposals_info->permission)) {
-                                                $permissionL = $proposals_info->permission;
-                                            }
-                                            ?>
-                                            <?= get_permission(3, 7, $permission_user, $permissionL, ''); ?>
-
-                                        </div>
+                                        
                                     </div>
-                                    <div class="form-group terms">
-                                        <label class="col-lg-1 control-label"><?= lang('notes') ?> </label>
-                                        <div class="col-lg-11">
-                                            <textarea name="notes" class="form-control textarea_"><?php
-                                                                                                    if (!empty($proposals_info)) {
-                                                                                                        echo $proposals_info->notes;
-                                                                                                    } else {
-                                                                                                        echo $this->config->item('proposal_terms');
-                                                                                                    }
-                                                                                                    ?></textarea>
-                                        </div>
-                                    </div>
+                                    
                                     <?php
                                     if (!empty($proposals_info)) {
                                         if ($proposals_info->module == 'client') {

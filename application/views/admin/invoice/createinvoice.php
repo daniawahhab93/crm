@@ -45,7 +45,7 @@
     }
     ?>
     <div class="btn-group pull-left mr">
-        <button class=" btn btn-xs btn-white dropdown-toggle" data-toggle="dropdown">
+        <!-- <button class=" btn btn-xs btn-white dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-search"></i>
 
             <?php
@@ -65,7 +65,7 @@
                 } ?>
             </span>
             <span class="caret"></span>
-        </button>
+        </button>-->
         <ul class="dropdown-menu animated zoomIn">
             <li><a id="all" search-type="<?= ('all'); ?>" class="filter_by_type" href="#"><?= lang('all'); ?></a></li>
             <?php
@@ -73,12 +73,14 @@
             if (!empty($invoiceFilter)) {
                 foreach ($invoiceFilter as $v_Filter) {
                     ?>
+					<!--
                     <li class="filter_by_type" search-type="<?= $v_Filter['name'] ?>"
                         id="<?= $v_Filter['value'] ?>" <?php if ($v_Filter['value'] == $type) {
                         echo 'class="active"';
                     } ?>>
                         <a href="#"><?= $v_Filter['name'] ?></a>
                     </li>
+					-->
                     <?php
                 }
             }
@@ -107,10 +109,12 @@
                         if($('#state_report').length){ } else{
                         ins_data(base_url+'admin/invoice/invoice_state_report');}
                     }); });
-                </script>-->
+                </script>
+				-->
             <?php
         }
         ?>
+		<!--
         <div onclick="slideToggle('#state_report')" id="quick_state" data-toggle="tooltip" data-placement="top"
              title="<?= $title ?>" class="btn-xs btn btn-purple pull-left">
             <i class="fa fa-bar-chart"></i>
@@ -119,7 +123,7 @@
             <a class="text-dark" id="change_report" href="<?= base_url() ?>admin/dashboard/change_report/<?= $url ?>"><i
                         class="<?= $icon ?>"></i>
                 <span><?= ' ' . lang('quick_state') . ' ' . lang($url) . ' ' . lang('always') ?></span></a>
-        </div>
+        </div>-->
         <?php
     }
     $created = can_action('13', 'created');
@@ -127,12 +131,13 @@
     $deleted = can_action('13', 'deleted');
     if (!empty($created) || !empty($edited)) {
     ?>
+	<!--
     <a data-toggle="modal" data-target="#myModal" href="<?= base_url() ?>admin/invoice/zipped/invoice"
        class="btn btn-success btn-xs ml-lg"><?= lang('zip_invoice') ?></a>
 
     <a data-toggle="modal" data-target="#myModal" href="<?= base_url() ?>admin/invoice/export_to_excel/invoice"
        class="btn btn-success btn-xs ml-lg"><?= lang('export_to_excel') ?></a>
-
+-->
     <div class="row">
         <div class="col-sm-12">
             <?php $is_department_head = is_department_head();
@@ -474,7 +479,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div><!--
                                     <div class="form-group">
                                         <label for="discount_type"
                                                class="control-label col-sm-3"><?= lang('discount_type') ?></label>
@@ -502,12 +507,63 @@
                                     <?php
                                     $this->load->view('admin/items/warehouselist') ?>
                                     <?php
-                                    $permissionL = null;
+                                    /*$permissionL = null;
                                     if (!empty($invoice_info->permission)) {
                                         $permissionL = $invoice_info->permission;
+                                    }*/
+                                    ?>
+                                    <?//= get_permission(3, 7, $permission_user, $permissionL, ''); ?>
+                                    <?php
+                                    if (!empty($invoice_info)) {
+                                        $invoices_id = $invoice_info->invoices_id;
+                                    } else {
+                                        $invoices_id = null;
                                     }
                                     ?>
-                                    <?= get_permission(3, 7, $permission_user, $permissionL, ''); ?>
+                                    <?= custom_form_Fields(9, $invoices_id); ?> -->
+
+                                </div>
+                            </div>
+							<!-- Malek add new design -->
+							<div class="col-sm-6 col-xs-12 br pv">
+
+                                <div class="row">
+
+
+                                    <div class="form-group">
+									<div class="form-group">
+                                        <label for="discount_type"
+                                               class="control-label col-sm-3"><?= lang('discount_type') ?></label>
+                                        <div class="col-sm-7">
+                                            <select name="discount_type" class="selectpicker" data-width="100%">
+                                                <option value="" selected>
+                                                    <?php echo lang('no') . ' ' . lang('discount'); ?></option>
+                                                <option value="before_tax" <?php
+                                                if (isset($invoice_info)) {
+                                                    if ($invoice_info->discount_type == 'before_tax') {
+                                                        echo 'selected';
+                                                    }
+                                                } ?>>
+                                                    <?php echo lang('before_tax'); ?></option>
+                                                <option value="after_tax" <?php if (isset($invoice_info)) {
+                                                    if ($invoice_info->discount_type == 'after_tax') {
+                                                        echo 'selected';
+                                                    }
+                                                } ?>>
+                                                    <?php echo lang('after_tax'); ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <?php
+                                    $this->load->view('admin/items/warehouselist') ?>
+                                    <?php
+                                    /*$permissionL = null;
+                                    if (!empty($invoice_info->permission)) {
+                                        $permissionL = $invoice_info->permission;
+                                    }*/
+                                    ?>
+                                    <?//= get_permission(3, 7, $permission_user, $permissionL, ''); ?>
                                     <?php
                                     if (!empty($invoice_info)) {
                                         $invoices_id = $invoice_info->invoices_id;
@@ -516,10 +572,11 @@
                                     }
                                     ?>
                                     <?= custom_form_Fields(9, $invoices_id); ?>
-
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-xs-12 br pv">
+                                        </div>
+                                        </div>
+                                        </div>
+							
+                            <!-- <div class="col-sm-6 col-xs-12 br pv">
 
                                 <div class="row">
 
@@ -626,7 +683,7 @@
                                         </div>
                                     <?php endif ?>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
 
 

@@ -90,7 +90,7 @@ var test2 = "";
 
                         // Check if quantity is number
                         if (isNaN(data.qty)) {
-                            data.qty = 0;
+                            data.qty = 1;
                         }
                         // Check if rate is number
                         if (data.rate == '' || isNaN(data.rate)) {
@@ -123,7 +123,7 @@ var test2 = "";
                                 .item_desc) ? data.item_desc.replace(regex, "\n") : '') +
                             '</textarea></td>';
                         table_row +=
-                            '<td class="qtytd"><input  style="width: 50px;" type="text" data-parsley-type="number" min="0" onblur="calculate_total();" onchange="calculate_total();" data-quantity id="qty_' +
+                            '<td class="qtytd"><input  style="width: 50px;" type="text" data-parsley-type="number" min="1" onblur="calculate_total();" onchange="calculate_total();" data-quantity id="qty_' +
                             item_key + '" name="items[' + item_key + '][quantity]" value="' + data.qty +
                             '" class="form-control Rqty">';
 
@@ -287,7 +287,7 @@ var test2 = "";
             };
         }
 
-        $("#" + forItemCode).keyup(delay(function (request) {
+        $("#" + forItemCode).keydown(delay(function (request) {
             if (get(intStore)) {
                 remove(intStore);
             }
@@ -328,6 +328,7 @@ var test2 = "";
 
                            }
                            // if ($("#" + forItemCode).val()) {
+							console.log('data');
 							console.log(data);
                            for (var i=0; i < data['length']; i++) {
                                // $.each(data, function (i, obj) {
@@ -702,6 +703,7 @@ var test2 = "";
             setWarehouse();
             $("#" + productTable).empty();
             pStore = JSON.parse(get(intStore));
+			console.log('pStore');
 			console.log(pStore);
             $.each(pStore, function (key, data) {
                     if (data) {
@@ -723,6 +725,7 @@ var test2 = "";
                         // table_row += '<td class="dragger">';
 
                         // Check if quantity is number
+						data.qty = 1;
                         if (isNaN(data.qty)) {
                             data.qty = 0;
                         }
@@ -765,7 +768,7 @@ var test2 = "";
                             table_row += '<td class="alternative_items">' + data.alternative_items + '</td>';
                             table_row += '<td class="total-qty">' + data.total_qty + '</td>';
                             table_row +=
-                                '<td class="qtytd"><input  style="width: 50px;" type="text" data-parsley-type="number" min="0" onblur="calculate_total();" onchange="calculate_total();" data-quantity id="qty_' +
+                                '<td class="qtytd"><input  style="width: 50px;" type="text" data-parsley-type="number" min="1" onblur="calculate_total();" onchange="calculate_total();" data-quantity id="qty_' +
                                 item_key + '" name="items[' + item_key + '][quantity]" value="' + data.qty +
                                 '" class="form-control Rqty">';
 
@@ -1320,7 +1323,7 @@ function selectedItems_add_item(row,itemid ) {
                 '][hsn_code]" class="form-control" value="' + data.hsn_code + '"></td>';
             <?php } ?>
             table_row +=
-                '<td><input style="width: 50px;" type="text" data-parsley-type="number" min="0" onblur="calculate_total();" onchange="calculate_total();" data-quantity name="items[' +
+                '<td><input style="width: 50px;" type="text" data-parsley-type="number" min="1" onblur="calculate_total();" onchange="calculate_total();" data-quantity name="items[' +
                 item_key + '][quantity]" value="' + data.qty + '" class="form-control">';
 
             unit_placeholder = '';
